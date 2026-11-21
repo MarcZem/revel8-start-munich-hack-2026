@@ -36,6 +36,14 @@ run_log=runs\latest_agent_core_run.json
 python -m unittest discover -s tests
 ```
 
+Run the focused offline Context Broker evals and regenerate their checked-in JSON report:
+
+```powershell
+python .\scripts\run_context_broker_evals.py
+```
+
+The versioned fixture in `evals/context_broker_cases.json` covers current relevant facts, unrelated and stale facts, low confidence, sensitive evidence, and symmetric contradictions. The budget sweep checks empty and populated packets, token bounds, provenance, exclusion reasons, score ordering, and repeatability at a fixed `as_of`. It uses no network calls or third-party services.
+
 ## Safety Boundaries
 
 - The fake API never calls a network endpoint.

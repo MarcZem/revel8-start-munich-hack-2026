@@ -1,0 +1,359 @@
+{
+  "as_of": "2026-11-21T12:00:00Z",
+  "budget_runs": [
+    {
+      "excluded_evidence_ids": [
+        "eval_current_leadership",
+        "eval_leadership_program",
+        "eval_irrelevant_hobby",
+        "eval_stale_role",
+        "eval_low_confidence",
+        "eval_sensitive_private",
+        "eval_conflict_a",
+        "eval_conflict_b"
+      ],
+      "excluded_reasons": {
+        "eval_conflict_a": "contradicted",
+        "eval_conflict_b": "contradicted",
+        "eval_current_leadership": "context_budget_exceeded",
+        "eval_irrelevant_hobby": "irrelevant_to_context",
+        "eval_leadership_program": "context_budget_exceeded",
+        "eval_low_confidence": "low_confidence",
+        "eval_sensitive_private": "unsafe_or_private",
+        "eval_stale_role": "stale_evidence"
+      },
+      "selected_evidence_ids": [],
+      "token_budget": 500,
+      "token_count": 292
+    },
+    {
+      "excluded_evidence_ids": [
+        "eval_irrelevant_hobby",
+        "eval_stale_role",
+        "eval_low_confidence",
+        "eval_sensitive_private",
+        "eval_conflict_a",
+        "eval_conflict_b"
+      ],
+      "excluded_reasons": {
+        "eval_conflict_a": "contradicted",
+        "eval_conflict_b": "contradicted",
+        "eval_irrelevant_hobby": "irrelevant_to_context",
+        "eval_low_confidence": "low_confidence",
+        "eval_sensitive_private": "unsafe_or_private",
+        "eval_stale_role": "stale_evidence"
+      },
+      "selected_evidence_ids": [
+        "eval_current_leadership",
+        "eval_leadership_program"
+      ],
+      "token_budget": 900,
+      "token_count": 839
+    },
+    {
+      "excluded_evidence_ids": [
+        "eval_irrelevant_hobby",
+        "eval_stale_role",
+        "eval_low_confidence",
+        "eval_sensitive_private",
+        "eval_conflict_a",
+        "eval_conflict_b"
+      ],
+      "excluded_reasons": {
+        "eval_conflict_a": "contradicted",
+        "eval_conflict_b": "contradicted",
+        "eval_irrelevant_hobby": "irrelevant_to_context",
+        "eval_low_confidence": "low_confidence",
+        "eval_sensitive_private": "unsafe_or_private",
+        "eval_stale_role": "stale_evidence"
+      },
+      "selected_evidence_ids": [
+        "eval_current_leadership",
+        "eval_leadership_program"
+      ],
+      "token_budget": 4096,
+      "token_count": 839
+    }
+  ],
+  "checks": [
+    {
+      "details": "expected eval_current_leadership; got eval_current_leadership",
+      "name": "relevant_current_fact_ranks_first",
+      "passed": true
+    },
+    {
+      "details": "eligibility boundary at ranked index 2",
+      "name": "eligible_facts_precede_excluded_facts",
+      "passed": true
+    },
+    {
+      "details": "eligible scores: [0.867065, 0.688505]",
+      "name": "eligible_scores_descend",
+      "passed": true
+    },
+    {
+      "details": "expected irrelevant_to_context; got irrelevant_to_context",
+      "name": "rank_excludes_eval_irrelevant_hobby",
+      "passed": true
+    },
+    {
+      "details": "expected stale_evidence; got stale_evidence",
+      "name": "rank_excludes_eval_stale_role",
+      "passed": true
+    },
+    {
+      "details": "expected low_confidence; got low_confidence",
+      "name": "rank_excludes_eval_low_confidence",
+      "passed": true
+    },
+    {
+      "details": "expected unsafe_or_private; got unsafe_or_private",
+      "name": "rank_excludes_eval_sensitive_private",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "rank_excludes_eval_conflict_a",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "rank_excludes_eval_conflict_b",
+      "passed": true
+    },
+    {
+      "details": "recorded 292, measured 292, limit 500",
+      "name": "budget_500_not_exceeded",
+      "passed": true
+    },
+    {
+      "details": "selected [] ineligible IDs",
+      "name": "budget_500_cites_only_eligible_facts",
+      "passed": true
+    },
+    {
+      "details": "0 packet fact(s) checked against source evidence",
+      "name": "budget_500_provenance_complete",
+      "passed": true
+    },
+    {
+      "details": "expected {'eval_current_leadership': 'context_budget_exceeded', 'eval_leadership_program': 'context_budget_exceeded', 'eval_sensitive_private': 'unsafe_or_private', 'eval_conflict_a': 'contradicted', 'eval_conflict_b': 'contradicted', 'eval_stale_role': 'stale_evidence', 'eval_irrelevant_hobby': 'irrelevant_to_context', 'eval_low_confidence': 'low_confidence'}; got {'eval_current_leadership': 'context_budget_exceeded', 'eval_leadership_program': 'context_budget_exceeded', 'eval_sensitive_private': 'unsafe_or_private', 'eval_conflict_a': 'contradicted', 'eval_conflict_b': 'contradicted', 'eval_stale_role': 'stale_evidence', 'eval_irrelevant_hobby': 'irrelevant_to_context', 'eval_low_confidence': 'low_confidence'}",
+      "name": "budget_500_all_exclusions_explained",
+      "passed": true
+    },
+    {
+      "details": "identical fixture and as_of produced identical packet, scores, and exclusions",
+      "name": "budget_500_repeatable",
+      "passed": true
+    },
+    {
+      "details": "expected irrelevant_to_context; got irrelevant_to_context",
+      "name": "budget_500_audits_eval_irrelevant_hobby",
+      "passed": true
+    },
+    {
+      "details": "expected stale_evidence; got stale_evidence",
+      "name": "budget_500_audits_eval_stale_role",
+      "passed": true
+    },
+    {
+      "details": "expected low_confidence; got low_confidence",
+      "name": "budget_500_audits_eval_low_confidence",
+      "passed": true
+    },
+    {
+      "details": "expected unsafe_or_private; got unsafe_or_private",
+      "name": "budget_500_audits_eval_sensitive_private",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "budget_500_audits_eval_conflict_a",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "budget_500_audits_eval_conflict_b",
+      "passed": true
+    },
+    {
+      "details": "recorded 839, measured 839, limit 900",
+      "name": "budget_900_not_exceeded",
+      "passed": true
+    },
+    {
+      "details": "selected [] ineligible IDs",
+      "name": "budget_900_cites_only_eligible_facts",
+      "passed": true
+    },
+    {
+      "details": "2 packet fact(s) checked against source evidence",
+      "name": "budget_900_provenance_complete",
+      "passed": true
+    },
+    {
+      "details": "expected {'eval_sensitive_private': 'unsafe_or_private', 'eval_conflict_a': 'contradicted', 'eval_conflict_b': 'contradicted', 'eval_stale_role': 'stale_evidence', 'eval_irrelevant_hobby': 'irrelevant_to_context', 'eval_low_confidence': 'low_confidence'}; got {'eval_sensitive_private': 'unsafe_or_private', 'eval_conflict_a': 'contradicted', 'eval_conflict_b': 'contradicted', 'eval_stale_role': 'stale_evidence', 'eval_irrelevant_hobby': 'irrelevant_to_context', 'eval_low_confidence': 'low_confidence'}",
+      "name": "budget_900_all_exclusions_explained",
+      "passed": true
+    },
+    {
+      "details": "identical fixture and as_of produced identical packet, scores, and exclusions",
+      "name": "budget_900_repeatable",
+      "passed": true
+    },
+    {
+      "details": "expected irrelevant_to_context; got irrelevant_to_context",
+      "name": "budget_900_audits_eval_irrelevant_hobby",
+      "passed": true
+    },
+    {
+      "details": "expected stale_evidence; got stale_evidence",
+      "name": "budget_900_audits_eval_stale_role",
+      "passed": true
+    },
+    {
+      "details": "expected low_confidence; got low_confidence",
+      "name": "budget_900_audits_eval_low_confidence",
+      "passed": true
+    },
+    {
+      "details": "expected unsafe_or_private; got unsafe_or_private",
+      "name": "budget_900_audits_eval_sensitive_private",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "budget_900_audits_eval_conflict_a",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "budget_900_audits_eval_conflict_b",
+      "passed": true
+    },
+    {
+      "details": "recorded 839, measured 839, limit 4096",
+      "name": "budget_4096_not_exceeded",
+      "passed": true
+    },
+    {
+      "details": "selected [] ineligible IDs",
+      "name": "budget_4096_cites_only_eligible_facts",
+      "passed": true
+    },
+    {
+      "details": "2 packet fact(s) checked against source evidence",
+      "name": "budget_4096_provenance_complete",
+      "passed": true
+    },
+    {
+      "details": "expected {'eval_sensitive_private': 'unsafe_or_private', 'eval_conflict_a': 'contradicted', 'eval_conflict_b': 'contradicted', 'eval_stale_role': 'stale_evidence', 'eval_irrelevant_hobby': 'irrelevant_to_context', 'eval_low_confidence': 'low_confidence'}; got {'eval_sensitive_private': 'unsafe_or_private', 'eval_conflict_a': 'contradicted', 'eval_conflict_b': 'contradicted', 'eval_stale_role': 'stale_evidence', 'eval_irrelevant_hobby': 'irrelevant_to_context', 'eval_low_confidence': 'low_confidence'}",
+      "name": "budget_4096_all_exclusions_explained",
+      "passed": true
+    },
+    {
+      "details": "identical fixture and as_of produced identical packet, scores, and exclusions",
+      "name": "budget_4096_repeatable",
+      "passed": true
+    },
+    {
+      "details": "expected irrelevant_to_context; got irrelevant_to_context",
+      "name": "budget_4096_audits_eval_irrelevant_hobby",
+      "passed": true
+    },
+    {
+      "details": "expected stale_evidence; got stale_evidence",
+      "name": "budget_4096_audits_eval_stale_role",
+      "passed": true
+    },
+    {
+      "details": "expected low_confidence; got low_confidence",
+      "name": "budget_4096_audits_eval_low_confidence",
+      "passed": true
+    },
+    {
+      "details": "expected unsafe_or_private; got unsafe_or_private",
+      "name": "budget_4096_audits_eval_sensitive_private",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "budget_4096_audits_eval_conflict_a",
+      "passed": true
+    },
+    {
+      "details": "expected contradicted; got contradicted",
+      "name": "budget_4096_audits_eval_conflict_b",
+      "passed": true
+    },
+    {
+      "details": "lower-only IDs: []",
+      "name": "budget_900_preserves_lower_budget_selection",
+      "passed": true
+    },
+    {
+      "details": "lower-only IDs: []",
+      "name": "budget_4096_preserves_lower_budget_selection",
+      "passed": true
+    }
+  ],
+  "fixture": "evals/context_broker_cases.json",
+  "fixture_version": 1,
+  "mode": "offline_synthetic_only",
+  "passed": true,
+  "ranked_evidence": [
+    {
+      "eligible": true,
+      "evidence_id": "eval_current_leadership",
+      "exclusion_reason": null,
+      "score": 0.867065
+    },
+    {
+      "eligible": true,
+      "evidence_id": "eval_leadership_program",
+      "exclusion_reason": null,
+      "score": 0.688505
+    },
+    {
+      "eligible": false,
+      "evidence_id": "eval_sensitive_private",
+      "exclusion_reason": "unsafe_or_private",
+      "score": 0.882565
+    },
+    {
+      "eligible": false,
+      "evidence_id": "eval_conflict_a",
+      "exclusion_reason": "contradicted",
+      "score": 0.853565
+    },
+    {
+      "eligible": false,
+      "evidence_id": "eval_conflict_b",
+      "exclusion_reason": "contradicted",
+      "score": 0.845799
+    },
+    {
+      "eligible": false,
+      "evidence_id": "eval_stale_role",
+      "exclusion_reason": "stale_evidence",
+      "score": 0.677774
+    },
+    {
+      "eligible": false,
+      "evidence_id": "eval_irrelevant_hobby",
+      "exclusion_reason": "irrelevant_to_context",
+      "score": 0.644731
+    },
+    {
+      "eligible": false,
+      "evidence_id": "eval_low_confidence",
+      "exclusion_reason": "low_confidence",
+      "score": 0.580065
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "passed": 44,
+    "total": 44
+  }
+}

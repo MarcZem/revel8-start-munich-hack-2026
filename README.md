@@ -27,25 +27,33 @@ The frontend/application framework has not been selected yet. The first local pr
    python3 -m unittest discover -s tests
    ```
 
-4. Generate and open the local jury replay:
+4. Run the offline Context Broker evaluations over synthetic fixtures:
+
+   ```sh
+   python3 scripts/run_context_broker_evals.py
+   ```
+
+   The command writes `evals/context_broker_report.json` and exits nonzero if a check fails.
+
+5. Generate and open the local jury replay:
 
    ```sh
    python3 -m dashboard.render_replay --input runs/latest_agent_core_run.json --output dashboard/replay.html
    ```
 
    Open `dashboard/replay.html` in a browser. See [the replay guide](docs/dashboard-replay.md) for the pitch-mode walkthrough.
-5. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
-6. For the official, opt-in Revel8 API client and read-only connection check, see
+6. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
+7. For the official, opt-in Revel8 API client and read-only connection check, see
    [docs/revel8-api.md](docs/revel8-api.md).
-7. For the latest organizer clarifications about form values, story timestamps,
+8. For the latest organizer clarifications about form values, story timestamps,
    and touch/session limits, see [the dated Revel8 update](docs/revel8-updates-2026-11-21.md).
-8. For the AMD Developer Cloud / Token Factory model endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
+9. For the AMD Developer Cloud / Token Factory model endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
 
    ```sh
    python3 scripts/check_vllm_endpoint.py --env-file .env.local
    ```
 
-9. Keep local credentials in an untracked `.env.local` file or environment variable. Never commit secrets.
+10. Keep local credentials in an untracked `.env.local` file or environment variable. Never commit secrets.
 
 ## Project notes
 
