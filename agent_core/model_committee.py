@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Callable, Protocol
 
 from agent_core.evaluator import EvaluatorGate
 from agent_core.schema import (
@@ -46,17 +46,27 @@ class ModelCommittee:
     critic: CriticModel
     gate: EvaluatorGate
 
-    def run(self, graph: KnowledgeGraph, objective: Objective) -> tuple[RoutedContext, CommitteeDecision]:
+    def run(
+        self,
+        graph: KnowledgeGraph,
+        objective: Objective,
+        on_event: Callable[[str, str], None] | None = None,
+    ) -> tuple[RoutedContext, CommitteeDecision]:
         angles = self.advisor.propose_angles(graph, objective)
+        _emit(on_event, "strategy", f"Advisor produced {len(angles)} angle(s) · {self.advisor.model_name}")
         angle = angles[0]
         from agent_core.context_router import ContextRouter
 
         context = ContextRouter().route(graph, objective, angle)
+        _emit(on_event, "router", f"Context router selected {len(context.loaded_paths)} evidence path(s)")
         candidates = self.writer.draft_candidates(graph, context)
+        _emit(on_event, "writer", f"Writer produced {len(candidates)} candidate(s) · {self.writer.model_name}")
         critic_scores = tuple(self.critic.score(candidate, context) for candidate in candidates)
+        _emit(on_event, "critic", f"Critic scored {len(critic_scores)} candidate(s) · {self.critic.model_name}")
         score_by_candidate = {score.candidate_id: score for score in critic_scores}
         verdicts = tuple(self.gate.evaluate(candidate, context, score_by_candidate[candidate.id]) for candidate in candidates)
         sendable = [verdict for verdict in verdicts if verdict.decision == "send"]
+        _emit(on_event, "safety", f"Safety gate allowed {len(sendable)} of {len(verdicts)} candidate(s)")
         if sendable:
             winner = sorted(sendable, key=lambda verdict: (-verdict.score, verdict.candidate_id))[0]
             selection_reason = "highest safe committee score after code-level gate"
@@ -77,10 +87,27 @@ class ModelCommittee:
         )
 
 
+def _emit(callback: Callable[[str, str], None] | None, node: str, label: str) -> None:
+    if callback:
+        callback(node, label)
+
+
 class StubAdvisor:
     model_name = "stub:smd20/socialengineering"
 
     def propose_angles(self, graph: KnowledgeGraph, objective: Objective) -> tuple[ContactAngle, ...]:
+        if graph.persona_id in {"julius", "tom", "robert"}:
+            return (
+                ContactAngle(
+                    id="practice_api_demo",
+                    title="transparent practice API demo",
+                    objective=objective,
+                    channel=Channel.FAKE_EMAIL,
+                    rationale="A factual, transparent one-touch check in the open practice scenario.",
+                    required_tags=("practice_demo",),
+                    risk_notes=("practice scenario only", "no action or sensitive information requested"),
+                ),
+            )
         if graph.persona_id == "max_rieder":
             return (
                 ContactAngle(
@@ -125,6 +152,14 @@ class StubWriter:
         person_label = _person_label(graph)
         company_label = _company_label(graph)
         allowed = tuple(sorted(context.allowed_evidence_ids))
+        if graph.persona_id in {"julius", "tom", "robert"}:
+            safe_body = (
+                f"Hi {person_label}, our team is testing a live integration demo in the Revel8 practice "
+                "environment for START Munich Hack 2026. This is a transparent test contact from our "
+                "team. It asks for no action and includes no links. If convenient, please reply with a "
+                "brief confirmation that it arrived in this simulation."
+            )
+            return _candidate_set(context, self.model_name, safe_body, allowed, "START Munich demo: practice API connection")
         if graph.persona_id == "max_rieder":
             safe_body = (
                 f"Hi {person_label}, I am preparing a short simulated security-review packet for "
