@@ -19,21 +19,9 @@ The organizers emphasize system architecture, persistence, explainability, user-
 
 The transcript refers to email, SMS, and “live interaction” events, but the exact available channels and endpoint contract need to be confirmed in the API documentation. Organizers suggested building an internal rendering/preview feature because final scoring will manually review rendered interaction histories.
 
-## Rubric (as understood from the recording)
+## Rubric
 
-The speakers describe **45% automated scoring and 55% jury scoring**. They appear to break that down as follows; confirm against the official rubric when it is provided:
-
-| Component | Weight | What the speakers say it evaluates |
-| --- | ---: | --- |
-| Outcomes / incidents | 25% | Events returned by the API; examples include a link opened, an attachment opened, or a simulated credential entered. Organizers may accept additional incident types if the team explains them. |
-| Targeting / OSINT | 10% | Quality of the public-source profile and how well the interaction fits the persona. |
-| Craft / presentation of interactions | 10% | How believable and well-formatted the rendered touchpoints are. |
-| Architecture and persistence | 5% | The quality of the system design and ability to reassess and continue when an approach does not produce an event. |
-| Pitch and demo | 50% | Clarity and effectiveness of the final presentation and demonstration. |
-
-The speakers say load/performance optimization is not a major focus. The number of interactions or back-and-forth required to produce an event may be considered, but they had not finalized this.
-
-**Rubric uncertainty:** this allocation is arithmetic inferred from the spoken percentages. The speakers also describe architecture and persistence as a major focus, which does not fit neatly with the apparent 5% allocation. Confirm the official rubric before prioritizing work from these weights.
+The audio-only interpretation below has been superseded by the case-page details in [`revel8-official-challenge.md`](revel8-official-challenge.md). The official rubric gives 25 points for Results, 10 for Targeting, 10 for Craft, 40 for Architecture and Persistence, and 15 for Pitch and Demo. See that file for the subscore formulas and tie-breakers.
 
 ## Product and architecture expectations
 
@@ -42,22 +30,18 @@ The speakers say load/performance optimization is not a major focus. The number 
 - **Persist and reassess:** track attempts and outcomes; identify when a path is unproductive and choose a justified next step.
 - **Make the run legible:** provide a UI with an end-to-end timeline, rendered messages, resulting events, and concise rationale/alternatives.
 - **Support rehearsal:** organizers permit testing with self-created personas, but caution against simply targeting the three challenge founders as custom test personas.
-- **Keep evaluation in bounds:** use the supplied challenge endpoints and only the explicitly authorized synthetic/test personas and channels. The recording’s descriptions of “real people” in later scoring are ambiguous; clarify this before implementing any interaction that could reach an actual person or external account.
+- **Keep evaluation in bounds:** the official case brief confirms that practice and scoring targets are AI twins and all interactions stay inside the simulation. Use the supplied challenge API and do not contact real people or use real communication channels.
 - **Do not attack the persona model:** organizers explicitly say not to use prompt injection or workarounds to make the agent disclose information it should not. The intended simulation concerns how a person responds to interactions, not how to jailbreak the underlying model.
 
-## Known inputs and open questions
+## Challenge inputs and remaining implementation questions
 
-- Organizers will provide API documentation, endpoint configuration, keys, and three practice persona endpoints.
-- The persona prompts are not exposed to participants; organizers say they created them from public information.
-- Events are returned by the API. The official event taxonomy and score mapping still need confirmation.
-- Clarify whether final scoring personas are fully synthetic, simulated by AI, or include real people. The recording is unclear on this point.
-- Clarify which channels are in scope and whether messages are only submitted to a simulation API.
-- Confirm official rubric weights, challenge rules, and allowed sources/tools from the organizer documentation.
-- The challenge brief does not specify a framework or frontend/backend stack. Choose this after reviewing the API docs and team constraints.
+The official case description is in [`revel8-official-challenge.md`](revel8-official-challenge.md). It confirms three founder AI twins for practice, new targets for scoring, API-based interactions, sessions with memory, a broad channel list, and the incident categories and score formulas.
+
+Remaining implementation questions are operational: the precise API schema and rate limits, what sender/channel fields each endpoint accepts, how the API represents replies and events, and how the registered landing-page content is submitted. Resolve these from the API start-page documentation before building the adapter.
 
 ## Scope and source note
 
-This file records what the audio says as challenge context. It does not authorize outreach to real people, credential collection, spoofing, or interaction with external accounts/domains. Any implementation should remain within the organizers’ explicitly authorized test environment. The transcript includes offensive examples because they were discussed in the recording; they are not instructions to act outside that environment.
+This file records what the audio says as challenge context; the official case brief in [`revel8-official-challenge.md`](revel8-official-challenge.md) defines the current scope. The challenge permits simulated incidents through its API, but does not authorize contacting real people or using real communication channels. The transcript includes offensive examples because they were discussed in the recording; they are not instructions to act outside the simulation.
 
 ## English transcript (automatic translation)
 

@@ -1,6 +1,6 @@
 # revel8 — START Munich Hack 2026
 
-Project workspace for the START Munich 2026 hackathon. The challenge brief and product direction are still being finalized; this README will be updated as those details arrive.
+Project workspace for the START Munich 2026 hackathon. The official revel8 case is documented in [the challenge brief](docs/revel8-official-challenge.md); the current leading system design is in the [Codex agent architecture proposal](docs/codex-agent-architecture-proposal.md).
 
 ## Repository
 
@@ -22,7 +22,7 @@ The application framework and package manager have not been established yet. Onc
 
 - Hackathon: START Munich 2026
 - Project: revel8
-- Challenge brief: pending
+- Challenge brief: [official revel8 case details](docs/revel8-official-challenge.md)
 - Team, target users, and product requirements: pending
 
 ## Deployment setup
