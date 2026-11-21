@@ -42,6 +42,22 @@ class Evidence:
     safe_to_use: bool = True
     observed_at: str = "2026-11-21T12:00:00Z"
     tags: tuple[str, ...] = ()
+    source_reliability: float = 0.5
+    contradicts: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class RankedEvidence:
+    evidence_id: str
+    score: float
+    relevance_score: float
+    freshness_score: float
+    source_reliability_score: float
+    confidence_score: float
+    eligible: bool
+    contradicted: bool
+    reason: str
+    exclusion_reason: str | None = None
 
 
 @dataclass(frozen=True)

@@ -7,6 +7,7 @@ This prototype implements Issue #2 with deterministic model stubs. It has no rea
 - `agent_core/schema.py`: JSON-ready contracts for the knowledge graph, routed context, committee outputs, evaluator verdicts, fake API events, strategy updates, and run logs.
 - `agent_core/fixtures.py`: synthetic persona graphs for `lena_kraus`, `max_rieder`, and `sara_neumann`.
 - `agent_core/context_router.py`: loads only safe, relevant graph paths above the confidence threshold.
+- `agent_core/evidence_ranker.py`: deterministically scores evidence by context-tag overlap, confidence, source reliability, and freshness at an explicit timezone-aware `as_of`; unsafe, irrelevant, stale, future-dated, low-quality, or contradictory evidence is ineligible by default.
 - `agent_core/model_committee.py`: advisor, writer, and critic interfaces plus deterministic stubs for `smd20/socialengineering`, `Qwen/Qwen3-14B`, and `Foundation-Sec-8B`.
 - `agent_core/evaluator.py`: code-level gate for wrong facts, unrouted evidence, rule breaks, prompt injection, real-domain misuse, generic tone, channel fit, and disqualification risk.
 - `agent_core/challenge_api.py`: fake challenge API that records would-send actions in memory and returns deterministic simulated events.
@@ -41,3 +42,4 @@ python -m unittest discover -s tests
 - The evaluator fails closed on prompt-injection phrases, credential/secret requests, unknown channels, unrouted evidence, and non-fake domains.
 - Stub messages use only `.example`, `.test`, or `.invalid` URLs.
 - Low-confidence or unsafe evidence is present in the graph but excluded from routed context.
+- Evidence ranking uses fixed weights (relevance 0.35, confidence 0.25, source reliability 0.20, freshness 0.20) and a 180-day freshness half-life; the one-year stale cutoff and quality thresholds are configurable. Conflicts are excluded symmetrically until resolved.
