@@ -44,6 +44,50 @@ class Evidence:
     tags: tuple[str, ...] = ()
 
 
+class Reliability(str, Enum):
+    BELASTBAR = "belastbar"
+    UNSICHER = "unsicher"
+    UNBELASTBAR = "unbelastbar"
+
+
+# Derived numeric so the graph's min_confidence filter keeps working.
+RELIABILITY_CONFIDENCE = {"belastbar": 0.9, "unsicher": 0.5, "unbelastbar": 0.2}
+
+
+@dataclass(frozen=True)
+class FindingSource:
+    url: str
+    excerpt: str
+    channel: str = "web"
+    published_at: str = ""  # source date if known, for recency weighting
+
+
+@dataclass(frozen=True)
+class ResearchFinding:
+    """One atomic, self-contained fact about a target. See docs/research-finding-schema.md."""
+
+    id: str
+    target_id: str
+    category: str  # role|project|talk|network|company|other
+    fact: str
+    reliability: str  # belastbar|unsicher|unbelastbar
+    observed_at: str
+    sources: tuple[FindingSource, ...]
+    warum: str = ""
+    contradicts: tuple[str, ...] = ()
+
+    def to_evidence(self) -> Evidence:
+        return Evidence(
+            id=self.id,
+            source=self.sources[0].url if self.sources else "",
+            description=self.fact,
+            confidence=RELIABILITY_CONFIDENCE.get(self.reliability, 0.5),
+            safe_to_use=self.reliability != "unbelastbar",
+            observed_at=self.observed_at,
+            tags=(self.category,),
+        )
+
+
 @dataclass(frozen=True)
 class GraphNode:
     id: str
