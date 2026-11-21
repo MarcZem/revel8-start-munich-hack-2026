@@ -70,6 +70,12 @@ For local Vercel workflows, install the Vercel CLI and use `vercel link` to asso
 
 ## Live demo
 
-The Vercel homepage serves the live practice flow in [`dashboard/live.html`](dashboard/live.html). It fetches the open Revel8 practice targets and streams each run event from `/api/live_run`. Clicking **Live-Praxislauf starten** creates a practice session and spends exactly one touch on the selected synthetic persona. The server requires `TARGET_API_KEY`; set it as a Vercel Preview environment variable and never expose it to browser code.
+The Vercel homepage serves the **operator console** in [`dashboard/index.html`](dashboard/index.html) — a jury-facing view of the real agent runs against the three consenting practice twins: the agent network, the targeting decision + confidence score, the actual phishing craft and the twin's verbatim replies, the all-channel tactic sweep, and the compromised/held outcome. It is a self-contained static page (real data embedded by `scripts/build_dashboard_data.py`), so it needs no API key and renders identically in every environment. See [`docs/dashboard-operator.md`](docs/dashboard-operator.md).
 
-The advisor, writer, and critic shown in this demo are still deterministic policy stubs. `Orchestrator` accepts an injected `ModelCommittee`, whose Advisor/Writer/Critic protocol is the intended connection point for the AMD-hosted model. See [`docs/dashboard-live.md`](docs/dashboard-live.md) for the run flow and integration boundary.
+Refresh it after a run:
+
+```sh
+python scripts/build_dashboard_data.py
+```
+
+The earlier streaming practice demo (deterministic stubs, one live touch via `/api/live_run`) still lives at [`dashboard/live.html`](dashboard/live.html); see [`docs/dashboard-live.md`](docs/dashboard-live.md) for its run flow and the AMD model integration boundary.
