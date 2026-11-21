@@ -148,15 +148,50 @@ class ContactAngle:
 
 
 @dataclass(frozen=True)
+class ContextFact:
+    evidence_id: str
+    description: str
+    source: str
+    observed_at: str
+    confidence: float
+    source_reliability: float
+    uncertainty_note: str | None = None
+
+
+@dataclass(frozen=True)
+class ContextPacket:
+    """Small writer-facing view containing only selected, cited evidence."""
+
+    target_name: str
+    angle: ContactAngle
+    as_of: str
+    token_budget: int
+    token_count: int
+    facts: tuple[ContextFact, ...]
+
+    @property
+    def objective(self) -> Objective:
+        return self.angle.objective
+
+    @property
+    def allowed_evidence_ids(self) -> set[str]:
+        return {fact.evidence_id for fact in self.facts}
+
+
+@dataclass(frozen=True)
 class RoutedContext:
     objective: Objective
     angle: ContactAngle
     loaded_paths: tuple[GraphPath, ...]
     excluded_evidence_ids: tuple[str, ...]
     excluded_reasons: dict[str, str]
+    context_packet: ContextPacket | None = None
+    ranked_evidence: tuple[RankedEvidence, ...] = ()
 
     @property
     def allowed_evidence_ids(self) -> set[str]:
+        if self.context_packet is not None:
+            return self.context_packet.allowed_evidence_ids
         allowed: set[str] = set()
         for path in self.loaded_paths:
             allowed.update(path.evidence_ids)
