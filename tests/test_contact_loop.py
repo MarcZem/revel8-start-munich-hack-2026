@@ -58,5 +58,20 @@ class ComposeTest(unittest.TestCase):
         self.assertTrue(msg["body"])
 
 
+class ParseLabeledTest(unittest.TestCase):
+    def test_with_body_label(self):
+        out = contact_loop._parse_labeled("FROM_NAME: A\nFROM_ADDRESS: a@b.de\nSUBJECT: Hi\nBODY:\nLine 1\nLine 2")
+        self.assertEqual(out["from_address"], "a@b.de")
+        self.assertEqual(out["body"], "Line 1\nLine 2")
+
+    def test_without_body_label(self):
+        # model omits BODY: and writes the message straight after SUBJECT
+        raw = "FROM_NAME: Lena\nFROM_ADDRESS: lena@x.de\nSUBJECT: Re: demo\n\nHi Julius,\n\nThanks for the reply.\nBest, Lena"
+        out = contact_loop._parse_labeled(raw)
+        self.assertEqual(out["subject"], "Re: demo")
+        self.assertTrue(out["body"].startswith("Hi Julius,"))
+        self.assertIn("Best, Lena", out["body"])
+
+
 if __name__ == "__main__":
     unittest.main()
