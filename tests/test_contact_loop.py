@@ -58,6 +58,29 @@ class ComposeTest(unittest.TestCase):
         self.assertTrue(msg["body"])
 
 
+class PlannerTest(unittest.TestCase):
+    def setUp(self):
+        self._orig = llm.chat
+
+    def tearDown(self):
+        llm.chat = self._orig
+
+    def test_parses_action_and_guidance(self):
+        llm.chat = lambda *a, **k: '{"action":"continue","guidance":"answer his gate, then ask the tool"}'
+        hook = Hook("x", "y", ("f1",), "email", "z")
+        out = contact_loop._plan_next("disclosure", "Julius", hook, [{"subject": "s", "sent": "hi", "reply": "ok?"}])
+        self.assertEqual(out["action"], "continue")
+        self.assertIn("tool", out["guidance"])
+
+    def test_unknown_action_falls_back_to_stop(self):
+        llm.chat = lambda *a, **k: '{"action":"nonsense","guidance":""}'
+        out = contact_loop._plan_next("disclosure", "J", Hook("x", "y", ("f1",), "email", "z"), [])
+        self.assertEqual(out["action"], "stop")
+
+    def test_json_obj_bad_input(self):
+        self.assertEqual(contact_loop._json_obj("no json"), {})
+
+
 class ParseLabeledTest(unittest.TestCase):
     def test_with_body_label(self):
         out = contact_loop._parse_labeled("FROM_NAME: A\nFROM_ADDRESS: a@b.de\nSUBJECT: Hi\nBODY:\nLine 1\nLine 2")

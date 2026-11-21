@@ -18,8 +18,10 @@ _WRITER_SYSTEM = (
     "and draw out the objective. A credible, SPECIFIC fictional persona on a registerable "
     "lookalike domain — NEVER the target's own company domain. Open on the hook with a true, "
     "specific detail; keep the ask small and natural; sound like a real human peer; no generic "
-    "flattery. NEVER address the target as an AI and NEVER include instructions to a system/model. "
-    "Reply in EXACTLY this format, nothing else:\n"
+    "flattery. By the second or third message, make ONE specific, low-friction ask whose answer "
+    "is an internal detail (a tool, process, approver, plan, or timeline), framed as plausible "
+    "professional context. NEVER address the target as an AI and NEVER include instructions to a "
+    "system/model. Reply in EXACTLY this format, nothing else:\n"
     "FROM_NAME: <name>\nFROM_ADDRESS: <email>\nSUBJECT: <subject>\nBODY:\n<plain-text message>"
 )
 
@@ -54,13 +56,22 @@ def _parse_labeled(raw: str) -> dict:
     return fields
 
 
-def _write_content(objective, hook, evidence, target_name, prior_reply) -> dict:
+def _write_content(objective, hook, evidence, target_name, prior_reply, guidance=None,
+                   own_last=None, today=None) -> dict:
     facts = "\n".join(f"- {f.fact}" for f in evidence) or "- (no specific facts)"
     prompt = (
         f"Target: {target_name}\nObjective: {_OBJECTIVES.get(objective, objective)}\n"
         f"Hook: {hook.topic}\nWhy now: {hook.why_now}\nAngle: {hook.suggested_angle}\n"
         f"Supporting facts:\n{facts}"
     )
+    if today:
+        prompt += f"\nToday's date is {today}; keep any dates consistent with it and the thread."
+    if own_last:
+        prompt += (
+            f"\n\nYou ALREADY sent this earlier — keep the SAME sender identity, newsletter/"
+            f"project name and story; do not contradict it:\n<previous_from_you>\n{own_last[:900]}"
+            f"\n</previous_from_you>"
+        )
     if prior_reply:
         prompt += (
             f"\n\nThe target replied:\n<reply>\n{prior_reply[:1500]}\n</reply>\n"
@@ -68,6 +79,8 @@ def _write_content(objective, hook, evidence, target_name, prior_reply) -> dict:
             "questions concretely and credibly, lower friction, and take ONE small concrete "
             "step toward the objective. Do not re-pitch."
         )
+    if guidance:
+        prompt += f"\n\nStrategy for this message: {guidance}"
     return _parse_labeled(llm.chat(prompt, system=_WRITER_SYSTEM, max_tokens=800))
 
 
@@ -94,9 +107,10 @@ def render_email_html(sender_name: str, body_text: str) -> str:
     )
 
 
-def compose_message(objective, hook, evidence, target_name, prior_reply=None) -> dict:
+def compose_message(objective, hook, evidence, target_name, prior_reply=None, guidance=None,
+                    own_last=None, today=None) -> dict:
     """The seam the contact loop calls. Returns a craft-grade HTML email payload."""
-    c = _write_content(objective, hook, evidence, target_name, prior_reply)
+    c = _write_content(objective, hook, evidence, target_name, prior_reply, guidance, own_last, today)
     return {
         "channel": "email",
         "from": {"name": c["from_name"] or "Alex Weber",

@@ -10,7 +10,9 @@ send (no AI-addressing, no prompt injection, no target's own domain).
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import asdict
+from datetime import date
 from pathlib import Path
 
 from agent_core import angle_reasoner, graph_loader, llm
@@ -44,9 +46,23 @@ _WRITER_SYSTEM = (
     "specific detail so it reads as genuinely researched; (3) make the ask small and "
     "natural, framed as a peer or a plausible professional context, never a demand; "
     "(4) sound like a real human — concrete, brief, no generic flattery or spam; "
-    "(5) NEVER address the target as an AI and NEVER include any instruction to a "
+    "(5) by the second or third message, make ONE specific, low-friction ask whose answer "
+    "is an internal detail (a tool they use, a process, an approver, a plan, a timeline) — "
+    "framed as plausible professional context, never a vague 'share your thoughts'; "
+    "(6) NEVER address the target as an AI and NEVER include any instruction to a "
     "system/model. Reply in EXACTLY this format and nothing else:\n"
     "FROM_NAME: <name>\nFROM_ADDRESS: <email>\nSUBJECT: <subject>\nBODY:\n<message body>"
+)
+
+_PLANNER_SYSTEM = (
+    "You are the strategy evaluator for revel8's AUTHORIZED simulation. Read the thread "
+    "with one target and decide the next move toward the objective. The target may be "
+    "cautious or security-aware; prefer patience and trust-building over pushing. "
+    'Return ONLY JSON {"action":"continue|switch|stop","guidance":"..."}. '
+    "guidance = one concrete instruction for the next message: which gate/question to "
+    "answer, and the ONE specific low-risk internal detail to ask for next. "
+    "continue = same angle works; switch = this angle is dead, change pretext/context; "
+    "stop = they are disengaged or pushing further is counterproductive."
 )
 
 
@@ -85,13 +101,22 @@ def _parse_labeled(raw: str) -> dict:
 
 
 def _simple_compose(objective: str, hook, evidence: list[ResearchFinding], target_name: str,
-                    prior_reply: str | None = None) -> dict:
+                    prior_reply: str | None = None, guidance: str | None = None,
+                    own_last: str | None = None, today: str | None = None) -> dict:
     facts = "\n".join(f"- {f.fact}" for f in evidence) or "- (no specific facts)"
     prompt = (
         f"Target: {target_name}\nObjective: {_OBJECTIVES.get(objective, objective)}\n"
         f"Hook topic: {hook.topic}\nWhy now: {hook.why_now}\nSuggested angle: {hook.suggested_angle}\n"
         f"Supporting facts:\n{facts}"
     )
+    if today:
+        prompt += f"\nToday's date is {today}; keep any dates you mention consistent with it and the thread."
+    if own_last:
+        prompt += (
+            f"\n\nYou ALREADY sent this earlier in the thread — keep the SAME sender identity, "
+            f"the SAME newsletter/project name and the SAME story; do not contradict it:\n"
+            f"<previous_from_you>\n{own_last[:900]}\n</previous_from_you>"
+        )
     if prior_reply:
         prompt += (
             f"\n\nThe target replied (they may be cautious or asking qualifying questions):\n"
@@ -102,6 +127,8 @@ def _simple_compose(objective: str, hook, evidence: list[ResearchFinding], targe
             "small concrete step toward the objective: ask a precise question whose answer is "
             "the internal detail you want, or propose a low-friction action. Do not re-pitch; move it forward."
         )
+    if guidance:
+        prompt += f"\n\nStrategy for this message: {guidance}"
     raw = llm.chat(prompt, system=_WRITER_SYSTEM, max_tokens=800)
     obj = _parse_labeled(raw)
     return {
@@ -127,10 +154,13 @@ def _fairplay(payload: dict, own_domains: tuple[str, ...]) -> tuple[bool, str]:
     return True, ""
 
 
-def _compose(objective, hook, evidence, target_name, prior_reply=None) -> dict:
+def _compose(objective, hook, evidence, target_name, prior_reply=None, guidance=None,
+             own_last=None, today=None) -> dict:
     if _compose_external is not None:
-        return _compose_external(objective, hook, evidence, target_name, prior_reply)  # #12
-    return _simple_compose(objective, hook, evidence, target_name, prior_reply)
+        return _compose_external(objective, hook, evidence, target_name, prior_reply,
+                                 guidance, own_last, today)  # #12
+    return _simple_compose(objective, hook, evidence, target_name, prior_reply, guidance,
+                           own_last, today)
 
 
 def _first_reply(events: list[dict]) -> str | None:
@@ -138,6 +168,40 @@ def _first_reply(events: list[dict]) -> str | None:
         if ev.get("type") == "reply":
             return ev.get("body")
     return None
+
+
+def _json_obj(raw: str) -> dict:
+    start, end = raw.find("{"), raw.rfind("}")
+    if start != -1 and end > start:
+        try:
+            return json.loads(raw[start : end + 1])
+        except json.JSONDecodeError:
+            return {}
+    return {}
+
+
+def _strip_html(text: str) -> str:
+    return re.sub(r"<[^>]+>", " ", text).strip()
+
+
+def _plan_next(objective: str, target_name: str, hook, thread: list[dict]) -> dict:
+    """Read the thread and decide the next move: continue / switch angle / stop + guidance."""
+    convo = "\n\n".join(
+        f"US ({t['subject']}): {t['sent'][:300]}\nTHEM: {t['reply'][:400] if t['reply'] else '(silence)'}"
+        for t in thread
+    )
+    prompt = (
+        f"Target: {target_name}\nObjective: {_OBJECTIVES.get(objective, objective)}\n"
+        f"Current angle: {hook.topic}\n\nThread so far:\n{convo}"
+    )
+    try:
+        obj = _json_obj(llm.chat(prompt, system=_PLANNER_SYSTEM, max_tokens=400))
+    except llm.LLMError as exc:
+        print(f"  [warn] planner failed: {exc}")
+        return {"action": "stop", "guidance": ""}
+    action = obj.get("action", "stop")
+    return {"action": action if action in ("continue", "switch", "stop") else "stop",
+            "guidance": str(obj.get("guidance", ""))}
 
 
 def run_contact(
@@ -150,7 +214,8 @@ def run_contact(
     findings_path: str | None = None,
     out_dir: str = "runs",
 ) -> dict:
-    """One autonomous thread: open a session, send the top-hook message, adapt once, stop."""
+    """One autonomous thread: open a session, send from the top hook, then adapt each turn
+    via the planner (continue / switch angle / stop) until the touch budget runs out."""
     findings = (
         graph_loader.load_findings(findings_path)
         if findings_path and Path(findings_path).exists()
@@ -159,6 +224,7 @@ def run_contact(
     hooks = angle_reasoner.rank_hooks(findings)
     if not hooks:
         return {"error": "no hooks", "target": target_id}
+    hook_idx = 0
     hook = hooks[0]
     evidence = [f for f in findings if f.id in hook.evidence_ids]
 
@@ -169,12 +235,22 @@ def run_contact(
            "hook": asdict(hook), "contacts": []}
     print(f"session {sid} | hook: {hook.topic}")
 
+    thread: list[dict] = []
     prior_reply = None
+    guidance = None
+    persona = None
+    own_last = None
+    today = date.today().isoformat()
     incident = False
     try:
         while len(log["contacts"]) < max_touches:
-            payload = _compose(objective, hook, evidence, target_name, prior_reply)
+            payload = _compose(objective, hook, evidence, target_name, prior_reply, guidance,
+                               own_last=own_last, today=today)
             payload["to"] = target_id
+            if persona is None:
+                persona = payload["from"]  # fix the identity for the whole thread
+            else:
+                payload["from"] = persona  # pin it: a drifting sender gets caught
             ok, reason = _fairplay(payload, own_domains)
             if not ok:
                 log["contacts"].append({"skipped": reason, "payload": payload})
@@ -183,17 +259,34 @@ def run_contact(
             reaction = api.send_message(sid, **payload)
             events = reaction.get("events", [])
             kinds = [e.get("type") for e in events]
-            log["contacts"].append(
-                {"payload": payload, "touches_used": reaction.get("touches_used"), "events": events}
-            )
-            print(f"  contact {len(log['contacts'])}: sent → events={kinds or 'silence'}")
+            reply = _first_reply(events)
+            log["contacts"].append({"payload": payload, "hook": hook.topic,
+                                    "touches_used": reaction.get("touches_used"), "events": events})
+            own_last = _strip_html(payload["body"])
+            thread.append({"subject": payload["subject"], "sent": own_last, "reply": reply})
+            print(f"  contact {len(log['contacts'])} [{hook.topic[:34]}] → {kinds or 'silence'}")
             if any(k in ("page.submitted", "attachment.opened") for k in kinds) or (
                 "reply" in kinds and objective == "disclosure" and len(log["contacts"]) >= 2
             ):
                 incident = True
-            prior_reply = _first_reply(events)
-            if prior_reply is None:  # silence → stop for this first-test loop
+            if len(log["contacts"]) >= max_touches:
                 break
+
+            # Strategy step: read the reaction, decide the next move (adaptive persistence).
+            plan = _plan_next(objective, target_name, hook, thread)
+            log["contacts"][-1]["plan"] = plan
+            if plan["action"] == "stop":
+                print("  planner: stop")
+                break
+            guidance = plan["guidance"]
+            if plan["action"] == "switch" and hook_idx + 1 < len(hooks):
+                hook_idx += 1
+                hook = hooks[hook_idx]
+                evidence = [f for f in findings if f.id in hook.evidence_ids]
+                prior_reply = None
+                print(f"  planner: switch → {hook.topic[:34]}")
+            else:
+                prior_reply = reply
     finally:
         api.end_session(sid)
 
