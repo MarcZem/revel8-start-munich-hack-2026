@@ -55,7 +55,7 @@ TEMPLATE = r"""<!doctype html>
     <div class="columns">
       <div class="stack">
         <section class="panel pitch-step" data-pitch-step="0"><h2>1 · Evidence and confidence</h2><p class="panel-intro">Facts available to this synthetic run, with source and confidence.</p>@@EVIDENCE@@</section>
-        <section class="panel pitch-step" data-pitch-step="1"><h2>2 · Context sent to the writer</h2><p class="panel-intro">Only selected paths and evidence IDs are included in the routed context. @@EXCLUDED_COUNT@@ evidence item(s) excluded.</p>@@PATHS@@</section>
+        <section class="panel pitch-step" data-pitch-step="1"><h2>2 · Context sent to the writer</h2><p class="panel-intro">The writer receives only this token-bounded packet. @@PACKET_BUDGET@@</p>@@PATHS@@</section>
         <section class="panel pitch-step" data-pitch-step="2"><h2>3 · Selected message preview</h2><p class="panel-intro">Preview of the winning synthetic candidate. Blocked candidate bodies are never shown.</p>@@MESSAGE@@</section>
       </div>
       <div class="stack">
@@ -104,19 +104,59 @@ def _evidence_html(run: dict[str, Any], allowed: set[str]) -> str:
 
 
 def _paths_html(run: dict[str, Any]) -> str:
-    paths = run.get("routed_context", {}).get("loaded_paths", [])
+    routed = run.get("routed_context", {})
+    packet = routed.get("context_packet")
+    if packet is None:
+        paths = routed.get("loaded_paths", [])
+        rows = []
+        for path in paths:
+            confidence = _confidence(path.get("confidence"))
+            ids = ", ".join(path.get("evidence_ids", [])) or "No evidence IDs"
+            tags = "".join(f'<span class="chip">{_esc(tag)}</span>' for tag in path.get("relevance_tags", []))
+            rows.append(
+                '<article class="path">'
+                f'<div class="path-title">{_esc(path.get("summary", path.get("id", "Path")))}</div>'
+                f'<div class="meta">Confidence {confidence:.0%} · Evidence: {_esc(ids)}</div>'
+                f'<div class="chips">{tags}</div></article>'
+            )
+        return '<div class="path-list">' + "".join(rows) + "</div>" if rows else '<p class="empty">No context paths were loaded.</p>'
+
+    ranked = {item.get("evidence_id"): item for item in routed.get("ranked_evidence", [])}
+    selected = {fact.get("evidence_id") for fact in packet.get("facts", [])}
+    excluded_reasons = routed.get("excluded_reasons", {})
     rows = []
-    for path in paths:
-        confidence = _confidence(path.get("confidence"))
-        ids = ", ".join(path.get("evidence_ids", [])) or "No evidence IDs"
-        tags = "".join(f'<span class="chip">{_esc(tag)}</span>' for tag in path.get("relevance_tags", []))
+    for fact in packet.get("facts", []):
+        evidence_id = fact.get("evidence_id", "unknown")
+        score = ranked.get(evidence_id, {}).get("score")
+        uncertainty = fact.get("uncertainty_note")
         rows.append(
             '<article class="path">'
-            f'<div class="path-title">{_esc(path.get("summary", path.get("id", "Path")))}</div>'
-            f'<div class="meta">Confidence {confidence:.0%} · Evidence: {_esc(ids)}</div>'
-            f'<div class="chips">{tags}</div></article>'
+            f'<div class="path-title">{_esc(fact.get("description", ""))}</div>'
+            f'<div class="meta">Selected · Score {_esc(score if score is not None else "—")} · '
+            f'Confidence {_confidence(fact.get("confidence")):.0%} · '
+            f'Source reliability {_confidence(fact.get("source_reliability")):.0%}</div>'
+            f'<div class="meta">Evidence: {_esc(evidence_id)} · Source: {_esc(fact.get("source", "unknown"))} · '
+            f'Observed: {_esc(fact.get("observed_at", "not recorded"))}</div>'
+            f'<div class="meta">{_esc(uncertainty or "No additional uncertainty note.")}</div></article>'
         )
-    return '<div class="path-list">' + "".join(rows) + "</div>" if rows else '<p class="empty">No context paths were loaded.</p>'
+    for item in routed.get("ranked_evidence", []):
+        evidence_id = item.get("evidence_id")
+        if evidence_id in selected:
+            continue
+        reason = excluded_reasons.get(evidence_id) or item.get("exclusion_reason") or "context_budget_exceeded"
+        rows.append(
+            '<article class="path">'
+            f'<div class="path-title">{_esc(evidence_id)}</div>'
+            f'<div class="meta">Excluded · Score {_esc(item.get("score", "—"))} · {_esc(reason)}</div></article>'
+        )
+    return '<div class="path-list">' + "".join(rows) + "</div>" if rows else '<p class="empty">No evidence was selected for the writer.</p>'
+
+
+def _packet_budget_html(run: dict[str, Any]) -> str:
+    packet = run.get("routed_context", {}).get("context_packet")
+    if not packet:
+        return "Legacy run log; packet token count was not recorded."
+    return f'{_esc(packet.get("token_count", "—"))} / {_esc(packet.get("token_budget", "—"))} tokens · As of {_esc(packet.get("as_of", "unknown"))}'
 
 
 def _message_html(run: dict[str, Any]) -> str:
@@ -265,10 +305,14 @@ def render_replay(run: dict[str, Any], source: str = "local run log") -> str:
     person = next((node.get("label") for node in nodes.values() if node.get("type") == "Person"), "Synthetic persona")
     routed = run.get("routed_context", {})
     allowed = {
-        evidence_id
-        for path in routed.get("loaded_paths", [])
-        for evidence_id in path.get("evidence_ids", [])
+        fact.get("evidence_id") for fact in routed.get("context_packet", {}).get("facts", [])
     }
+    if not routed.get("context_packet"):
+        allowed = {
+            evidence_id
+            for path in routed.get("loaded_paths", [])
+            for evidence_id in path.get("evidence_ids", [])
+        }
     event = run.get("api_event") or {}
     strategy = run.get("strategy_update") or {}
     values = {
@@ -281,6 +325,7 @@ def render_replay(run: dict[str, Any], source: str = "local run log") -> str:
         "AGENT_GRAPH": _agent_graph_html(run),
         "EVIDENCE": _evidence_html(run, allowed),
         "EXCLUDED_COUNT": _esc(len(routed.get("excluded_evidence_ids", []))),
+        "PACKET_BUDGET": _packet_budget_html(run),
         "PATHS": _paths_html(run),
         "MESSAGE": _message_html(run),
         "VERDICTS": _verdicts_html(run),

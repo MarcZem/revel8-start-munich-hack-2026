@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "as_of": "2026-11-21T12:00:00Z",
+  "objective": "awareness",
+  "angle": {
+    "id": "eval_leadership_brief",
+    "title": "synthetic leadership training brief",
+    "rationale": "Offline evaluation angle for synthetic evidence selection.",
+    "required_tags": ["leadership", "role"]
+  },
+  "budgets": [500, 900, 4096],
+  "evidence": [
+    {
+      "id": "eval_current_leadership",
+      "source": "synthetic_eval_company_record",
+      "description": "Synthetic profile: Alex Example currently leads the Acme research team.",
+      "confidence": 0.97,
+      "source_reliability": 0.96,
+      "observed_at": "2026-11-20T12:00:00Z",
+      "tags": ["leadership", "role"],
+      "safe_to_use": true
+    },
+    {
+      "id": "eval_leadership_program",
+      "source": "synthetic_eval_event_agenda",
+      "description": "Synthetic agenda: Acme is preparing a leadership development workshop.",
+      "confidence": 0.91,
+      "source_reliability": 0.9,
+      "observed_at": "2026-10-01T12:00:00Z",
+      "tags": ["leadership"],
+      "safe_to_use": true
+    },
+    {
+      "id": "eval_irrelevant_hobby",
+      "source": "synthetic_eval_hobby_page",
+      "description": "Synthetic profile mentions a weekend interest unrelated to leadership.",
+      "confidence": 0.99,
+      "source_reliability": 0.99,
+      "observed_at": "2026-11-20T12:00:00Z",
+      "tags": ["hobby"],
+      "safe_to_use": true
+    },
+    {
+      "id": "eval_stale_role",
+      "source": "synthetic_eval_archived_profile",
+      "description": "Archived synthetic profile lists a former leadership position.",
+      "confidence": 0.98,
+      "source_reliability": 0.98,
+      "observed_at": "2024-01-01T12:00:00Z",
+      "tags": ["leadership", "role"],
+      "safe_to_use": true
+    },
+    {
+      "id": "eval_low_confidence",
+      "source": "synthetic_eval_unverified_note",
+      "description": "Unverified synthetic note suggests a possible leadership change.",
+      "confidence": 0.35,
+      "source_reliability": 0.3,
+      "observed_at": "2026-11-20T12:00:00Z",
+      "tags": ["leadership", "role"],
+      "safe_to_use": true
+    },
+    {
+      "id": "eval_sensitive_private",
+      "source": "synthetic_eval_private_note",
+      "description": "Synthetic private HR detail that must never enter the writer packet.",
+      "confidence": 1.0,
+      "source_reliability": 1.0,
+      "observed_at": "2026-11-20T12:00:00Z",
+      "tags": ["leadership", "role"],
+      "safe_to_use": false
+    },
+    {
+      "id": "eval_conflict_a",
+      "source": "synthetic_eval_record_a",
+      "description": "Synthetic record A says Alex currently leads the Acme research team.",
+      "confidence": 0.94,
+      "source_reliability": 0.93,
+      "observed_at": "2026-11-20T12:00:00Z",
+      "tags": ["leadership", "role"],
+      "safe_to_use": true,
+      "contradicts": ["eval_conflict_b"]
+    },
+    {
+      "id": "eval_conflict_b",
+      "source": "synthetic_eval_record_b",
+      "description": "Synthetic record B says Alex no longer leads the Acme research team.",
+      "confidence": 0.92,
+      "source_reliability": 0.92,
+      "observed_at": "2026-11-19T12:00:00Z",
+      "tags": ["leadership", "role"],
+      "safe_to_use": true
+    }
+  ],
+  "expected_exclusions": {
+    "eval_irrelevant_hobby": "irrelevant_to_context",
+    "eval_stale_role": "stale_evidence",
+    "eval_low_confidence": "low_confidence",
+    "eval_sensitive_private": "unsafe_or_private",
+    "eval_conflict_a": "contradicted",
+    "eval_conflict_b": "contradicted"
+  },
+  "expected_top_evidence_id": "eval_current_leadership"
+}

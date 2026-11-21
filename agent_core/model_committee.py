@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
+from datetime import datetime, timezone
 from typing import Callable, Protocol
 
+from agent_core.context_packet import ContextPacketBuilder
 from agent_core.evaluator import EvaluatorGate
 from agent_core.schema import (
     Channel,
     CommitteeDecision,
     ContactAngle,
+    ContextPacket,
     CriticScores,
     KnowledgeGraph,
     MessageCandidate,
@@ -28,7 +31,7 @@ class AdvisorModel(Protocol):
 class WriterModel(Protocol):
     model_name: str
 
-    def draft_candidates(self, graph: KnowledgeGraph, context: RoutedContext) -> tuple[MessageCandidate, ...]:
+    def draft_candidates(self, context: ContextPacket) -> tuple[MessageCandidate, ...]:
         ...
 
 
@@ -45,12 +48,15 @@ class ModelCommittee:
     writer: WriterModel
     critic: CriticModel
     gate: EvaluatorGate
+    context_builder: ContextPacketBuilder = field(default_factory=ContextPacketBuilder)
 
     def run(
         self,
         graph: KnowledgeGraph,
         objective: Objective,
         on_event: Callable[[str, str], None] | None = None,
+        *,
+        as_of: datetime | None = None,
     ) -> tuple[RoutedContext, CommitteeDecision]:
         angles = self.advisor.propose_angles(graph, objective)
         _emit(on_event, "strategy", f"Advisor produced {len(angles)} angle(s) · {self.advisor.model_name}")
@@ -58,8 +64,28 @@ class ModelCommittee:
         from agent_core.context_router import ContextRouter
 
         context = ContextRouter().route(graph, objective, angle)
-        _emit(on_event, "router", f"Context router selected {len(context.loaded_paths)} evidence path(s)")
-        candidates = self.writer.draft_candidates(graph, context)
+        selection = self.context_builder.build(
+            graph,
+            objective,
+            angle,
+            as_of=as_of or datetime.now(timezone.utc),
+        )
+        context = replace(
+            context,
+            excluded_evidence_ids=selection.excluded_evidence_ids,
+            excluded_reasons=selection.excluded_reasons,
+            context_packet=selection.packet,
+            ranked_evidence=selection.ranked_evidence,
+        )
+        _emit(
+            on_event,
+            "router",
+            f"Context packet selected {len(selection.packet.facts)} fact(s) · "
+            f"{selection.packet.token_count}/{selection.packet.token_budget} tokens",
+        )
+        # The writer receives the compact packet only; the full graph and the
+        # selection audit remain with the orchestrator for evaluation/replay.
+        candidates = self.writer.draft_candidates(selection.packet)
         _emit(on_event, "writer", f"Writer produced {len(candidates)} candidate(s) · {self.writer.model_name}")
         critic_scores = tuple(self.critic.score(candidate, context) for candidate in candidates)
         _emit(on_event, "critic", f"Critic scored {len(critic_scores)} candidate(s) · {self.critic.model_name}")
@@ -148,43 +174,25 @@ class StubAdvisor:
 class StubWriter:
     model_name = "stub:Qwen/Qwen3-14B"
 
-    def draft_candidates(self, graph: KnowledgeGraph, context: RoutedContext) -> tuple[MessageCandidate, ...]:
-        person_label = _person_label(graph)
-        company_label = _company_label(graph)
-        allowed = tuple(sorted(context.allowed_evidence_ids))
-        if graph.persona_id in {"julius", "tom", "robert"}:
-            safe_body = (
-                f"Hi {person_label}, our team is testing a live integration demo in the Revel8 practice "
-                "environment for START Munich Hack 2026. This is a transparent test contact from our "
-                "team. It asks for no action and includes no links. If convenient, please reply with a "
-                "brief confirmation that it arrived in this simulation."
-            )
-            return _candidate_set(context, self.model_name, safe_body, allowed, "START Munich demo: practice API connection")
-        if graph.persona_id == "max_rieder":
-            safe_body = (
-                f"Hi {person_label}, I am preparing a short simulated security-review packet for "
-                f"{company_label}'s integration beta. Your public CI/CD and developer-experience notes "
-                "made this a good fit. Could you review the two-page fake advisory summary and mark "
-                "whether the integration risk checklist is useful for an internal training scenario? "
-                "This stays inside the revel8 simulation and uses only the attached fake document."
-            )
-            return _candidate_set(context, self.model_name, safe_body, allowed, "Integration beta security review")
-        if graph.persona_id == "sara_neumann":
-            safe_body = (
-                f"Hi {person_label}, I am assembling a synthetic onboarding workshop exercise for "
-                f"{company_label}. Your public comments on onboarding and leadership training are the reason "
-                "for this angle. Could you open the fake calendar invite and confirm whether the agenda "
-                "matches a harmless manager-training scenario? No employee records or real channels are used."
-            )
-            return _candidate_set(context, self.model_name, safe_body, allowed, "Synthetic onboarding workshop")
-        safe_body = (
-            f"Hi {person_label}, I am preparing a synthetic vendor-onboarding review for "
-            f"{company_label}'s audit-readiness practice run. Your public supplier-risk comments make this "
-            "a relevant finance-control scenario. Could you open the fake review brief and tell me whether "
-            "the checklist covers the right harmless process steps? It stays inside the revel8 simulation "
-            "and asks only for process-level feedback, not sensitive finance details or real approvals."
+    def draft_candidates(self, context: ContextPacket) -> tuple[MessageCandidate, ...]:
+        evidence_line = (
+            context.facts[0].description
+            if context.facts
+            else "No sufficiently relevant, sourced facts were selected for this turn."
         )
-        return _candidate_set(context, self.model_name, safe_body, allowed, "Synthetic vendor onboarding review")
+        confidence_note = (
+            f" {context.facts[0].uncertainty_note}"
+            if context.facts and context.facts[0].uncertainty_note
+            else ""
+        )
+        safe_body = (
+            f"Hi {context.target_name}, this is a transparent exercise inside the Revel8 practice "
+            f"simulation about {context.angle.title}. The selected, sourced context is: "
+            f"{evidence_line}{confidence_note} Please give brief process-level feedback on whether "
+            "this synthetic training scenario is clear. It requests no credentials, secrets, or real-world action."
+        )
+        subject = f"Revel8 practice simulation: {context.angle.title}"
+        return _candidate_set(context, self.model_name, safe_body, subject)
 
 
 class StubCritic:
@@ -238,12 +246,13 @@ def default_stub_committee() -> ModelCommittee:
 
 
 def _candidate_set(
-    context: RoutedContext,
+    context: ContextPacket,
     writer_model: str,
     safe_body: str,
-    allowed_evidence_ids: tuple[str, ...],
     subject: str,
 ) -> tuple[MessageCandidate, ...]:
+    # Keep candidate provenance aligned with the safe stub's single fact.
+    used_evidence_ids = (context.facts[0].evidence_id,) if context.facts else ()
     safe = MessageCandidate(
         id="msg_001_safe",
         writer_model=writer_model,
@@ -256,7 +265,7 @@ def _candidate_set(
         body=safe_body,
         landing_page_url="https://review-brief.example/revel8-sim",
         landing_page_summary="Fake review brief with harmless process checklist.",
-        used_evidence_ids=allowed_evidence_ids,
+        used_evidence_ids=used_evidence_ids,
     )
     generic = MessageCandidate(
         id="msg_002_generic",
@@ -270,7 +279,7 @@ def _candidate_set(
         body="Hi, could you take a look at this document when you have a moment? Thanks.",
         landing_page_url="https://review-brief.example/revel8-sim",
         landing_page_summary="Fake generic shared document.",
-        used_evidence_ids=allowed_evidence_ids[:1],
+        used_evidence_ids=(),
         metadata={"generic": True},
     )
     rule_break = MessageCandidate(
@@ -288,16 +297,8 @@ def _candidate_set(
         ),
         landing_page_url="https://accounts.fake-bank.example.net/login",
         landing_page_summary="Disallowed credential collection page.",
-        used_evidence_ids=allowed_evidence_ids,
+        used_evidence_ids=(),
         known_risks=("prompt injection", "credential request", "non-simulation domain"),
         metadata={"rule_break": True},
     )
     return (safe, generic, rule_break)
-
-
-def _person_label(graph: KnowledgeGraph) -> str:
-    return next(node.label for node in graph.nodes.values() if node.type.value == "Person")
-
-
-def _company_label(graph: KnowledgeGraph) -> str:
-    return next(node.label for node in graph.nodes.values() if node.type.value == "Company")

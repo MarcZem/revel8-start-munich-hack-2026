@@ -62,6 +62,40 @@ class DashboardReplayTests(unittest.TestCase):
         self.assertIn("No candidate passed the evaluator gate", document)
         self.assertIn("No simulated event was produced", document)
 
+    def test_replay_shows_the_exact_writer_packet_and_exclusion_audit(self) -> None:
+        run_log = copy.deepcopy(self.run_log)
+        routed = run_log["routed_context"]
+        evidence_id = "ev_lena_supplier"
+        evidence = run_log["graph"]["evidence"][evidence_id]
+        routed["context_packet"] = {
+            "target_name": "Lena Kraus",
+            "as_of": "2026-11-21T00:00:00Z",
+            "token_budget": 400,
+            "token_count": 240,
+            "facts": [{
+                "evidence_id": evidence_id,
+                "description": evidence["description"],
+                "source": evidence["source"],
+                "observed_at": evidence["observed_at"],
+                "confidence": evidence["confidence"],
+                "source_reliability": 0.8,
+                "uncertainty_note": "Treat as uncertain; avoid stating as a confirmed current fact.",
+            }],
+        }
+        routed["ranked_evidence"] = [
+            {"evidence_id": evidence_id, "score": 0.72, "eligible": True},
+            {"evidence_id": "ev_lena_old_job_low_conf", "score": 0.11, "eligible": False},
+        ]
+        routed["excluded_reasons"]["ev_lena_old_job_low_conf"] = "unsafe_or_private"
+
+        document = render_replay(run_log)
+
+        self.assertIn("240 / 400 tokens", document)
+        self.assertIn("Selected · Score 0.72", document)
+        self.assertIn("Excluded · Score 0.11 · unsafe_or_private", document)
+        self.assertIn("synthetic_public_procurement_panel", document)
+        self.assertIn("Treat as uncertain", document)
+
 
 if __name__ == "__main__":
     unittest.main()

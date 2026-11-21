@@ -31,7 +31,7 @@
       {
         "advisor_model": "stub:smd20/socialengineering",
         "angle_id": "angle_vendor_review",
-        "body": "Hi Lena Kraus, I am preparing a synthetic vendor-onboarding review for Northstar Robotics's audit-readiness practice run. Your public supplier-risk comments make this a relevant finance-control scenario. Could you open the fake review brief and tell me whether the checklist covers the right harmless process steps? It stays inside the revel8 simulation and asks only for process-level feedback, not sensitive finance details or real approvals.",
+        "body": "Hi Lena Kraus, this is a transparent exercise inside the Revel8 practice simulation about vendor onboarding review. The selected, sourced context is: Northstar Robotics is preparing for an audit readiness workshop. Treat as uncertain; avoid stating as a confirmed current fact. Please give brief process-level feedback on whether this synthetic training scenario is clear. It requests no credentials, secrets, or real-world action.",
         "channel": "fake_email",
         "id": "msg_001_safe",
         "known_risks": [],
@@ -40,11 +40,9 @@
         "metadata": {},
         "objective": "action",
         "sender_type": "fake_training_research_contact",
-        "subject": "Synthetic vendor onboarding review",
+        "subject": "Revel8 practice simulation: vendor onboarding review",
         "used_evidence_ids": [
-          "ev_lena_audit",
-          "ev_lena_role",
-          "ev_lena_supplier"
+          "ev_lena_audit"
         ],
         "writer_model": "stub:Qwen/Qwen3-14B"
       },
@@ -63,9 +61,7 @@
         "objective": "action",
         "sender_type": "fake_training_research_contact",
         "subject": "Quick check",
-        "used_evidence_ids": [
-          "ev_lena_audit"
-        ],
+        "used_evidence_ids": [],
         "writer_model": "stub:Qwen/Qwen3-14B"
       },
       {
@@ -87,11 +83,7 @@
         "objective": "action",
         "sender_type": "fake_training_research_contact",
         "subject": "Urgent account validation",
-        "used_evidence_ids": [
-          "ev_lena_audit",
-          "ev_lena_role",
-          "ev_lena_supplier"
-        ],
+        "used_evidence_ids": [],
         "writer_model": "stub:Qwen/Qwen3-14B"
       }
     ],
@@ -274,11 +266,13 @@
     "evidence": {
       "ev_lena_audit": {
         "confidence": 0.86,
+        "contradicts": [],
         "description": "Northstar Robotics is preparing for an audit readiness workshop.",
         "id": "ev_lena_audit",
         "observed_at": "2026-11-21T12:00:00Z",
         "safe_to_use": true,
         "source": "synthetic_public_event_agenda",
+        "source_reliability": 0.5,
         "tags": [
           "audit",
           "finance",
@@ -287,22 +281,26 @@
       },
       "ev_lena_old_job_low_conf": {
         "confidence": 0.31,
+        "contradicts": [],
         "description": "Unverified claim about a past employer.",
         "id": "ev_lena_old_job_low_conf",
         "observed_at": "2026-11-21T12:00:00Z",
         "safe_to_use": false,
         "source": "synthetic_unverified_blog",
+        "source_reliability": 0.5,
         "tags": [
           "old_job"
         ]
       },
       "ev_lena_role": {
         "confidence": 0.95,
+        "contradicts": [],
         "description": "Lena Kraus is CFO at Northstar Robotics.",
         "id": "ev_lena_role",
         "observed_at": "2026-11-21T12:00:00Z",
         "safe_to_use": true,
         "source": "synthetic_public_company_page",
+        "source_reliability": 0.5,
         "tags": [
           "role",
           "finance"
@@ -310,11 +308,13 @@
       },
       "ev_lena_supplier": {
         "confidence": 0.82,
+        "contradicts": [],
         "description": "Lena discussed supplier risk and cashflow controls in a public panel.",
         "id": "ev_lena_supplier",
         "observed_at": "2026-11-21T12:00:00Z",
         "safe_to_use": true,
         "source": "synthetic_public_procurement_panel",
+        "source_reliability": 0.5,
         "tags": [
           "supplier_risk",
           "cashflow",
@@ -458,6 +458,57 @@
       ],
       "title": "vendor onboarding review"
     },
+    "context_packet": {
+      "angle": {
+        "channel": "fake_email",
+        "id": "angle_vendor_review",
+        "objective": "action",
+        "rationale": "Vendor-risk review fits CFO role, supplier-risk interest, and audit readiness.",
+        "required_tags": [
+          "vendor_risk",
+          "supplier_risk",
+          "audit",
+          "finance"
+        ],
+        "risk_notes": [
+          "avoid bank data and credentials"
+        ],
+        "title": "vendor onboarding review"
+      },
+      "as_of": "2026-11-21T19:47:00.623886Z",
+      "facts": [
+        {
+          "confidence": 0.86,
+          "description": "Northstar Robotics is preparing for an audit readiness workshop.",
+          "evidence_id": "ev_lena_audit",
+          "observed_at": "2026-11-21T12:00:00Z",
+          "source": "synthetic_public_event_agenda",
+          "source_reliability": 0.5,
+          "uncertainty_note": "Treat as uncertain; avoid stating as a confirmed current fact."
+        },
+        {
+          "confidence": 0.82,
+          "description": "Lena discussed supplier risk and cashflow controls in a public panel.",
+          "evidence_id": "ev_lena_supplier",
+          "observed_at": "2026-11-21T12:00:00Z",
+          "source": "synthetic_public_procurement_panel",
+          "source_reliability": 0.5,
+          "uncertainty_note": "Treat as uncertain; avoid stating as a confirmed current fact."
+        },
+        {
+          "confidence": 0.95,
+          "description": "Lena Kraus is CFO at Northstar Robotics.",
+          "evidence_id": "ev_lena_role",
+          "observed_at": "2026-11-21T12:00:00Z",
+          "source": "synthetic_public_company_page",
+          "source_reliability": 0.5,
+          "uncertainty_note": "Treat as uncertain; avoid stating as a confirmed current fact."
+        }
+      ],
+      "target_name": "Lena Kraus",
+      "token_budget": 4096,
+      "token_count": 1270
+    },
     "excluded_evidence_ids": [
       "ev_lena_old_job_low_conf"
     ],
@@ -542,7 +593,57 @@
         "summary": "supplier risk supports angle vendor onboarding review"
       }
     ],
-    "objective": "action"
+    "objective": "action",
+    "ranked_evidence": [
+      {
+        "confidence_score": 0.86,
+        "contradicted": false,
+        "eligible": true,
+        "evidence_id": "ev_lena_audit",
+        "exclusion_reason": null,
+        "freshness_score": 0.998752,
+        "reason": "tag match 3/5; confidence 0.86; source reliability 0.50; freshness 1.00",
+        "relevance_score": 0.6,
+        "score": 0.72475,
+        "source_reliability_score": 0.5
+      },
+      {
+        "confidence_score": 0.82,
+        "contradicted": false,
+        "eligible": true,
+        "evidence_id": "ev_lena_supplier",
+        "exclusion_reason": null,
+        "freshness_score": 0.998752,
+        "reason": "tag match 2/5; confidence 0.82; source reliability 0.50; freshness 1.00",
+        "relevance_score": 0.4,
+        "score": 0.64475,
+        "source_reliability_score": 0.5
+      },
+      {
+        "confidence_score": 0.95,
+        "contradicted": false,
+        "eligible": true,
+        "evidence_id": "ev_lena_role",
+        "exclusion_reason": null,
+        "freshness_score": 0.998752,
+        "reason": "tag match 1/5; confidence 0.95; source reliability 0.50; freshness 1.00",
+        "relevance_score": 0.2,
+        "score": 0.60725,
+        "source_reliability_score": 0.5
+      },
+      {
+        "confidence_score": 0.31,
+        "contradicted": false,
+        "eligible": false,
+        "evidence_id": "ev_lena_old_job_low_conf",
+        "exclusion_reason": "unsafe_or_private",
+        "freshness_score": 0.998752,
+        "reason": "tag match 0/5; confidence 0.31; source reliability 0.50; freshness 1.00",
+        "relevance_score": 0.0,
+        "score": 0.37725,
+        "source_reliability_score": 0.5
+      }
+    ]
   },
   "run_id": "run_lena_kraus_stub_001",
   "strategy_update": {
