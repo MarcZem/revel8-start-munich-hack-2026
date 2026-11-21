@@ -23,6 +23,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 RUNS = ROOT / "runs"
@@ -40,14 +41,50 @@ TARGETS = ("julius", "tom", "robert")
 NAMES = {"julius": "Julius Muth", "tom": "Tom Müller", "robert": "Robert Seilbeck"}
 
 # The agent pipeline, in order — nodes + edges for the Obsidian-style graph.
+# Recon sources feed Research, which builds the Knowledge Graph; the Orchestrator
+# picks the angle and drives the Writer -> Twin loop (Critic adapts each turn).
 PIPELINE = [
-    {"id": "research", "label": "Research", "role": "OSINT retrieval + atomic fact extraction"},
-    {"id": "ranker", "label": "Evidence Ranker", "role": "Deterministic reliability + freshness scoring"},
-    {"id": "targeter", "label": "Targeting Reasoner", "role": "Picks the angle the twin is most open to now"},
-    {"id": "writer", "label": "Writer", "role": "Crafts the message in a pinned persona"},
-    {"id": "critic", "label": "Critic / Planner", "role": "Reads each reply: continue / switch / stop"},
+    {"id": "linkedin", "label": "LinkedIn", "role": "profile + activity (first stop)", "kind": "source"},
+    {"id": "company", "label": "Company site", "role": "revel8.ai / webflow", "kind": "source"},
+    {"id": "web", "label": "Web & press", "role": "podcasts, investors, talks", "kind": "source"},
+    {"id": "research", "label": "Research", "role": "OSINT extraction -> atomic facts"},
+    {"id": "knowledge", "label": "Knowledge Graph", "role": "facts ranked by reliability"},
+    {"id": "orchestrator", "label": "Orchestrator", "role": "picks the angle, drives the loop"},
+    {"id": "writer", "label": "Writer", "role": "crafts the message in a pinned persona"},
     {"id": "twin", "label": "Target Twin", "role": "revel8 Personal Interface (the AI twin)"},
+    {"id": "critic", "label": "Critic", "role": "reads each reply: continue / switch / stop"},
 ]
+
+# Classify a source domain into the kind of page the agent visited.
+def _source_kind(domain: str) -> str:
+    d = domain.lower()
+    if "linkedin" in d:
+        return "linkedin"
+    if "revel8" in d or "webflow" in d:
+        return "company"
+    if "podbean" in d or "soundcloud" in d or "podcast" in d or "podcasts" in d:
+        return "podcast"
+    if "github" in d:
+        return "github"
+    if "capital" in d or "merantix" in d or "crunchbase" in d or "peak" in d:
+        return "investor"
+    if "careers" in d or "jobs" in d:
+        return "jobs"
+    return "web"
+
+
+def _domain(url: str) -> str:
+    net = urlsplit(url).netloc.lower()
+    if net.startswith("www."):
+        net = net[4:]
+    if net.startswith("de.") and "linkedin" in net:
+        net = net[3:]
+    return net
+
+
+# Only these categories go into the published knowledge graph: public,
+# professional facts. 'network'/'other' (personal ties, noise) stay out.
+_KG_CATEGORIES = ("role", "company", "project", "talk")
 
 
 def _load(path: Path) -> dict | None:
@@ -59,23 +96,98 @@ def _load(path: Path) -> dict | None:
         return None
 
 
-def _reliability_index(target: str) -> dict[str, str]:
-    """id -> reliability, read locally from research/<target>.jsonl (never shipped raw)."""
+def _load_research(target: str) -> list[dict]:
+    """All findings for a target, read locally (never shipped raw)."""
     path = RESEARCH / f"{target}.jsonl"
-    index: dict[str, str] = {}
     if not path.exists():
-        return index
+        return []
+    out = []
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line:
             continue
         try:
-            rec = json.loads(line)
+            out.append(json.loads(line))
         except json.JSONDecodeError:
             continue
-        if rec.get("id"):
-            index[rec["id"]] = rec.get("reliability", "unsicher")
-    return index
+    return out
+
+
+def _reliability_index(records: list[dict]) -> dict[str, str]:
+    return {r["id"]: r.get("reliability", "unsicher") for r in records if r.get("id")}
+
+
+def _sources(records: list[dict], max_sources: int = 8) -> list[dict]:
+    """Distinct source domains the agent visited — LinkedIn first, then by volume.
+
+    Domains only (no paths/query), so no per-person URL detail ships.
+    """
+    agg: dict[str, dict] = {}
+    for r in records:
+        for s in (r.get("sources") or []):
+            dom = _domain(s.get("url") or "")
+            if not dom:
+                continue
+            entry = agg.setdefault(dom, {"domain": dom, "kind": _source_kind(dom),
+                                         "channel": s.get("channel", ""), "count": 0})
+            entry["count"] += 1
+    rows = list(agg.values())
+    # LinkedIn (recon entry point) first, then most-cited domains.
+    rows.sort(key=lambda e: (e["kind"] != "linkedin", -e["count"]))
+    return rows[:max_sources]
+
+
+def _knowledge(records: list[dict], hook: dict, max_nodes: int = 9) -> list[dict]:
+    """A rough knowledge graph of key, public professional facts.
+
+    Cited-evidence facts first (what the angle was built on), then one per
+    category for breadth. Only professional categories; labels truncated.
+    """
+    by_id = {r["id"]: r for r in records if r.get("id")}
+    cited = [eid for eid in (hook.get("evidence_ids") or []) if eid in by_id]
+    chosen: list[str] = []
+    seen: set[str] = set()
+
+    def add(rid: str) -> None:
+        if rid in seen or rid not in by_id:
+            return
+        if by_id[rid].get("category") not in _KG_CATEGORIES:
+            return
+        seen.add(rid)
+        chosen.append(rid)
+
+    for rid in cited:
+        add(rid)
+    # breadth: fill with one fact per category, preferring belastbar then shorter facts
+    rest = sorted(
+        (r for r in records if r.get("category") in _KG_CATEGORIES),
+        key=lambda r: (r.get("reliability") != "belastbar", len(r.get("fact", ""))),
+    )
+    for cat in _KG_CATEGORIES:
+        for r in rest:
+            if len(chosen) >= max_nodes:
+                break
+            if r.get("category") == cat:
+                add(r["id"])
+                break
+    for r in rest:  # top up if still short
+        if len(chosen) >= max_nodes:
+            break
+        add(r["id"])
+
+    nodes = []
+    for rid in chosen[:max_nodes]:
+        r = by_id[rid]
+        fact = (r.get("fact") or "").strip()
+        nodes.append({
+            "id": rid,
+            "label": fact if len(fact) <= 52 else fact[:51] + "…",
+            "category": r.get("category", "other"),
+            "reliability": r.get("reliability", "unsicher"),
+            "domain": _domain((r.get("sources") or [{}])[0].get("url", "")),
+            "cited": rid in cited,
+        })
+    return nodes
 
 
 def _targeting_score(hook: dict, rel_index: dict[str, str]) -> dict | None:
@@ -134,7 +246,8 @@ def build() -> dict:
         sweep = _load(RUNS / f"sweep_{tid}.json")
         if not any([contact, call, sweep]):
             continue
-        rel_index = _reliability_index(tid)
+        records = _load_research(tid)
+        rel_index = _reliability_index(records)
         hook = (contact or call or {}).get("hook", {})
         thread = _thread(contact)
         turns = _call_turns(call)
@@ -152,6 +265,9 @@ def build() -> dict:
                     "angle": hook.get("suggested_angle", ""),
                 },
                 "score": _targeting_score(hook, rel_index),
+                "sources_seen": _sources(records),
+                "knowledge": _knowledge(records, hook),
+                "research_count": len(records),
                 "thread": thread,
                 "call": turns,
                 "sweep": (sweep or {}).get("results", []),
