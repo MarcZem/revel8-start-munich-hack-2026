@@ -11,6 +11,7 @@ This prototype implements Issue #2 with deterministic model stubs. It has no rea
 - `agent_core/evaluator.py`: code-level gate for wrong facts, unrouted evidence, rule breaks, prompt injection, real-domain misuse, generic tone, channel fit, and disqualification risk.
 - `agent_core/challenge_api.py`: fake challenge API that records would-send actions in memory and returns deterministic simulated events.
 - `agent_core/orchestrator.py`: end-to-end loop from graph to route to committee to gate to fake event to strategy update.
+- `dashboard/render_replay.py`: creates a standalone jury replay HTML page from a run log.
 
 ## Run
 
