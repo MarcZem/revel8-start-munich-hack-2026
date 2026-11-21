@@ -5,6 +5,8 @@ out/
 dist/
 build/
 coverage/
+__pycache__/
+*.pyc
 
 # Local environment and secrets
 .env

@@ -12,11 +12,23 @@ Pushes to the repository's production branch are handled by the existing Vercel 
 
 ## Getting started
 
-The application framework and package manager have not been selected yet. Once the revel8 API schema and team constraints are reviewed, choose the stack and add framework-specific install, development, build, and test commands here.
+The frontend/application framework has not been selected yet. The first local prototype is a dependency-free Python agent core with deterministic model stubs, so it can run before AMD Developer Cloud model hosting is ready.
 
 1. Clone this repository.
-2. Check the project setup instructions added here before installing dependencies.
-3. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
+2. Run the local agent core:
+
+   ```powershell
+   python .\scripts\run_agent_core.py --persona lena_kraus --out runs\latest_agent_core_run.json
+   ```
+
+3. Run tests:
+
+   ```powershell
+   python -m unittest discover -s tests
+   ```
+
+4. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
+5. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
 
 ## Project notes
 
