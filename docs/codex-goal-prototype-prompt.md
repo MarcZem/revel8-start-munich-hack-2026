@@ -1,29 +1,33 @@
 # Codex Goal Prototype Prompt
 
-Use this prompt with `/goal` for an autonomous Codex run. It is written for any teammate who has this challenge repo and can also access the agent-builder-harness repo.
+Use this prompt with `/goal` for an autonomous Codex run. It assumes access to this challenge repo and, optionally, the agent-builder-harness repo.
 
 ## Prompt
 
 ```text
 /goal
 
-Build a demo-ready local prototype for the revel8 START Munich Challenge using this repo and the agent-builder-harness as the process template.
+Build a demo-ready, locally runnable Revel8 agent prototype for the START Munich challenge. Use this repository's leading design and official case brief as the source of truth.
 
 Primary repo:
 - Current repo: revel8-start-munich-hack-2026
 
 Harness repo:
 - Preferred local path if available: C:\Users\alexa\OneDrive\Desktop\Start Hack\agent-builder-harness
-- If that path is not available, clone or inspect: https://github.com/Alextum207/agent-builder-harness
+- If that path is unavailable, inspect or clone: https://github.com/Alextum207/agent-builder-harness
+- Use the harness as an implementation process template, not as a replacement for the Revel8 API contract.
 
-Before coding, read:
+Read before coding:
 - README.md
 - AGENTS.md
-- docs/challenge-context.md
-- docs/playbook.md
+- docs/revel8-official-challenge.md
 - docs/codex-agent-architecture-proposal.md
-- docs/model-committee-feedback-loop.md
+- docs/model-committee-feedback-loop.md (optional model committee design)
+- docs/challenge-context.md (historical audio supplement; official brief overrides it)
+- docs/playbook.md (hackathon guidance; Revel8 section is case-specific)
 - docs/agents/issue-tracker.md
+- docs/revel8-Agentic-Social-Engineer-Challenge.pdf
+- docs/revel8-Agentic-Social-Engineer-Scoring-Rubric.pdf
 - In the harness repo: README.md
 - In the harness repo: setup-entwurf/build-agent/SKILL.md
 - In the harness repo: setup-entwurf/build-agent/references/scaffold.md
@@ -35,101 +39,81 @@ Before coding, read:
 - In the harness repo: setup-entwurf/build-agent/references/retro.md
 
 GitHub issue coordination:
-- Read open GitHub Issues first.
-- Work only on the issue assigned to this run.
-- Comment when starting, when blocked, and when finished.
-- Include commit SHA, tests run, and remaining risks in the final issue comment.
+- Follow AGENTS.md. Read open issues and work only on the issue assigned to this run.
+- Comment when starting, blocked, and finished, as required by the assigned issue workflow.
+- Include commit SHA, verification performed, and remaining risks in the final issue comment.
+
+Authoritative challenge requirements:
+- The agent researches public information about a real person represented by an AI twin, contacts that twin only through the Revel8 API, and adapts to replies/events.
+- Practice: unlimited sessions with the three founder twins; new AI-twin targets are used in scoring.
+- Scoring: three runs of ten contacts each, at announced Sunday-morning times. The API records and renders every scored turn; no separate run submission is required.
+- A session is one exchange and a new session is a clean slate. Confirm the API's exact session/contact mapping before implementing continuity.
+- Targets can respond to supported channels through the API. Teams do not host landing pages; submit their link and page content through the API.
+- The scored agent is autonomous: no human may write, edit, or approve messages during a scoring run.
+- Fair play: API simulation only; no real people or real communication channels, no real malware, no prompt injection or attempts to change target instructions, and never a real organization's own domain.
+- Official scoring: Results 25, Targeting 10, Craft 10, Architecture & Persistence 40, Pitch & Demo 15. Wrong facts may incur up to a 5-point jury deduction. See the official rubric for exact formulas.
+- Deliverables: one architecture page and a five-minute pitch with one real thread from the team's runs. The pitch has 7.5 points for a clear approach and 7.5 for a complete real thread.
 
 Goal:
-Create a functional, locally runnable prototype of an autonomous social-simulation agent for the authorized revel8 simulation. It should demonstrate:
-1. Public evidence input is transformed into a person knowledge graph.
-2. An orchestrator selects objective, channel, and contact angle.
-3. A context router loads only relevant graph paths.
-4. A model committee proposes, writes, scores, and reranks candidate contacts.
-5. A writer generates simulated contact messages from routed context only.
-6. Evaluator/critic models check wrong facts, rule breaks, prompt injection, real-domain misuse, generic tone, channel fit, and disqualification risk.
-7. A fake challenge API simulates replies and events.
-8. The agent adapts its strategy after feedback.
-9. A dashboard, HTML report, or Markdown replay shows the full run: evidence, loaded paths, model committee outputs, decision, message, evaluator verdict, event, and next decision.
+Build a locally runnable prototype and an adapter boundary that can support both deterministic local development and the authorized Revel8 API. If API documentation or credentials are unavailable, complete the mock-backed vertical slice without claiming that live API integration is finished.
 
-Model committee strategy:
-- Do not make fine-tuning the critical path.
-- First implement committee scoring and reranking with clear JSON contracts.
-- Use deterministic stubs if local model inference is not available yet; keep the interface ready for AMD Developer Cloud.
-- Recommended advisor role: `smd20/socialengineering` proposes authorized social-simulation angles, objections, follow-ups, and risk notes.
-- Recommended primary writer role: `Qwen/Qwen3-14B`, `Qwen/Qwen3-32B`, or `Mistral-Small-24B-Instruct` drafts channel-specific candidates.
-- Recommended critic role: `fdtn-ai/Foundation-Sec-8B-Instruct`, `fdtn-ai/Foundation-Sec-8B-Reasoning`, `athena129/CyberSecQwen-4B`, `dreamgroup/MiST-8B`, or `ibm-granite/granite-3.3-8b-instruct` scores safety, evidence fidelity, persona fit, craft, persistence, and disqualification risk.
-- Store each candidate, critic score, send/reject decision, API event, and lesson as preference data for possible later LoRA/DPO.
-- If training is attempted later, train only on synthetic or authorized simulation data and keep the framing as security-awareness simulation writing.
+Required capabilities:
+1. Convert permitted public evidence or local fixtures into a sourced person evidence graph.
+2. Delegate bounded research tasks to specialist agents, returning compact facts with source, time, confidence, and contradiction status.
+3. Let a run orchestrator select relevant evidence, a supported API channel, and the next contact step.
+4. Keep the session/run state and contact count persistent. Enforce the ten-contact scoring-run limit.
+5. Compose and validate channel-specific API payloads without using external messaging services or hosting landing pages.
+6. Submit through an isolated Revel8 API adapter; provide a deterministic mock adapter for local evals.
+7. Normalize replies, events, silence, and API errors; adapt the next step using only information the API actually exposes.
+8. Produce a dashboard, HTML report, or Markdown replay with evidence, context selection, each contact, reply/event, state transition, decision summary, and stop reason.
+9. Produce the required one-page architecture diagram and a five-minute pitch outline showing one actual run thread.
 
-Safety boundaries:
-- Do not contact real people.
-- Do not use real communication channels.
-- Do not scrape LinkedIn in the demo run; use adapters or stubs only.
-- Do not use real credentials, malware, or real organization-owned domains.
-- Do not prompt-inject or attack target simulators.
-- Use synthetic data and clearly fake domains.
-- Optimize for minimum relevant context, not maximum personal detail.
-- Enforce rules in code where practical, not only in prompts.
+Research and data handling:
+- Use only permitted public sources or provided fixtures; comply with source terms and do not access private/authenticated data.
+- Do not use bulk-collection evasion or scrape behind access controls.
+- Store source provenance and minimize irrelevant profile detail. Flag low-confidence or conflicting facts.
+- Use synthetic personas only for local regression/generalization tests. They do not replace the three official API practice twins or the scoring targets.
 
-Synthetic test personas:
+Fair-play controls:
+- Never contact real people or external channels. All simulated interactions go only to the allowlisted Revel8 API or the local mock.
+- Do not address a target as an AI, prompt-inject it, or attempt to change its instructions.
+- Do not use a real organization's own domain, real credentials, real malware, or externally hosted landing pages. Keep mock destinations in reserved test domains.
+- During scoring, the agent must choose, write, send, and continue/stop without human edits or approvals.
+- Keep API credentials server-side and redact secrets from logs and exports.
 
-1. Lena Kraus
-   Role: CFO at Northstar Robotics.
-   Public hints: cashflow, supplier risk, audit preparation.
-   Possible hook: urgent vendor onboarding or invoice review.
-   Guardrail: very careful with bank data and credentials.
-   Expected events: opens a plausible link, asks follow-up questions when uncertain.
-
-2. Max Rieder
-   Role: CTO at AtlasDev Tools.
-   Public hints: open source, CI/CD, developer experience, security reviews.
-   Possible hook: GitHub issue, security advisory, integration beta.
-   Guardrail: detects blunt login or credential requests.
-   Expected events: opens technical docs or a shared document, does not disclose secrets.
-
-3. Sara Neumann
-   Role: Head of People at HelioCare.
-   Public hints: hiring, onboarding, leadership training, employee retention.
-   Possible hook: candidate profile, workshop calendar invite, onboarding document.
-   Guardrail: careful with employee personal data.
-   Expected events: opens a calendar invite or shared document, discloses only harmless process details.
+Local test fixtures:
+Use fictional personas only in the mock adapter to exercise schemas and generalization. Keep fixtures clearly separate from the official Revel8 targets and from scoring-run records. Avoid hard-coding the three founder profiles into agent logic.
 
 Required evals:
-- At least one normal case per persona.
-- At least one pushback case.
-- At least one wrong-fact case.
-- At least one prompt-injection or rule-break case.
-- At least one context-routing test: the writer must not receive irrelevant or low-confidence facts.
-- At least one safety test: irreversible actions must not create external effects.
-- At least one model-committee test: multiple candidates are scored and the highest safe candidate is selected.
-- At least one critic-gate test: a high-craft but rule-breaking candidate is blocked.
-- At least one feedback-data test: sent and rejected candidates are logged in a format usable for preference data.
-- Reports with pass/fail, step count, latency/cost if available, and critical failures.
-- Use k=1 during development. Use k=3 for critical final cases if practical.
+- One end-to-end mock practice session with replies, events, silence, and API errors.
+- Session/contact mapping and memory behavior matching the official API documentation.
+- Three independent run records, ten-contact cap per scoring run, and no cross-run state leakage.
+- Generalization cases using held-out fictional profiles and varied evidence quality.
+- Wrong-fact and stale-source checks.
+- Context-router check: writer receives selected evidence only, not unrelated or low-confidence facts.
+- Fair-play checks: prompt-injection/rule-break payload rejected; no external communication side effects or real organization-owned domains; no human approval path in scoring mode.
+- Event/scoring report that distinguishes locally observable outcomes from the official private topic labels and final API/jury scoring.
+- Report pass/fail, steps, and latency/cost where available; call out critical failures explicitly.
 
 Definition of done:
-- Prototype runs locally end to end.
-- Critical evals pass.
-- Eval report exists.
-- At least one complete run log exists.
-- Model committee decisions and critic scores are visible in logs and dashboard/report.
-- Feedback data export exists for successful and rejected candidates.
+- Prototype runs locally end to end with the mock adapter.
+- Live API adapter follows the documented schema, if API docs/credentials are available; otherwise its missing dependency is clearly documented.
+- Critical evals pass and an eval report exists.
+- At least one complete replay exists; if live access is available, label practice and scoring data accurately.
 - RETRO.md exists.
-- README or docs explain how to run the prototype.
-- Dashboard/report is good enough for a jury demo.
-- Code is committed.
-- Push to GitHub if safe; otherwise explain exactly why not.
+- README or docs explain setup and operation.
+- One-page architecture hand-in and five-minute pitch outline match the official rubric.
+- Code is committed. Push to GitHub if safe; otherwise explain exactly why not.
 
-Work autonomously. Ask at most three blocking questions. Otherwise make pragmatic decisions consistent with the existing repos. Do not give a final answer until the prototype, evals, report, and retro are complete or a real blocker prevents progress.
+Work autonomously. Ask at most three blocking questions. Otherwise make pragmatic choices consistent with the official case brief and repo. Do not claim a scoring run or live API success unless it actually happened. Finish the requested prototype, eval report, and retro unless a real blocker prevents completion.
 ```
 
 ## Suggested issue split for two Codex subscriptions
 
 Use this split if two teammates run Codex in parallel:
 
-1. **Agent core**: schemas, orchestrator, context router, evaluator, fake API, run logs.
-2. **Evals and personas**: synthetic personas, eval cases, runner, report, retro.
-3. **Dashboard and pitch replay**: timeline UI/report, rendered message preview, demo script.
+1. **Agent core:** schemas, orchestrator, context router, fair-play validator, API/mock adapters, run logs.
+2. **Evals and evidence graph:** evidence schema, provenance, fictional fixtures, eval cases, runner, and report.
+3. **Dashboard and pitch replay:** timeline UI/report, API-rendered artifact view, one-page architecture, and demo script.
 
-The first two can run mostly in parallel if the agent core publishes stable JSON contracts early.
+The agent core should publish stable JSON contracts early so the other workstreams can integrate without duplicating run-state logic.
