@@ -1,0 +1,26 @@
+{
+  "model": "DeepSeek-V4-Flash",
+  "language": "German",
+  "passed": 3,
+  "total": 3,
+  "cases": [
+    {
+      "id": "founder_sales_meetup",
+      "passed": true,
+      "tells": [],
+      "output": "Subject: Frage zu deinem Vortrag über dynamische Frachtpreise\n\nHallo Julius,\n\nich habe letzte Woche deinen Talk auf der Logistik-Konferenz verfolgt – vor allem der Teil zu dynamischen Frachtpreisen in der Praxis hat mich sehr angesprochen. Wir arbeiten bei unserem Startup gerade an ähnlichen Ansätzen, aber mit Fokus auf die letzte Meile.\n\nKurz zu mir: Ich bin Mitgründer von einem kleinen Team, das sich auf Echtzeit-Disposition spezialisiert. Dein Punkt zur Preissensitivität bei Stammkunden hat mich zum Nachdenken gebracht – da sehe ich noch viel Potenzial, aber auch ein paar offene Fragen.\n\nHättest du in den nächsten zwei Wochen 15 Minuten Zeit für einen kurzen Austausch? Ich würde dir gerne zwei, drei konkrete Szenarien schildern, wo ich mir deine Einschätzung wünschen würde. Ein kurzer Call reicht mir völlig.\n\nViele Grüße  \nMax"
+    },
+    {
+      "id": "cto_open_source",
+      "passed": true,
+      "tells": [],
+      "output": "Subject: Design doc für das Meetup – kurzes Feedback?\n\nHallo Robert,\n\nich habe gestern deinen Merge im Vector-Search-Repo gesehen – das mit den neuen Metriken sieht wirklich gut aus. Da du nächsten Monat beim Meetup sprichst, wollte ich fragen, ob du kurz einen Blick auf einen Entwurf zu einem verwandten Thema werfen kannst. Ich habe ein Design-Doc zu effizienteren Approximate Nearest Neighbor-Methoden erstellt, und da dein Ansatz da gut reinpasst, wäre dein Input wertvoll.\n\nHier der Link: [shared-doc-link]\n\nKein Stress, wenn du gerade wenig Zeit hast – ich freue mich über jedes Feedback, das du geben kannst. Wenn du magst, können wir auch kurz darüber sprechen, bevor das Meetup ansteht.\n\nViele Grüße  \nLukas"
+    },
+    {
+      "id": "product_hiring",
+      "passed": true,
+      "tells": [],
+      "output": "Subject: PM-Kandidat für euer Team\n\nHallo Tom,\n\nich habe gesehen, dass ihr einen ersten Product Manager sucht – herzlichen Glückwunsch zu diesem Schritt. Ich kenne da jemanden, der sehr gut zu eurem Produktfokus passen würde (er hat vorher bei einem ähnlichen B2B-SaaS-Unternehmen gearbeitet, zuletzt als Senior PM).\n\nKurz zu mir: Ich bin selbst im Produktbereich unterwegs und habe mit ihm schon zusammengearbeitet – er ist pragmatisch, nutzerzentriert und bringt genau die Mischung aus Struktur und Hands-on-Mentalität mit, die ihr als kleines Team braucht.\n\nWenn du Interesse hast, stelle ich euch gerne kurz per Intro zusammen – einfach kurz Bescheid geben, dann sende ich dir seinen Lebenslauf und wir klären einen Termin für ein 15-Minuten-Gespräch.\n\nBeste Grüße  \n[Name]"
+    }
+  ]
+}

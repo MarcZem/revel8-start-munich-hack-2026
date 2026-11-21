@@ -36,8 +36,14 @@ The frontend/application framework has not been selected yet. The first local pr
    Open `dashboard/replay.html` in a browser. See [the replay guide](docs/dashboard-replay.md) for the pitch-mode walkthrough.
 5. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
 6. For the official, opt-in Revel8 API client and read-only connection check, see
-   [docs/revel8-api.md](docs/revel8-api.md). Keep local credentials in an untracked
-   `.env.local` file or environment variable. Never commit secrets.
+   [docs/revel8-api.md](docs/revel8-api.md).
+7. For the AMD Developer Cloud / Token Factory model endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
+
+   ```sh
+   python3 scripts/check_vllm_endpoint.py --env-file .env.local
+   ```
+
+8. Keep local credentials in an untracked `.env.local` file or environment variable. Never commit secrets.
 
 ## Project notes
 

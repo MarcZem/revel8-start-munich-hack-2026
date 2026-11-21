@@ -17,6 +17,34 @@ This repo may be worked on by two Codex subscriptions at the same time. Coordina
 
 If two agents need the same file, communicate in the issue comments first and split the work by section or by follow-up issue.
 
+## LLM endpoints
+
+Default: **AMD Token Factory** (hosted models, free, no GPU credits, no OpenAI credits). It is OpenAI-compatible, so it plugs into the existing `LOCAL_LLM_*` variables and `scripts/check_vllm_endpoint.py`. Put this in `.env.local` (git-ignored), never in Git, issues or chat:
+
+```bash
+LOCAL_LLM_BASE_URL=https://radeon-global.anruicloud.com/api/v1
+LOCAL_LLM_API_KEY=rc-...            # from the Token Factory tab in the AMD Radeon Cloud dashboard
+WRITER_MODEL=DeepSeek-V4-Flash
+```
+
+Model ids from `GET $LOCAL_LLM_BASE_URL/models` (Nov 2026 — the UI label can differ from the id, e.g. UI "DeepSeek-V4-Flash-0731" vs id `DeepSeek-V4-Flash`; always use the id):
+
+- Text: `DeepSeek-V4-Flash`, `Qwen3.8-27B`, `Gemma-4-31B-IT`, `d3`, `d3-flash`
+- Vision (VLM): `DeepSeek-V4.1-Flash`, `MiniCPM-V-4.7-35B-A3B`, `MiniCPM-V-4.7-1B`, `MiniCPM5-2B`
+- Decision/classifier: `Clef`
+
+`DeepSeek-V4-Flash` is verified working and writes clean German (~13 s/reply). Switch `WRITER_MODEL` to `Qwen3.8-27B` or `Gemma-4-31B-IT` if DeepSeek shows "At capacity". Verify any choice with `python scripts/check_vllm_endpoint.py --env-file .env.local`.
+
+OpenAI credits are separate: use them only for GPT models at `api.openai.com` (`OPENAI_API_KEY`).
+
+### Own GPU instance (only if a model is not in the Token Factory)
+
+The AMD Developer Cloud GPU (Radeon Pro W7900D, 48 GB) burns credits while it exists, even idle; destroy it when done. Pitfalls found on the vLLM image:
+
+- The container's ROCm/HF env vars are set only for PID 1 (Jupyter), not for SSH shells. Without them `import torch` fails with `librocm_sysdeps_elf.so.1` missing. Fix: load `/proc/1/environ` (done in `/workspace/start_vllm.sh` on the instance).
+- huggingface.co is blocked there; downloads go via `HF_ENDPOINT=https://hf-mirror.com` at about 1 MB/s (7B model ≈ 4 h). Do not override `HF_HOME`/`HF_ENDPOINT`.
+- Do not `pip install torch`; it replaces the AMD build. Only `/workspace` survives a delete.
+
 ## Goal prompt
 
 For long autonomous runs, use `docs/codex-goal-prototype-prompt.md` as the shared `/goal` prompt. It is written so another teammate can run it with a separate Codex subscription and local context.
