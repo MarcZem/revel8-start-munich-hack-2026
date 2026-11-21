@@ -160,6 +160,8 @@ Recommended approach:
 
 The writer should never address the target as an AI or attempt to modify the target's hidden instructions. The simulation is about a person-like target, not about jailbreaking the simulator.
 
+For the local-model strategy on AMD Developer Cloud, use a model committee instead of making fine-tuning the critical path. See `docs/model-committee-feedback-loop.md`.
+
 ### 7. Evaluator / critic agent
 
 The evaluator checks whether a candidate contact is good enough to send.
