@@ -168,15 +168,7 @@ Drei Minuten sind kurz. Nehmt diese Reihenfolge und streicht den Rest.
 - Ein aufgezeichnetes Backup der Demo bereithalten. Das WLAN in einem vollen Audimax kann ausfallen.
 - Die Sprache des Partners benutzen (Lio: Einkäufer, Freigaben, Spend; 5U AI: Angebote, Buchungen, Spediteure; revel8: Human Risk, CISO).
 
-## 8. Dein Vorteil
-
-Du bringst Value Engineering und Consulting mit, also genau den Teil der Bewertung, den viele technische Teams vernachlässigen.
-
-- Übernimm die Business-Case-Folie: Ausgangslage, Verbesserung, Euro. Das ist genau das Kriterium unternehmerisches Potenzial.
-- Die drei Gründer von revel8 sind Celonis-Alumni. Das ist ein natürlicher Einstieg ins Partnergespräch und in die Recruiting Hour.
-- Führ in den ersten zwei Stunden die Nutzergespräche mit den Partnern und halte das Team auf einem Workflow.
-
-## 9. Checkliste
+## 8. Checkliste
 
 - Ein Nutzer, ein Workflow, eine Zahl, auf einem Post-it, das alle sehen.
 - Die Demo läuft Ende zu Ende mit realistischen Daten, ein Backup-Video existiert.
@@ -184,9 +176,9 @@ Du bringst Value Engineering und Consulting mit, also genau den Teil der Bewertu
 - Jede gezeigte Metrik lässt sich im Q&A verteidigen.
 - Abgabe am Sonntag vor 12:30.
 
-## 10. Vertiefung: die revel8-Challenge
+## 9. Vertiefung: die revel8-Challenge
 
-Das ist ein Plan, den du anpasst, sobald das Briefing um 11:00 da ist. Wenn die Aufgabe anders ist, behalt das Prinzip: ein Mitarbeiter, ein Angriff, ein Lernmoment, eine Zahl.
+Das ist ein Plan, den ihr anpasst, sobald das Briefing um 11:00 da ist. Wenn die Aufgabe anders ist, behaltet das Prinzip: ein Mitarbeiter, ein Angriff, ein Lernmoment, eine Zahl.
 
 ### Technik oder Präsentation?
 
@@ -199,7 +191,7 @@ Das ist ein Plan, den du anpasst, sobald das Briefing um 11:00 da ist. Wenn die 
 
 ### Was ihr baut: „Neue Angriffswelle rein, fertiges Training raus"
 
-Das Problem: Wenn eine Masche wie die Vishing-Anrufe von ShinyHunters auftaucht, dauert es oft Wochen, bis Mitarbeitende dazu trainiert werden. Bis dahin haben die Angreifer zugeschlagen. Das Tool schafft es in Minuten. Das ist zugleich automatisierte KI-Arbeit bei revel8 im Kleinen, also genau die Rolle, auf die du dich beworben hast.
+Das Problem: Wenn eine Masche wie die Vishing-Anrufe von ShinyHunters auftaucht, dauert es oft Wochen, bis Mitarbeitende dazu trainiert werden. Bis dahin haben die Angreifer zugeschlagen. Das Tool schafft es in Minuten.
 
 - **Input:** einen Bedrohungsbericht oder News-Artikel hineinkopieren, z. B. zu den Helpdesk-Anrufen bei M&S.
 - **KI-Analyse:** Ein LLM zieht die Masche heraus (Kanal, Vorwand, Zielrolle, Warnsignale).
@@ -214,7 +206,7 @@ Das Problem: Wenn eine Masche wie die Vishing-Anrufe von ShinyHunters auftaucht,
 ### So geht ihr vor
 
 - **13:00 bis 14:00:** mit revel8 sprechen, bevor ihr Code schreibt. Fragen: Auf welchen Angriff sind eure Kunden gerade am wenigsten vorbereitet? Welches Feature hättet ihr gern, habt es aber noch nicht gebaut? Woran messt ihr, dass ein Training wirkt?
-- **Aufteilung:** eine Person baut die LLM-Pipeline, eine die Stimme, eine das Frontend. Du machst Problem, Nutzen, Pitch und die Gespräche mit revel8.
+- **Aufteilung:** eine Person baut die LLM-Pipeline, eine die Stimme, eine das Frontend, eine macht Problem, Nutzen, Pitch und die Gespräche mit revel8.
 - **Feature-Freeze gegen 04:00.** Danach nur noch den Demo-Ablauf polieren und proben.
 
 ### Der 3-Minuten-Pitch für revel8
@@ -233,28 +225,26 @@ Das Problem: Wenn eine Masche wie die Vishing-Anrufe von ShinyHunters auftaucht,
 - „Wie verhindert ihr Missbrauch als echtes Angriffstool?" Nur Trainingsmodus, nur mit Einwilligung, nur für die eigene Firma.
 - „Wie messt ihr den Erfolg?" Über die Wiederholungsquote: Fällt jemand beim zweiten Mal noch herein?
 
-### Für das 5-Minuten-Gespräch mit revel8 (AI Automation Engineer)
+### Fakten für Gespräche mit revel8
 
 - **M&S (April 2025):** Angreifer gaben sich beim IT-Helpdesk als Mitarbeitende aus. Schaden mehrere hundert Millionen. Eine eingeübte Rückruf-Regel bei Passwort- und MFA-Resets hätte es gestoppt. Genau das sind revel8s Vishing-Simulationen für die Rollen, die angegriffen werden.
 - **CarGurus (Feb. 2026):** 12,4 Mio. Datensätze geleakt. ShinyHunters behaupten, ein Anruf habe ihnen Zugang zum SSO verschafft. CarGurus hat die Methode nicht bestätigt, also „mutmaßlich über Vishing" sagen. Niemand fragt legitim am Telefon nach einem SSO- oder MFA-Code.
-- **EchoLeak (Microsoft 365 Copilot, Juni 2025)** war eine von Forschern gefundene und gepatchte Lücke, kein bestätigter Angriff. „Sicherheitslücke" sagen, nicht „Hack". Passt zur Agenten-Sicherheit in deiner Rolle, nicht zu revel8s Mitarbeiter-Training.
-- **Satz zum Mitnehmen:** „Bei M&S und CarGurus ist keine Firewall gefallen. Es reichte ein Anruf bei einer Person, die so eine Situation nie geübt hatte. Als AI Automation Engineer würde mich interessieren, wie ihr neue Angriffsmuster wie die ShinyHunters-Welle automatisiert in Simulationen übersetzt."
-- Sobald der Kern läuft: vom Hackathon-Projekt erzählen. Es ist die Rolle im Kleinen.
+- **EchoLeak (Microsoft 365 Copilot, Juni 2025)** war eine von Forschern gefundene und gepatchte Lücke, kein bestätigter Angriff. „Sicherheitslücke" sagen, nicht „Hack". Betrifft Agenten-Sicherheit, nicht revel8s Mitarbeiter-Training.
+- **Satz zum Mitnehmen:** „Bei M&S und CarGurus ist keine Firewall gefallen. Es reichte ein Anruf bei einer Person, die so eine Situation nie geübt hatte."
 
-## 11. Opener für die Partnergespräche
+## 10. Opener für die Partnergespräche
 
 Steig mit etwas Konkretem über sie ein und stell dann eine echte Frage. Unter 20 Sekunden bleiben.
 
 ### Lio
 
 - **Geschichte:** „2023 hat hier NEGOTIA aus eurer Challenge gewonnen, mit einem Verhandlungsagenten. Zweieinhalb Jahre später macht Lio ziemlich genau das. War das damals schon auf eurer Roadmap?"
-- **Deine Thesis:** „Ich schreibe meine Masterarbeit darüber, wie man die Output-Qualität von KI-Agenten im B2B bewertet. Wie entscheidet ihr, wann ein Agent allein handeln darf und wann ein Einkäufer freigeben muss?"
-- **Prozessblick:** „Bei Celonis arbeite ich im Value Engineering, da startet jeder Business Case mit einer Baseline. Wie weist ihr einem Kunden wie Munich Re nach dem Rollout die Einsparungen nach?"
+- **Autonomie:** „Wie entscheidet ihr, wann ein Agent allein handeln darf und wann ein Einkäufer freigeben muss?"
+- **Prozessblick:** „Wie weist ihr einem Kunden wie Munich Re nach dem Rollout die Einsparungen nach?"
 - **Finanzierung:** „Glückwunsch zur a16z-Runde im März. Was ändert sich durch die US-Expansion am meisten am Produkt?"
 
 ### revel8
 
-- „Ihr wart alle bei Celonis, ich bin dort gerade im Value Engineering. Was habt ihr von Celonis mitgenommen, das ihr bei revel8 nutzt?"
 - „M&S hat durch einen einzigen Helpdesk-Anruf Hunderte Millionen verloren. Wie schnell könnt ihr so eine neue Welle heute in eine Simulation übersetzen?"
 
 ## Quellen
