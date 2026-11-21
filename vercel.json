@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "functions": {
+    "api/live_run.py": {
+      "maxDuration": 120
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/dashboard/live.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    }
+  ]
+}

@@ -4,23 +4,63 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Callable, Protocol
 
 from agent_core.challenge_api import FakeChallengeAPI
-from agent_core.fixtures import synthetic_graph
-from agent_core.model_committee import default_stub_committee
-from agent_core.schema import Objective, RunLog, StrategyUpdate, to_jsonable
+from agent_core.fixtures import official_practice_graph, synthetic_graph
+from agent_core.model_committee import ModelCommittee, default_stub_committee
+from agent_core.schema import ApiEvent, MessageCandidate, NodeType, Objective, RunLog, StrategyUpdate, to_jsonable
+
+
+class ChallengeAPI(Protocol):
+    def send(self, persona_id: str, candidate: MessageCandidate) -> ApiEvent: ...
 
 
 class Orchestrator:
-    def __init__(self, api: FakeChallengeAPI | None = None) -> None:
+    def __init__(
+        self,
+        api: ChallengeAPI | None = None,
+        committee: ModelCommittee | None = None,
+    ) -> None:
         self.api = api or FakeChallengeAPI()
-        self.committee = default_stub_committee()
+        # Inject any AdvisorModel/WriterModel/CriticModel implementation here.
+        # Keeping the deterministic committee as default lets local runs work
+        # before the AMD-hosted provider endpoint is configured.
+        self.committee = committee or default_stub_committee()
 
     def run(self, persona_id: str = "lena_kraus", objective: Objective = Objective.ACTION) -> RunLog:
-        graph = synthetic_graph(persona_id)
-        context, decision = self.committee.run(graph, objective)
+        return self._run(persona_id, objective)
+
+    def run_live(
+        self,
+        persona_id: str,
+        target: dict,
+        objective: Objective = Objective.ACTION,
+        on_event: Callable[[str, str], None] | None = None,
+        graph=None,
+    ) -> RunLog:
+        """Run the same committee over a current official practice target profile."""
+        return self._run(persona_id, objective, graph=graph or official_practice_graph(target), on_event=on_event)
+
+    def _run(
+        self,
+        persona_id: str,
+        objective: Objective,
+        *,
+        graph=None,
+        on_event: Callable[[str, str], None] | None = None,
+    ) -> RunLog:
+        graph = graph or synthetic_graph(persona_id)
+        if on_event:
+            person = next((node.label for node in graph.nodes.values() if node.type == NodeType.PERSON), persona_id)
+            on_event("research", f"Loaded Revel8 practice profile for {person} · {len(graph.edges)} evidence edges")
+        context, decision = self.committee.run(graph, objective, on_event=on_event)
         winner = _candidate_by_id(decision.winner_candidate_id, decision.candidates)
+        if on_event:
+            on_event("gateway", "Safety gate passed · submitting one practice touch")
         event = self.api.send(persona_id, winner) if winner else None
+        if on_event and event:
+            on_event("persona", f"Revel8 returned {event.event_type}")
         wrong_fact_penalty = _wrong_fact_penalty(decision)
         event_signal = event.signal_score if event else -1
         update = StrategyUpdate(
@@ -31,12 +71,18 @@ class Orchestrator:
             updated_score=1 + event_signal - wrong_fact_penalty,
             lesson=_lesson(context.angle.id, event_signal, wrong_fact_penalty),
         )
+        if on_event:
+            on_event("memory", "Recorded the normalized run outcome for the next turn")
         timeline = (
             {"step": 1, "type": "graph_loaded", "summary": f"{len(graph.nodes)} nodes, {len(graph.edges)} edges"},
             {"step": 2, "type": "context_routed", "loaded_paths": [path.id for path in context.loaded_paths]},
             {"step": 3, "type": "committee_scored", "winner_candidate_id": decision.winner_candidate_id},
             {"step": 4, "type": "evaluator_gate", "verdicts": [verdict.decision for verdict in decision.gate_verdicts]},
-            {"step": 5, "type": "fake_api_event", "event_type": event.event_type if event else "not_sent"},
+            {
+                "step": 5,
+                "type": "practice_api_event" if event and not event.id.startswith("event_") else "fake_api_event",
+                "event_type": event.event_type if event else "not_sent",
+            },
             {"step": 6, "type": "strategy_update", "updated_score": update.updated_score},
         )
         return RunLog(

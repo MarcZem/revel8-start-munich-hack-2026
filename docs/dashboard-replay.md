@@ -22,8 +22,9 @@ Open `dashboard/replay.html` in a browser. The committed replay is generated fro
 - Every candidate's evaluator decision and blocking reasons. Bodies of blocked candidates are omitted.
 - The local fake API's reply/event, followed by the stored next-step lesson.
 - A **Start pitch replay** control that advances through the six demo sections.
+- An agent handoff map synchronized with the pitch replay. Moving packets follow the recorded stages from synthetic evidence through model stubs and the safety gate to the fake API/persona response. The dashed edge marks feedback saved for a possible next turn; the one-turn stub run does not execute that turn.
 
-All run-log text is HTML-escaped before rendering. The HTML and its styling/scripts are self-contained; no hosted assets, external channels, or target API credentials are used.
+All run-log text is HTML-escaped before rendering. The HTML and its styling/scripts are self-contained; no hosted assets, external channels, or target API credentials are used. The moving graph is a replay of stored synthetic events, not a live stream of concurrently running agents or an official Revel8 session.
 
 ## Verification
 

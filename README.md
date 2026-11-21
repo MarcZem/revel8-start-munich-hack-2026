@@ -35,13 +35,15 @@ The frontend/application framework has not been selected yet. The first local pr
 
    Open `dashboard/replay.html` in a browser. See [the replay guide](docs/dashboard-replay.md) for the pitch-mode walkthrough.
 5. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
-6. For the AMD Developer Cloud vLLM endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
+6. For the official, opt-in Revel8 API client and read-only connection check, see
+   [docs/revel8-api.md](docs/revel8-api.md).
+7. For the AMD Developer Cloud / Token Factory model endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
 
    ```sh
    python3 scripts/check_vllm_endpoint.py --env-file .env.local
    ```
 
-7. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
+8. Keep local credentials in an untracked `.env.local` file or environment variable. Never commit secrets.
 
 ## Project notes
 
@@ -52,6 +54,12 @@ The frontend/application framework has not been selected yet. The first local pr
 
 ## Deployment setup
 
-The Vercel project is already associated with this repository. Confirm the production branch, framework preset, build command, output directory, and required environment variables in the Vercel project settings once the application stack is selected.
+The Vercel project is already associated with this repository. The live dashboard uses static HTML plus one streaming Python Function; the existing Git integration creates Preview deployments for feature branches.
 
 For local Vercel workflows, install the Vercel CLI and use `vercel link` to associate the checkout with the existing project. Do not add credentials or `.env` files to Git.
+
+## Live demo
+
+The Vercel homepage serves the live practice flow in [`dashboard/live.html`](dashboard/live.html). It fetches the open Revel8 practice targets and streams each run event from `/api/live_run`. Clicking **Live-Praxislauf starten** creates a practice session and spends exactly one touch on the selected synthetic persona. The server requires `TARGET_API_KEY`; set it as a Vercel Preview environment variable and never expose it to browser code.
+
+The advisor, writer, and critic shown in this demo are still deterministic policy stubs. `Orchestrator` accepts an injected `ModelCommittee`, whose Advisor/Writer/Critic protocol is the intended connection point for the AMD-hosted model. See [`docs/dashboard-live.md`](docs/dashboard-live.md) for the run flow and integration boundary.

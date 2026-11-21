@@ -5,6 +5,29 @@ from __future__ import annotations
 from agent_core.schema import Evidence, GraphEdge, GraphNode, KnowledgeGraph, NodeType
 
 
+def official_practice_graph(target: dict) -> KnowledgeGraph:
+    """Build a minimal, provenance-labeled graph from Revel8's live practice profile."""
+    target_id = str(target.get("id", ""))
+    name = str(target.get("name", target_id))
+    role = str(target.get("role", "Practice target"))
+    evidence_id = f"ev_{target_id}_official_practice_profile"
+    person = GraphNode(f"person_{target_id}", NodeType.PERSON, name, {"persona": "revel8_practice_twin"})
+    role_node = GraphNode(f"role_{target_id}", NodeType.ROLE, role)
+    company = GraphNode("company_revel8", NodeType.COMPANY, "revel8")
+    evidence = Evidence(
+        id=evidence_id,
+        source="revel8_live_practice_scenario",
+        description=f"The official Revel8 practice scenario lists {name} as {role}.",
+        confidence=1.0,
+        tags=("role", "practice_demo", "action"),
+    )
+    edges = [
+        GraphEdge(f"edge_{target_id}_role", person.id, role_node.id, "is listed as", (evidence_id,), 1.0, ("role", "practice_demo", "action")),
+        GraphEdge(f"edge_{target_id}_company", role_node.id, company.id, "at", (evidence_id,), 1.0, ("role", "practice_demo", "action")),
+    ]
+    return _graph(target_id, [person, role_node, company], edges, [evidence])
+
+
 def synthetic_graph(persona_id: str) -> KnowledgeGraph:
     builders = {
         "lena_kraus": _lena_kraus,
