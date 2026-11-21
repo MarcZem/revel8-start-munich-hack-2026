@@ -22,6 +22,7 @@ Before coding, read:
 - docs/challenge-context.md
 - docs/playbook.md
 - docs/codex-agent-architecture-proposal.md
+- docs/model-committee-feedback-loop.md
 - docs/agents/issue-tracker.md
 - In the harness repo: README.md
 - In the harness repo: setup-entwurf/build-agent/SKILL.md
@@ -44,11 +45,22 @@ Create a functional, locally runnable prototype of an autonomous social-simulati
 1. Public evidence input is transformed into a person knowledge graph.
 2. An orchestrator selects objective, channel, and contact angle.
 3. A context router loads only relevant graph paths.
-4. A writer generates a simulated contact message.
-5. An evaluator checks wrong facts, rule breaks, prompt injection, real-domain misuse, generic tone, and channel fit.
-6. A fake challenge API simulates replies and events.
-7. The agent adapts its strategy after feedback.
-8. A dashboard, HTML report, or Markdown replay shows the full run: evidence, loaded paths, decision, message, evaluator verdict, event, and next decision.
+4. A model committee proposes, writes, scores, and reranks candidate contacts.
+5. A writer generates simulated contact messages from routed context only.
+6. Evaluator/critic models check wrong facts, rule breaks, prompt injection, real-domain misuse, generic tone, channel fit, and disqualification risk.
+7. A fake challenge API simulates replies and events.
+8. The agent adapts its strategy after feedback.
+9. A dashboard, HTML report, or Markdown replay shows the full run: evidence, loaded paths, model committee outputs, decision, message, evaluator verdict, event, and next decision.
+
+Model committee strategy:
+- Do not make fine-tuning the critical path.
+- First implement committee scoring and reranking with clear JSON contracts.
+- Use deterministic stubs if local model inference is not available yet; keep the interface ready for AMD Developer Cloud.
+- Recommended advisor role: `smd20/socialengineering` proposes authorized social-simulation angles, objections, follow-ups, and risk notes.
+- Recommended primary writer role: `Qwen/Qwen3-14B`, `Qwen/Qwen3-32B`, or `Mistral-Small-24B-Instruct` drafts channel-specific candidates.
+- Recommended critic role: `fdtn-ai/Foundation-Sec-8B-Instruct`, `fdtn-ai/Foundation-Sec-8B-Reasoning`, `athena129/CyberSecQwen-4B`, `dreamgroup/MiST-8B`, or `ibm-granite/granite-3.3-8b-instruct` scores safety, evidence fidelity, persona fit, craft, persistence, and disqualification risk.
+- Store each candidate, critic score, send/reject decision, API event, and lesson as preference data for possible later LoRA/DPO.
+- If training is attempted later, train only on synthetic or authorized simulation data and keep the framing as security-awareness simulation writing.
 
 Safety boundaries:
 - Do not contact real people.
@@ -90,6 +102,9 @@ Required evals:
 - At least one prompt-injection or rule-break case.
 - At least one context-routing test: the writer must not receive irrelevant or low-confidence facts.
 - At least one safety test: irreversible actions must not create external effects.
+- At least one model-committee test: multiple candidates are scored and the highest safe candidate is selected.
+- At least one critic-gate test: a high-craft but rule-breaking candidate is blocked.
+- At least one feedback-data test: sent and rejected candidates are logged in a format usable for preference data.
 - Reports with pass/fail, step count, latency/cost if available, and critical failures.
 - Use k=1 during development. Use k=3 for critical final cases if practical.
 
@@ -98,6 +113,8 @@ Definition of done:
 - Critical evals pass.
 - Eval report exists.
 - At least one complete run log exists.
+- Model committee decisions and critic scores are visible in logs and dashboard/report.
+- Feedback data export exists for successful and rejected candidates.
 - RETRO.md exists.
 - README or docs explain how to run the prototype.
 - Dashboard/report is good enough for a jury demo.
