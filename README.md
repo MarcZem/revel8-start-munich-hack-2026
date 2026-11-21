@@ -17,18 +17,25 @@ The frontend/application framework has not been selected yet. The first local pr
 1. Clone this repository.
 2. Run the local agent core:
 
-   ```powershell
-   python .\scripts\run_agent_core.py --persona lena_kraus --out runs\latest_agent_core_run.json
+   ```sh
+   python3 scripts/run_agent_core.py --persona lena_kraus --out runs/latest_agent_core_run.json
    ```
 
 3. Run tests:
 
-   ```powershell
-   python -m unittest discover -s tests
+   ```sh
+   python3 -m unittest discover -s tests
    ```
 
-4. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
-5. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
+4. Generate and open the local jury replay:
+
+   ```sh
+   python3 -m dashboard.render_replay --input runs/latest_agent_core_run.json --output dashboard/replay.html
+   ```
+
+   Open `dashboard/replay.html` in a browser. See [the replay guide](docs/dashboard-replay.md) for the pitch-mode walkthrough.
+5. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
+6. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
 
 ## Project notes
 
