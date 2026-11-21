@@ -12,7 +12,7 @@ Pushes to the repository's production branch are handled by the existing Vercel 
 
 ## Getting started
 
-The application framework and package manager have not been established yet. Once the challenge direction and preferred stack are confirmed, add the framework-specific install, development, build, and test commands here.
+The application framework and package manager have not been selected yet. Once the revel8 API schema and team constraints are reviewed, choose the stack and add framework-specific install, development, build, and test commands here.
 
 1. Clone this repository.
 2. Check the project setup instructions added here before installing dependencies.
@@ -23,7 +23,7 @@ The application framework and package manager have not been established yet. Onc
 - Hackathon: START Munich 2026
 - Project: revel8
 - Challenge brief: [official revel8 case details](docs/revel8-official-challenge.md)
-- Team, target users, and product requirements: pending
+- Team and implementation details: pending; see the official challenge brief and current architecture proposal above
 
 ## Deployment setup
 

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Context for coding agents working in this repo. Start with `README.md`, `docs/challenge-context.md` (challenge brief), `docs/playbook.md` (hackathon playbook, German), and `docs/codex-agent-architecture-proposal.md`.
+Context for coding agents working in this repo. Start with `README.md`, `docs/revel8-official-challenge.md` (authoritative case brief and rubric), `docs/codex-agent-architecture-proposal.md` (current leading architecture), `docs/challenge-context.md` (audio-derived supplementary context) and `docs/playbook.md` (hackathon playbook, German).
 
 ## Parallel Codex workflow
 

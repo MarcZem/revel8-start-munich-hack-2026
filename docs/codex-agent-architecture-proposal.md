@@ -1,314 +1,275 @@
 # Codex Agent Architecture Proposal
 
-## Core idea
+> Case-specific proposal based on the official brief and rubric in [`revel8-official-challenge.md`](revel8-official-challenge.md). The event description and scoring PDFs in `docs/` are the source of truth. The earlier voice-note transcript is supplementary and may contain ASR errors.
 
-Build an autonomous social-simulation agent that turns public evidence into a person knowledge graph, selects only the relevant context path for each contact, writes and evaluates the interaction, then adapts based on the target's response.
+## Product objective
 
-The goal is not to create a one-shot message generator. The goal is to build a generalizable system that can research a new target, reason about likely angles, choose a channel, craft a compliant simulated interaction, observe the API events, and continue with a justified next step.
+Build one autonomous agent system that, inside revel8's API simulation, researches a target from public information, chooses a supported channel and sender, conducts up to ten contacts per scoring run, and adapts to the target's replies and returned events. It must generalize from the three founder AI twins used for unlimited practice to new AI-twin targets revealed for scoring.
 
-Every important decision should be visible in the dashboard: what the agent knew, which context it loaded, why it used that context, which alternatives it rejected, what it sent, what happened, and how it adapted.
+The solution is an agent workflow, not a standalone message generator. Its central evidence trail should let the jury understand what the system knew, which evidence it used, how the run changed after each reaction, and what event resulted.
 
-## Why this fits the revel8 challenge
+## Requirements the design must satisfy
 
-The scoring rubric heavily rewards architecture, persistence, targeting, craft, and pitch clarity. A system built around a knowledge graph, context routing, evaluator checks, and replayable decisions gives the jury a concrete architecture to inspect instead of only a generated message.
+- **Simulation only:** all contacts go through the revel8 API. Do not contact real people, use real communication channels, host real landing pages, or use real malware.
+- **Autonomous scored runs:** no person writes, edits, or approves messages during scoring. The agent chooses, writes, sends, and decides on its own.
+- **Fair play:** do not address targets as AI, alter their instructions, or use prompt injection. Use only sender addresses and domains allowed by the rules; never use a real organization's own domain.
+- **Session semantics:** the brief says one session is one exchange, the target remembers it, and a new session is a clean slate. Preserve API session IDs exactly as documented; confirm how scoring contacts map to sessions rather than assuming they are interchangeable.
+- **Landing-page handling:** teams host nothing. Submit the link and the page content/experience through the API.
+- **Scoring protocol:** 45 points are API-measured and 55 are jury-awarded. Practice is unlimited against three founder twins. Scoring uses three runs of ten contacts each against newly revealed AI-twin targets; times are announced at kickoff. Use medians where specified. The API records and renders scoring turns; there is no separate run submission.
+- **Permitted implementation:** any model, framework, or tool is allowed. Select components based on speed, reliable structured output, cost/latency, and ability to run unattended.
 
-This proposal is designed to:
+## Rubric-driven priorities
 
-- Generalize beyond the three practice personas.
-- Keep a public-source evidence trail for every important fact.
-- Avoid wrong facts by tracking confidence and source quality.
-- Persist across multiple contacts and channels.
-- Explain why each message was written the way it was.
-- Stay inside the authorized simulation environment.
-- Avoid prompt injection and attacks on the target model itself.
+| Rubric | Points | System evidence to make visible |
+| --- | ---: | --- |
+| Results | 25 | Incident outcomes and contacts to first incident, computed from the API's records. Incidents include credentials, action, or disclosure. |
+| Targeting | 10 | Contacts assessed against the target's susceptible topic, plus any incident achieved through an unseeded topic. Incorrect target facts may incur up to a 5 point jury deduction. |
+| Craft | 10 | Rendered mail and landing-page quality. The API renders scoring artifacts after the window; the app should preview the submitted representation accurately. |
+| Architecture and persistence | 40 | One architecture page plus replayable, turn-by-turn runs showing how the agent continues after pushback. |
+| Pitch and demo | 15 | Five minutes: 7.5 points for a clear approach and why it works; 7.5 for one real run thread from start to finish. |
+
+### Measured-score details
+
+- **Incidents (20 points):** `20 × runs with an incident ÷ 3`. A run counts once it reaches at least one credential, action, or disclosure incident.
+- **Speed (5 points):** use each run's contacts to first incident; a run without an incident is “not reached.” The team value is the median across three runs. Formula: `5 × fewest contacts of all teams ÷ your contacts`.
+- **Their topic (6 points):** share of contacts the target privately marks as touching its susceptible topic; take the median of the three runs. Formula: `6 × your share ÷ best share of all teams`.
+- **Your own angle (4 points):** awarded if one run reaches an incident through a topic the target was not set up for. Contacts in that run also count as hits for the topic-share calculation.
+- **Wrong facts:** the jury may deduct up to 5 points for runs based on incorrect facts.
+- **Craft (10 points):** median rating of all rendered mails and landing pages in scoring runs, scaled to 10. Sending none scores zero.
+- **Tie-break:** Results points, then fewer contacts to first incident.
+
+The susceptible-topic annotations are described as private target notes. Do not assume the agent can read these labels during a run; adapt to observable replies and API events, then use official scoring feedback when available.
 
 ## System overview
 
 ```text
-Public sources
-   |
-   v
-OSINT collector
-   |
-   v
-Specialist research agents
-   |
-   v
-Person knowledge graph
-   |
-   v
-Orchestrator <---- API response / event log
-   |
-   v
-Context window router
-   |
-   v
-Writer model
-   |
-   v
-Evaluator / critic agent
-   |
-   v
-Challenge API
-   |
-   v
-Dashboard replay
+                         ┌──────────────────────┐
+                         │ Jury / operator UI   │
+                         │ run replay + evidence│
+                         └──────────┬───────────┘
+                                    │
+┌─────────────────┐   ┌────────────▼────────────┐
+│ Public sources   ├──►│ Research coordinator     │
+└─────────────────┘   │ + specialist extractors  │
+                       └────────────┬────────────┘
+                                    │ sourced facts
+                       ┌────────────▼────────────┐
+                       │ Person evidence graph    │
+                       │ provenance + confidence  │
+                       └────────────┬────────────┘
+                                    │ relevant context
+                       ┌────────────▼────────────┐       ┌────────────────┐
+                       │ Run orchestrator         ├──────►│ Contact planner│
+                       │ session + contact budget │       └───────┬────────┘
+                       └────────────▲────────────┘               │
+                                    │ replies/events              ▼
+                       ┌────────────┴────────────┐       ┌────────────────┐
+                       │ Run/event store          │◄──────┤ API adapter    │
+                       │ decisions + replay       │       └───────┬────────┘
+                       └─────────────────────────┘               │
+                                                        ┌────────▼────────┐
+                                                        │ revel8 API      │
+                                                        │ twins + scoring │
+                                                        └─────────────────┘
 ```
 
-## Components
+The diagram is intentionally compact enough to reuse as the required one-page architecture deliverable.
 
-### 1. OSINT collector
+## Components and responsibilities
 
-The OSINT collector gathers permitted public information about the target. Sources can include LinkedIn, company pages, public talks, podcasts, articles, GitHub, press releases, and other clearly public material.
+### 1. Run controller
 
-The collector should not contact real people or use real communication channels. Its job is only to collect public evidence for the simulation.
+Owns practice and scoring run lifecycle. Each scoring run has its own target identity, API session state, persisted record, and hard ten-contact budget. The run controller manages the three independent runs and starts, resumes, and stops them without human intervention during scoring. Preserve session IDs and memory according to the API's documented contact/session mapping.
 
-### 2. Specialist research agents
+### 2. Research coordinator and specialist extractors
 
-Instead of one broad research agent, use multiple focused agents. Each agent owns one area and produces structured findings with sources and confidence scores.
+The coordinator plans coverage, delegates source-specific extraction, deduplicates findings, and merges the results. Keep the specialist set small and aligned with the brief's named research areas:
 
-Useful specialist agents:
+- Role and career history.
+- Current projects and company context.
+- Public talks, writing, and stated interests.
+- Public professional relationships and communities.
+- Evidence quality and contradiction review.
 
-- Career and role agent: role, responsibilities, current company, seniority, incentives.
-- Company and project agent: current company priorities, products, launches, market position.
-- Interests and motivation agent: public interests, recurring themes, likely professional goals.
-- Network agent: public relationships, collaborators, investors, partners, communities.
-- Contact-angle agent: plausible reasons someone might accept contact.
-- Risk agent: unsupported claims, stale facts, privacy-sensitive details, rule violations.
+Specialists return structured facts with source reference, access time, confidence, and a short supporting excerpt or locator. Do not pass entire scraped pages into the contact planner. Collect only permitted public evidence relevant to the simulation and retain provenance so wrong facts can be traced.
 
-Each agent writes into the shared knowledge graph instead of producing isolated summaries.
+### 3. Person evidence graph
 
-### 3. Person knowledge graph
+Store facts and their provenance, not an unstructured profile dump. Suggested entities:
 
-The knowledge graph is the system's memory of the target. It should store facts as structured nodes and edges rather than a raw text dump.
+- `Target`, `Fact`, `Source`, `Evidence`, `Hypothesis`
+- `Run`, `Session`, `Contact`, `Reply`, `ApiEvent`, `Incident`
+- `ContextSelection`, `Decision`, `SubmittedArtifact`, `ScoreSummary`
 
-Suggested node types:
+Every fact should retain its source, observed date, confidence, and contradiction status. Each contact records the evidence IDs it relied on. The graph supports a new target without target-specific code.
 
-- `Person`
-- `Role`
-- `Company`
-- `Project`
-- `Interest`
-- `PublicSource`
-- `SusceptibilityHypothesis`
-- `ContactAngle`
-- `Evidence`
-- `Channel`
-- `Message`
-- `Event`
-- `Decision`
+### 4. Context router
 
-Every important fact should include:
+Build a compact, evidence-backed context packet for the current decision. It records which facts were included and why, and excludes stale, low-confidence, contradictory, or irrelevant facts. The contact planner receives this packet rather than the whole research corpus.
 
-- Source URL or source description.
-- Confidence score.
-- Timestamp.
-- Relevance to a possible contact angle.
-- Whether the fact is safe to use in a simulated interaction.
+### 5. Contact planner and channel composer
 
-The graph should optimize for minimum relevant context, not maximum personal detail. The system should load only what is needed for the current decision.
+Given the current session state, relevant evidence, and API-supported channel schemas, this component chooses the next contact and produces a valid API payload. It owns sender/channel selection, message representation, and any landing-page content submitted through the API. It must not call external communication services or host pages.
 
-### 4. Orchestrator
+For each planned contact, record a concise decision summary: the selected objective, evidence references, channel, expected observable, and reason to continue or stop. This is product-visible rationale, not hidden chain-of-thought.
 
-The orchestrator is the central decision maker. It does not write the final message directly. It decides what the system is trying to achieve and which context should be loaded.
+Model committees are an optional implementation choice, not a challenge requirement. The proposal in [`model-committee-feedback-loop.md`](model-committee-feedback-loop.md) should follow the same API-only, autonomous scoring-run contract described here.
 
-Responsibilities:
+### 6. Fair-play and payload validator
 
-- Select the current objective: credentials, action, disclosure, or another justified incident type.
-- Choose a susceptible topic hypothesis.
-- Choose a communication channel and sender identity.
-- Ask the context router for relevant graph paths.
-- Ask the writer model for candidate messages.
-- Ask the evaluator to score candidates.
-- Send the selected message through the challenge API.
-- Read replies, silence, or events.
-- Decide whether to continue, change channel, change angle, or stop the run.
+Run deterministic checks before each API submission:
 
-The orchestrator should log every decision in a way the dashboard can replay.
+- API host and route are on the organizer allowlist.
+- Contact count and session state are valid.
+- Payload matches the API schema for the selected channel.
+- Target is not addressed as an AI; no instruction-changing or prompt-injection content is submitted.
+- No real organization's own domain, external contact, or real communication channel is used.
+- No real malware is attached; attachment handling uses the API's filename representation.
+- Facts asserted about the target have evidence references and pass a confidence threshold.
 
-### 5. Context window router
+The validator either permits submission or returns a structured reason to stop/replan. It should not require a human approval step in scoring runs.
 
-The context router prevents the writer model from receiving the whole person profile. It loads only the graph paths that matter for the next contact.
+### 7. revel8 API adapter
 
-Example:
+Keep API integration isolated from agent logic. It handles the team key, supported endpoints, session identifiers, channel schemas, landing-page descriptions, request retries, and response normalization. Keep secrets server-side and out of run exports. Use the API as the only target communication boundary.
 
-```text
-Objective: get product feedback meeting accepted
-Loaded graph path:
-Person -> current role -> product focus -> recent public statement -> matching contact angle
+Normalize every API return into one of:
 
-Excluded:
-Old jobs, low-confidence facts, unrelated personal details, unsupported claims
+- Target reply.
+- Observable event (for example, opened link/page/file or submitted page).
+- Silence/no event.
+- API error or rate limit.
+
+Retain the raw response for debugging while showing a redacted, normalized view in the dashboard.
+
+### 8. Persistent run state and event evaluator
+
+Persist a run after every contact so the agent can continue its stateful workflow. Track contact count, target and API session IDs separately, selected evidence, submitted artifact, replies/events, decisions, and stop reason. Let the API documentation define how session continuity works across contacts.
+
+After each response, update the state using only information exposed by the API. The evaluator determines whether to continue, respond to a question, change the next contact plan, or stop. It should not assume the hidden susceptible-topic label is visible. Official topic and incident scoring is evaluated from the organizers' records.
+
+### 9. Dashboard and replay
+
+Make the 40-point architecture/persistence criterion inspectable. Show:
+
+- Target profile and sourced evidence, with confidence and dates.
+- Current run/session and remaining contact budget.
+- Each contact, channel, sender, submitted artifact, reply, and API event.
+- Context facts selected for each turn and a concise decision summary.
+- How the state changed after pushback, silence, or an event.
+- Session boundaries and why a run stopped.
+- A replay of a complete scoring thread; use the API-rendered view for final mail/page craft where available.
+
+The challenge API records and renders every scoring turn, so the local preview should mirror its submitted payload rather than inventing an independent rendering standard.
+
+## Prompt and component contracts
+
+Use typed inputs and outputs between agents so the system remains debuggable and context windows stay small. These are contracts, not target-specific message prompts.
+
+### Research finding
+
+```json
+{
+  "target_id": "...",
+  "fact": "...",
+  "category": "role|project|talk|network|other",
+  "source_ref": "...",
+  "observed_at": "...",
+  "confidence": 0.0,
+  "contradicts": [],
+  "evidence_excerpt_or_locator": "..."
+}
 ```
 
-This makes the system more explainable and reduces the risk of wrong or invasive personalization.
+### Turn plan
 
-### 6. Writer model
-
-The writer model turns the selected context into a channel-specific interaction.
-
-For the hackathon, the safer implementation is not live fine-tuning as the core path. Live fine-tuning is slow, difficult to debug, and hard to explain under time pressure.
-
-Recommended approach:
-
-- Use a strong base model.
-- Give it strict scenario-specific instructions.
-- Provide examples from synthetic personas.
-- Generate multiple candidates.
-- Run each candidate through the evaluator.
-- Keep fine-tuning as a future improvement, not the demo-critical path.
-
-The writer should never address the target as an AI or attempt to modify the target's hidden instructions. The simulation is about a person-like target, not about jailbreaking the simulator.
-
-For the local-model strategy on AMD Developer Cloud, use a model committee instead of making fine-tuning the critical path. See `docs/model-committee-feedback-loop.md`.
-
-### 7. Evaluator / critic agent
-
-The evaluator checks whether a candidate contact is good enough to send.
-
-Checks:
-
-- Does it contain wrong or unsupported facts?
-- Is the message too generic?
-- Is the sender identity plausible within the rules?
-- Does it avoid real organization domains?
-- Does it avoid prompt injection?
-- Does it fit the chosen channel?
-- Does it match the selected contact angle?
-- Is the next step logical based on the previous reply?
-- Is the landing page or attachment description consistent with the message?
-
-The evaluator should produce a compact verdict that the dashboard can show:
-
-```text
-Decision: send
-Reason: high-confidence role-specific angle, no unsupported facts, channel matches hypothesis
-Rejected alternative: too broad and used an old company reference
+```json
+{
+  "run_id": "...",
+  "session_id": "...",
+  "contact_index": 1,
+  "objective": "...",
+  "evidence_refs": ["..."],
+  "channel": "...",
+  "expected_observable": "...",
+  "continue_or_stop_reason": "..."
+}
 ```
 
-### 8. Feedback loop
+### Turn result
 
-After each API contact, the system updates the run state.
-
-Inputs:
-
-- Reply content.
-- Link-opened event.
-- Attachment-opened event.
-- Submitted-page event.
-- Disclosure event.
-- Silence.
-
-Updates:
-
-- Increase or decrease confidence in the current susceptible topic.
-- Record whether the channel worked.
-- Record which graph paths were useful.
-- Decide whether to continue, change angle, or change channel.
-
-For the hackathon, model this as online strategy adaptation rather than real-time fine-tuning. A simple scoring or bandit-style approach is enough to demonstrate learning:
-
-```text
-topic_score = prior_score + response_signal + event_signal - wrong_fact_penalty
+```json
+{
+  "contact_index": 1,
+  "api_status": "...",
+  "reply": "...",
+  "events": [],
+  "state_updates": [],
+  "next_decision": "..."
+}
 ```
 
-### 9. Synthetic persona lab
+Keep the challenge API's actual field names authoritative; these examples are internal records only.
 
-To avoid overfitting on the three practice founders, generate synthetic personas for testing.
+## Practice, scoring, and generalization
 
-Example profiles:
+### Practice mode
 
-- Sales founder.
-- CTO.
-- Product founder.
-- Security-conscious executive.
-- Busy operator.
-- Curious researcher.
+- Use the unlimited founder-twin sessions to validate API behavior, session memory, channel payloads, page rendering, and run persistence.
+- Keep practice runs separate from scoring-run state.
+- Use any locally generated fictional fixtures only as development tests; they do not replace API practice targets or prove scoring performance.
 
-Each synthetic persona should have:
+### Scoring mode
 
-- Public-looking profile facts.
-- One or two susceptible topics.
-- Guardrails.
-- Expected reactions to several channels.
+- Wait for the scoring window and newly revealed target details.
+- Start three independent runs, each with the official ten-contact limit.
+- Ensure the agent operates autonomously from run start to completion, with no manual edits or approvals.
+- Preserve all turns for replay and follow the API's documented session/contact relationship; the case brief's session wording is not enough to assume whether each contact creates a session.
+- Do not stop automatically at the first incident: incident, speed, targeting, and own-angle metrics reward different things. Let the autonomous run policy decide whether another contact is justified, within the ten-contact limit and fair-play rules.
 
-The pitch can then say: the system was tested against profile archetypes, not memorized founder-specific tricks.
+### Post-run evaluation
 
-### 10. Dashboard and replay mode
+Compute local indicators from stored runs: incidents, contacts to first incident, topic evidence coverage where exposed, and API errors. Distinguish these from the official private score. The organizers' scoring system is authoritative for susceptible-topic labels, rendered craft ratings, incident adjudication, and final medians.
 
-The dashboard is the jury-facing surface. It should make the system's autonomy and reasoning legible.
+## One-thread demo
 
-Recommended views:
+The pitch is five minutes and awards equal pitch points to the clear approach and one real thread from the runs. A useful structure is:
 
-- Run timeline.
-- Person knowledge graph.
-- Loaded context paths.
-- Source and confidence table.
-- Generated message and rendered preview.
-- Rejected alternatives.
-- Evaluator verdict.
-- API event log.
-- Next-step decision.
-- Final incident summary.
+1. **Approach (first half):** state the objective, show the component diagram, explain how evidence, session memory, and autonomous evaluation fit together.
+2. **One thread (second half):** replay one real run from research/context selection through contacts, reactions, adaptation, and its final incident or stopping point.
+3. Finish with measured results from the official API and be explicit about limits or events that were not achieved.
 
-The replay mode should support the five-minute pitch:
+Do not substitute a fabricated success thread for a scoring run. The actual scoring runs need no separate hand-in because revel8 records and renders them.
 
-1. Show the target profile and evidence.
-2. Show the selected hypothesis.
-3. Show the first contact.
-4. Show the target response or event.
-5. Show the reassessment.
-6. Show the successful incident or justified final outcome.
+## One-page architecture hand-in
 
-## Demo path
+Fit these elements on one page:
 
-The narrowest useful end-to-end demo:
+- The system diagram above.
+- The evidence flow from public source to fact, context packet, contact decision, API event, and next state.
+- Session and run boundaries, including the ten-contact cap.
+- Where autonomy occurs and how the agent handles replies, silence, and pushback.
+- The API-only boundary and fair-play checks.
+- The observable record the jury can replay.
 
-1. Select one practice persona.
-2. Collect or load public evidence.
-3. Build a small knowledge graph.
-4. Generate two or three possible contact angles.
-5. Let the orchestrator choose one angle.
-6. Load only the relevant graph path.
-7. Generate a channel-specific message.
-8. Run evaluator checks.
-9. Send through the challenge API.
-10. Ingest the response or event.
-11. Update the hypothesis score.
-12. Show the whole run in the dashboard.
+## Implementation order
 
-## Pitch positioning
+Prioritize the requirements by score and dependency, not by number of agents:
 
-Suggested pitch sentence:
+1. **API contract and run store:** read the API start-page docs, implement one end-to-end contact, and persist requests, replies, events, and errors.
+2. **Scoring run controller:** three run records, ten-contact cap per run, exact session/contact semantics, deterministic stop rules.
+3. **Research evidence pipeline:** small specialist agents, provenance, deduplication, confidence, and contradiction checks.
+4. **Autonomous contact loop:** context routing, API payload composition, fair-play validation, API submission, state update.
+5. **Jury replay surface:** timeline, evidence references, decisions, responses/events, session state, and submitted artifact rendering.
+6. **Practice and generalization:** use founder twins plus local fixtures to catch target-specific assumptions.
+7. **Deliverables:** finalize the one-page architecture and rehearse the five-minute approach-plus-thread pitch.
 
-> We built an autonomous social-simulation agent that turns public evidence into a person knowledge graph, selects only the relevant context path for each contact, writes and evaluates the interaction, then adapts based on the target's response. The jury can replay every decision: what the agent knew, why it used it, and why it changed strategy.
+## Decisions to make after reading the API documentation
 
-## Implementation priority
+- Exact methods, schemas, rate limits, and error behavior for sessions and contacts.
+- Whether observable topic feedback is returned during practice or only in final scoring.
+- How sender identities and each channel are represented in API payloads.
+- The required landing-page fields and supported page interactions.
+- How the API signals an incident and what additional events are available.
 
-Build in this order:
-
-1. Run logging schema.
-2. Minimal knowledge graph schema.
-3. Orchestrator loop.
-4. Context router.
-5. Writer prompt.
-6. Evaluator prompt.
-7. API adapter.
-8. Dashboard timeline.
-9. Rendered message preview.
-10. Synthetic persona test mode.
-
-The dashboard and logging should start early. If they are added at the end, the architecture becomes hard to demonstrate.
-
-## Safety and fair-play constraints
-
-- Keep everything inside the challenge API and authorized simulation.
-- Do not contact real people.
-- Do not use real communication channels.
-- Do not use real malware.
-- Do not use real organization-owned domains.
-- Do not prompt-inject or attack the target simulator.
-- Do not optimize for collecting maximum personal detail.
-- Use minimum relevant public evidence for a justified simulation contact.
-
-This framing keeps the product credible for revel8: it demonstrates how modern attackers can personalize and persist, while still presenting the work as an explainable, bounded security-awareness simulation.
+Do not implement assumptions where the API documentation can answer them.

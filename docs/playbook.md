@@ -6,7 +6,7 @@
 
 - Jede Challenge entscheidet der Case-Partner. Ihr baut also für ein bestimmtes Gründerteam, nicht für eine allgemeine Jury. Baut das, was sie im nächsten Quartal selbst ausliefern wollen.
 - Die Münchner Gewinner seit 2023 haben dieselbe Form: ein enger B2B-Workflow, komplett durchgezogen, mit funktionierender Demo und klarem Käufer. Der Gesamtsieger 2023 hat eine KI gebaut, die den Einkauf von der Anfrage bis zur Lieferantenverhandlung erledigt. Der Partner damals war askLio, heute Lio, und Lio ist heute wieder dabei.
-- Ihr habt 3 Minuten Pitch plus 2 Minuten Q&A. Zeigt die Demo in den ersten 60 Sekunden und nennt eine Zahl für den Nutzen.
+- Allgemeine Event-Angabe: 3 Minuten Pitch plus 2 Minuten Q&A. Für revel8 nennt das offizielle Case-Briefing einen fünfminütigen Pitch; diese case-spezifische Vorgabe geht vor. Klärt vor Ort, ob darin Q&A enthalten ist.
 - Scope radikal begrenzen. Die Gewinner in St. Gallen 2026 haben zur Halbzeit Features gestrichen und wenige Dinge sauber gemacht. Vorher haben sie das Unternehmen gefragt, was das eigentliche Problem ist.
 - Das Fenster für die Challenge-Wahl von 12:00 bis 12:45 entscheidet die Hälfte. Nehmt die Challenge, bei der eure Skills zu dem passen, was der Partner verkauft.
 
@@ -18,11 +18,11 @@
 | **Challenge-Partner** | 5U AI, QuantCo, revel8, Feyer, Lio. Laut Orga sind QuantCo und Feyer technisch besonders anspruchsvoll. |
 | **Wichtige Zeiten Sa** | 11:00 und 11:35 Challenge-Vorstellungen (zwei Runden, mehrere Räume). 12:00 bis 12:45 Team- und Challenge-Wünsche. 12:55 Zuteilung. 13:00 Hacking-Start. 16:00 bis 17:00 Recruiting Hour (vorab gebuchte 1:1s). |
 | **Wichtige Zeiten So** | 03:00 Mentor-Check-in. 12:00 bis 12:45 Abgabe, harte Deadline. 13:15 bis 14:45 Demos, ein Raum pro Challenge. 15:30 Challenge-Gewinner. 16:45 Gesamtpreise. |
-| **Pitch** | 3 Min. Pitch, 2 Min. Q&A, 1 Min. Puffer |
+| **Pitch** | Allgemeines Eventformat: 3 Min. Pitch + 2 Min. Q&A. revel8-Case: 5-Minuten-Pitch laut Case-Briefing; Q&A-Zeit vor Ort klären. |
 | **Preise** | Bis zu 5.000 EUR Preisgeld, OpenAI-Credits, gesponserter Zwei-Tages-Trip nach Berlin mit Founder Drinks bei Angel Invest. League-Punkte zählen für das START-Hack-Finale in St. Gallen. |
 | **Wer entscheidet** | Die Case-Partner küren pro Challenge einen Gewinner. Die Orga bestätigt das Podium, teils nach einem Community-Voting. |
 
-> Die Challenge-Texte und Bewertungskriterien für heute waren vorab nicht veröffentlicht. Alles in Abschnitt 5 zu den Challenges ist eine Hypothese auf Basis dessen, was die Firmen verkaufen. Gleicht es um 11:00 mit den Briefings ab.
+> Die allgemeinen Challenge-Profile in Abschnitt 5 waren vorab Hypothesen. Für revel8 liegen inzwischen das offizielle Briefing und die Rubrik vor; sie stehen in Abschnitt 9 und in `docs/revel8-official-challenge.md`.
 
 ## 2. Wer bewertet und worauf sie achten
 
@@ -108,12 +108,13 @@ München, 2025 gegründet von den TUM-Absolventen Yagiz Abik (CEO) und Fehmi Sen
 
 ### revel8: KI-native Security Awareness
 
-2024 gegründet von drei Ex-Celonis-Leuten (Julius Muth, Tom Müller, Robert Seilbeck). 7 Mio. EUR Finanzierung, Seed angeführt von Peak. Simuliert Deepfake-Anrufe und -Videos, Vishing, Smishing und Spear-Phishing, mit OSINT-basierten Risikoprofilen und gamifiziertem Training. Kunden u. a. FC Bayern, OBI, Stihl. Hauptsitz zieht von Berlin nach München.
+revel8 simuliert KI-gestützte Social-Engineering-Angriffe zur Reduzierung und Steuerung von Human Risk. Das Hackathon-Case-Briefing verlangt ausdrücklich die Angreiferseite als autonome Simulation gegen AI Twins; die Case-Details sind keine allgemeine Firmen- oder Produkt-Roadmap.
 
-- **Wird vermutlich belohnt:** Realistische Angriffe über mehrere Kanäle, messbares Human Risk, Personalisierung und ethisches Design (Einwilligung, kein echter Schaden).
-- **Projektrichtungen:** Generator, der aus dem öffentlichen Fußabdruck eines Unternehmens ein personalisiertes Trainingsszenario baut, nur für Trainingszwecke. Coaching-Moment direkt nach einem simulierten Klick. Human-Risk-Score pro Team mit Trend und nächster Maßnahme für den CISO. Übungsspiel zum Erkennen von Deepfake-Anrufen.
-- **Pitch-Aufhänger:** Die Reise eines Mitarbeiters zeigen: simulierter Deepfake-Anruf, Fehler, 60 Sekunden Coaching, Wiederholung bestanden. Danach die CISO-Ansicht.
-- **Vermeiden:** Alles, was wie ein echtes Angriffswerkzeug wirkt oder echte Privatpersonen profiliert. Klar im Trainingsmodus bleiben.
+- **Verbindliche Aufgabe:** öffentlicher Research über eine Person, autonome Kontakte zu ihrem AI Twin über die API, danach Reaktionen auswerten und über mehrere Kontakte fortfahren.
+- **Verbindliche Wertung:** Results 25, Targeting 10, Craft 10, Architecture & Persistence 40, Pitch & Demo 15. Details und Formeln stehen in `docs/revel8-official-challenge.md`.
+- **Pitch:** fünf Minuten. 7,5 Punkte für den klaren Ansatz und 7,5 für einen echten Run-Thread von Anfang bis Ende.
+- **Nicht mehr als revel8-Case-Vorschlag verwenden:** Generator für Bedrohungsberichte, Live-KI-Anruf, Coaching nach dem Klick, Fake-Unternehmensdashboard oder ein dreiminütiges Training-Pitch. Diese frühere Hypothese passt nicht zum offiziellen Case.
+- **Geltende Grenze:** alle Scoring-Aktionen laufen ausschließlich über die revel8-Simulation. Keine echten Personen oder Kanäle; keine Prompt Injection; keine manuelle Nachrichtenerstellung oder Freigabe in Scoring-Runs.
 
 ### QuantCo: angewandte KI für Pricing, Schaden und Forecasting (technisch anspruchsvoll)
 
@@ -149,12 +150,12 @@ Ausgründung aus Tübingen, ein europäisches Frontier-AI-Lab für automatisiert
 | 15:00 bis 21:00 | Den dünnsten Ende-zu-Ende-Pfad bauen, hässlich, aber lauffähig. Die Recruiting Hour um 16:00 für ein 1:1 mit dem eigenen Case-Partner nutzen, falls gebucht. |
 | 21:00 bis 03:00 | Den Kernablauf mit realistischen Daten stabil machen. 03:00 Mentor-Check-in. Feature-Freeze gegen 04:00. |
 | 04:00 bis 10:00 | UI nur auf dem Demo-Pfad polieren, die Nutzen-Zahl, ein Backup-Demovideo, Folien (max. 5). |
-| 10:00 bis 12:00 | Den 3-Minuten-Pitch mindestens dreimal mit Timer proben. Antworten auf die fünf wahrscheinlichsten Fragen vorbereiten. |
+| 10:00 bis 12:00 | Den case-spezifischen Pitch mindestens dreimal mit Timer proben (revel8: fünf Minuten). Antworten auf die fünf wahrscheinlichsten Fragen vorbereiten. |
 | 12:00 bis 12:45 | Früh abgeben, nicht um 12:44. Die Deadline ist hart. |
 
-## 7. Der 3-Minuten-Pitch
+## 7. Generischer 3-Minuten-Pitch
 
-Drei Minuten sind kurz. Nehmt diese Reihenfolge und streicht den Rest.
+Dieser Abschnitt gilt nur, wenn der Case keine eigene Pitch-Vorgabe macht. Für revel8 gilt der fünfminütige Pitch in Abschnitt 9.
 
 | Zeit | Inhalt |
 | --- | --- |
@@ -172,65 +173,106 @@ Drei Minuten sind kurz. Nehmt diese Reihenfolge und streicht den Rest.
 
 - Ein Nutzer, ein Workflow, eine Zahl, auf einem Post-it, das alle sehen.
 - Die Demo läuft Ende zu Ende mit realistischen Daten, ein Backup-Video existiert.
-- Der Pitch zeigt die Demo vor 1:40 und endet mit Käufer, Preis und nächstem Schritt.
+- Allgemein: Demo früh zeigen und den nächsten Schritt klar machen. Für revel8 zusätzlich die beiden Case-Kriterien abdecken: Ansatz/Warum und ein echter Run-Thread von Anfang bis Ende.
 - Jede gezeigte Metrik lässt sich im Q&A verteidigen.
 - Abgabe am Sonntag vor 12:30.
 
-## 9. Vertiefung: die revel8-Challenge
+## 9. Revel8-Challenge: Agentic Social Engineer
 
-Das ist ein Plan, den ihr anpasst, sobald das Briefing um 11:00 da ist. Wenn die Aufgabe anders ist, behaltet das Prinzip: ein Mitarbeiter, ein Angriff, ein Lernmoment, eine Zahl.
+> Diese case-spezifische Vorgabe ersetzt ältere Hypothesen in diesem Playbook. Maßgeblich sind [`docs/revel8-official-challenge.md`](revel8-official-challenge.md), die beiden Challenge-PDFs und die API-Dokumentation. Der aktuelle Architekturvorschlag steht in [`docs/codex-agent-architecture-proposal.md`](codex-agent-architecture-proposal.md).
 
-### Technik oder Präsentation?
+### Was die Aufgabe verlangt
 
-| | |
-| --- | --- |
-| **Ohne funktionierende Demo** | Gewinnt ihr nicht. Den Sieger wählt revel8 selbst, und ihr CTO kommt aus dem Engineering. Folien ohne Produkt fallen sofort durch. |
-| **Unter den Teams mit Demo** | Entscheidet der Pitch: Wer das Problem am klarsten erzählt und den Nutzen beziffert, gewinnt. |
-| **Grobe Gewichtung** | Etwa 50 % funktionierender Kern, 30 % Problem und Nutzen, 20 % Auftritt. |
-| **Wie tief** | Genau ein Ablauf funktioniert echt von Anfang bis Ende. Alles drumherum darf vereinfacht oder mit Beispieldaten befüllt sein. Keine Logins, keine Datenbank-Architektur, kein Deployment. Diese Tiefe sieht in 3 Minuten niemand. |
+Baut einen autonomen Agenten, der öffentliche Informationen über eine Person recherchiert, über revel8s API mit deren AI Twin interagiert und aus jeder Antwort oder jedem Event lernt. Practice nutzt die drei Founder-Twins. Die drei Scoring-Runs verwenden neue, beim Start freigegebene Targets.
 
-### Was ihr baut: „Neue Angriffswelle rein, fertiges Training raus"
+Der Ablauf ist ein geschlossener Agenten-Workflow:
 
-Das Problem: Wenn eine Masche wie die Vishing-Anrufe von ShinyHunters auftaucht, dauert es oft Wochen, bis Mitarbeitende dazu trainiert werden. Bis dahin haben die Angreifer zugeschlagen. Das Tool schafft es in Minuten.
+```text
+öffentliche Quellen → Research-Spezialisten → Evidenzgraph → Kontextauswahl
+        → autonome Kontaktentscheidung → revel8 API → Antwort/Event
+        → gespeicherter Run-Zustand → nächste Entscheidung
+```
 
-- **Input:** einen Bedrohungsbericht oder News-Artikel hineinkopieren, z. B. zu den Helpdesk-Anrufen bei M&S.
-- **KI-Analyse:** Ein LLM zieht die Masche heraus (Kanal, Vorwand, Zielrolle, Warnsignale).
-- **Szenario:** eine Simulation passend zur Rolle, für den Helpdesk z. B. Anrufskript, Follow-up-SMS und E-Mail.
-- **Live-Simulation:** Eine KI-Stimme ruft an und spielt den Angreifer (OpenAI-Credits bekommt jedes Team).
-- **Coaching:** Wer hereinfällt, bekommt 60 Sekunden Erklärung, Warnsignale und die richtige Reaktion.
-- **CISO-Ansicht:** wer bestanden hat, welche Abteilung anfällig ist, was als Nächstes zu tun ist.
-- **Echt:** Schritte 2 bis 5 (das LLM generiert wirklich, die Stimme ruft wirklich an). **Gemockt:** Dashboard mit Beispieldaten, eine erfundene Firma als Mitarbeiterliste.
-- **Ethik als Pluspunkt:** nur erfundene Firma und erfundene Personen, nie echte Daten. Im Pitch aktiv sagen; revel8 muss genau das seinen Kunden erklären.
-- **Minimaler Stack:** Streamlit oder ein einfaches Web-Frontend, OpenAI API (LLM plus Stimme), eine JSON-Datei mit fiktiven Mitarbeitenden.
+Der Agent muss selbst recherchieren, Kanal und Sender wählen, schreiben, senden und bei Rückfragen oder Pushback autonom entscheiden. Kein Mensch darf während der Scoring-Runs Nachrichten schreiben, bearbeiten oder freigeben.
 
-### So geht ihr vor
+### Offizielle Mechanik
 
-- **13:00 bis 14:00:** mit revel8 sprechen, bevor ihr Code schreibt. Fragen: Auf welchen Angriff sind eure Kunden gerade am wenigsten vorbereitet? Welches Feature hättet ihr gern, habt es aber noch nicht gebaut? Woran messt ihr, dass ein Training wirkt?
-- **Aufteilung:** eine Person baut die LLM-Pipeline, eine die Stimme, eine das Frontend, eine macht Problem, Nutzen, Pitch und die Gespräche mit revel8.
-- **Feature-Freeze gegen 04:00.** Danach nur noch den Demo-Ablauf polieren und proben.
+- **Practice:** unbegrenzt mit den drei Founder-AI-Twins ab Samstag-Kickoff; Practice wird nicht gewertet.
+- **Scoring:** drei Runs mit je zehn Kontakten, Sonntagmorgen zu den beim Kickoff genannten Zeiten, gegen neue Targets. Der Median der drei Runs zählt, wo in der Rubrik angegeben.
+- **Session:** Das Briefing sagt: eine Session ist ein Austausch, der Target merkt sich den Inhalt; eine neue Session ist ein Neustart. Die genaue Zuordnung von Session zu Kontakt im Code erst anhand der API-Doku festlegen.
+- **API:** nur die revel8 API verwenden. Sie hostet Targets und stellt Events bereit. Teams hosten keine Landingpages, sondern übermitteln Link und Seiteninhalt an die API.
+- **Kanäle:** die API-Liste umfasst E-Mail, SMS und Messenger/Collaboration-Plattformen, Kalender und Dokumente sowie textbasierte Live-Interaktionen über Telefon, Video, Teams oder Chat. Vor dem Bau die konkreten Payloads und verfügbaren Endpunkte nachschlagen.
+- **Auswertung:** Revel8 zeichnet alle Scoring-Turns auf und rendert sie. Es gibt keine separate Run-Abgabe.
 
-### Der 3-Minuten-Pitch für revel8
+### Exakte Bewertung
 
-| Zeit | Inhalt |
-| --- | --- |
-| 0:00 bis 0:20 | „M&S hat letztes Jahr Hunderte Millionen verloren. Es reichte ein Anruf beim IT-Helpdesk. Neue Maschen kommen jede Woche, Trainings einmal im Jahr." |
-| 0:20 bis 1:40 | Live-Demo: Bericht reinkopieren, Szenario erscheint, dann klingelt auf der Bühne das Handy eines Teammitglieds. Die KI-Stimme gibt sich als Kollege aus und will einen MFA-Reset. Das Teammitglied fällt bewusst darauf herein, danach kommt das Coaching. Diesen Moment merkt sich die Jury. |
-| 1:40 bis 2:20 | „Von der neuen Angriffswelle bis zum fertigen Training: vorher Wochen, jetzt unter 5 Minuten." Ein Satz dazu, wie es funktioniert. |
-| 2:20 bis 2:50 | „Für den CISO heißt das: Seine Leute üben genau den Angriff, der diese Woche passiert. Das passt direkt in eure Plattform als automatische Pipeline für aktuelle Bedrohungen." |
-| 2:50 bis 3:00 | Nächster Schritt, z. B. Deepfake-Video und Erfolgsmessung über mehrere Wochen. |
+| Kategorie | Punkte | Konsequenz für den Build |
+| --- | ---: | --- |
+| Results | 25 | API-Ereignisse und Kontakte bis zum ersten Incident zuverlässig protokollieren. |
+| Targeting | 10 | Kontakt-Topic-Signale und eigene erfolgreiche Angles in Run-Auswertung abbilden; falsche Fakten vermeiden. |
+| Craft | 10 | Kanal-Payloads sowie API-Landingpages sauber darstellen; die finale Bewertung nutzt das Rendering der Scoring-Runs. |
+| Architecture & Persistence | 40 | Einseitige Architektur und vollständiger Replay jedes Scoring-Runs liefern. Zustandsführung und Reaktion auf Pushback sichtbar machen. |
+| Pitch & Demo | 15 | Fünf Minuten: 7,5 Punkte für Ansatz und Wirksamkeit, 7,5 für einen echten Run-Thread von Anfang bis Ende. |
 
-### Mögliche Fragen im Q&A
+Weitere Einzelheiten und Formeln stehen in [`docs/revel8-official-challenge.md`](revel8-official-challenge.md). Besonders wichtig: Jede Run zählt bei Incidents nur einmal; Speed basiert auf dem Median der Kontakte bis zum ersten Incident; Targeting bewertet den Anteil der Kontakte zum gesetzten Topic; die Jury kann bis zu fünf Punkte wegen falscher Fakten abziehen. Eigene erfolgreiche Angles haben einen eigenen Wert. Score-Formeln nicht aus dem Audiotranskript ableiten.
 
-- „Was ist echt, was gemockt?" Ehrlich antworten; das schafft mehr Vertrauen als jede Ausrede.
-- „Wie verhindert ihr Missbrauch als echtes Angriffstool?" Nur Trainingsmodus, nur mit Einwilligung, nur für die eigene Firma.
-- „Wie messt ihr den Erfolg?" Über die Wiederholungsquote: Fällt jemand beim zweiten Mal noch herein?
+### Agentenstruktur aus dem aktuellen Vorschlag
 
-### Fakten für Gespräche mit revel8
+1. **Run Controller:** Practice/Scoring-Modi, drei getrennte Scoring-Run-Records, maximal zehn Kontakte je Run und autonome Stop-/Fortsetzungsentscheidung.
+2. **Research Coordinator:** teilt öffentliche Recherche in kleine, klar abgegrenzte Aufgaben und führt Ergebnisse zusammen.
+3. **Research Specialists:** Rolle/Karriere, aktuelle Projekte/Unternehmen, Talks/Veröffentlichungen, öffentliches berufliches Umfeld und Qualitäts-/Widerspruchsprüfung.
+4. **Person Evidence Graph:** speichert Fakten mit Quellen, Datum, Konfidenz und Zuordnung zum Target; keine ungeprüften Rohseiten als Profil.
+5. **Context Router:** lädt für den nächsten Schritt nur relevante, ausreichend belegte Fakten und protokolliert die Auswahl.
+6. **Autonomous Contact Planner/Composer:** erzeugt API-konforme Kontakte und Landingpage-Beschreibungen für den ausgewählten Kanal.
+7. **Fair-Play/API Validator:** prüft vor jeder Übermittlung API-Allowlist, Payload-Schema, Kontaktbudget, belegte Target-Fakten und Challenge-Regeln; bei Fehlern stoppt oder plant der Agent selbst neu.
+8. **Event Evaluator:** normalisiert Antwort, Event, Stille und API-Fehler; aktualisiert den Run-Zustand und entscheidet den nächsten Schritt.
+9. **Dashboard/Replay:** Evidenz, Kontextauswahl, alle Kontakte, Antworten, Events, Entscheidungen, Session-ID und Run-Ende zeilenweise nachvollziehbar machen.
 
-- **M&S (April 2025):** Angreifer gaben sich beim IT-Helpdesk als Mitarbeitende aus. Schaden mehrere hundert Millionen. Eine eingeübte Rückruf-Regel bei Passwort- und MFA-Resets hätte es gestoppt. Genau das sind revel8s Vishing-Simulationen für die Rollen, die angegriffen werden.
-- **CarGurus (Feb. 2026):** 12,4 Mio. Datensätze geleakt. ShinyHunters behaupten, ein Anruf habe ihnen Zugang zum SSO verschafft. CarGurus hat die Methode nicht bestätigt, also „mutmaßlich über Vishing" sagen. Niemand fragt legitim am Telefon nach einem SSO- oder MFA-Code.
-- **EchoLeak (Microsoft 365 Copilot, Juni 2025)** war eine von Forschern gefundene und gepatchte Lücke, kein bestätigter Angriff. „Sicherheitslücke" sagen, nicht „Hack". Betrifft Agenten-Sicherheit, nicht revel8s Mitarbeiter-Training.
-- **Satz zum Mitnehmen:** „Bei M&S und CarGurus ist keine Firewall gefallen. Es reichte ein Anruf bei einer Person, die so eine Situation nie geübt hatte."
+Jede Spezialrolle soll ein kompaktes, typisiertes Ergebnis liefern. Das hält die Kontexte klein und macht nachvollziehbar, woher eine Information oder Entscheidung stammt. Das Agenten-Netz ist Mittel zum Zweck: die Score-Logik, Generalisierung und ein verständlicher Replay sind wichtiger als möglichst viele Agenten.
+
+### Zustandsmodell und Messung
+
+Für jeden Run getrennt speichern:
+
+- Target- und Session-IDs, API-Modus und Kontaktindex (1–10).
+- Quellen und Evidenz-IDs des Profils.
+- Gewählte Fakten und kurze Entscheidungsbegründung pro Turn.
+- Übermittelter Kanal, Sender und API-Payload.
+- Antworten, Events, Fehler, Zeitstempel und Stop-Grund.
+- Incident-Status und Kontakte bis zum ersten Incident.
+
+Die Rubrik sagt, dass die Target-Twins intern notieren, ob ein Kontakt ihr empfängliches Topic trifft. Plane nicht damit, dass dieses private Label im laufenden Run an den Agenten zurückgegeben wird. Innerhalb des Runs reagiert er auf das, was die API tatsächlich ausgibt; die offiziellen Topic-, Incident- und Craft-Scores werden separat ausgewertet.
+
+Session und Kontakt als getrennte Datenobjekte modellieren, bis die API-Doku ihre Beziehung eindeutig macht. Neue Sessions sind laut Case-Brief ein Clean Slate; versehentliches Zurücksetzen kann die Persistenz zerstören.
+
+### Reihenfolge für den Build
+
+1. API-Doku lesen und Session-, Kontakt-, Kanal- und Event-Schemas festhalten.
+2. Ein Practice-Target end-to-end anbinden; Response, Event, Stille und Fehler persistent speichern.
+3. Run Controller mit zehn Kontakt-Slots und drei unabhängigen Score-Runs bauen.
+4. Research-Spezialisten und Evidenzgraph für die offiziellen Recherchefelder ergänzen.
+5. Autonome Kontextauswahl, API-Komposition und Feedback-Schleife verbinden.
+6. Replay-UI und kompakte Architekturseite bauen; das ist wegen 40 Jury-Punkten kein Last-Minute-Feature.
+7. Unbegrenzt practice testen und Fehler beheben; Scoring-Runs am Sonntag autonom starten und nicht manuell eingreifen.
+
+### Abgabe und Fünf-Minuten-Pitch
+
+Abzugeben ist **eine Architektur-Seite** mit Diagramm und Zusammenarbeit der Komponenten. Scoring-Runs werden von revel8 aufgezeichnet; es gibt keine separate Abgabe dafür. Die Bühnenpräsentation dauert fünf Minuten und wird zur Hälfte für den Ansatz und zur Hälfte für einen echten Thread bewertet:
+
+- **Ansatz (0–7,5):** knapp erklären, was gebaut wurde, warum die Komponenten so zusammenarbeiten und wie der Agent persistiert.
+- **Ein echter Thread (0–7,5):** einen realen Run von Recherche/Kontext bis Reaktion, Anpassung und Ergebnis vollständig wiedergeben.
+- Keine erfundene Erfolgsdemo: nutzt einen echten Scoring-Run und zeigt auch relevante Grenzen oder nicht erreichte Events transparent.
+
+### Regeln, die das Produktdesign beeinflussen
+
+- Nur AI Twins über die Challenge-API; keine echten Personen und keine realen Kanäle kontaktieren.
+- Targets als Personen behandeln, nicht als zu jailbreakende Modelle. Adressierung als AI oder Prompt Injection macht den Run ungültig.
+- Keine menschliche Freigabe oder Bearbeitung während eines Scoring-Runs.
+- Keine reale Unternehmensdomain als Absender oder Ziel; keine echte Landingpage hosten.
+- Keine echte Malware; Anhänge sind Dateinamen.
+- Beliebige Modelle, Frameworks und Tools sind erlaubt; das Ergebnis muss jedoch die Regeln und API-Schemas einhalten.
+
+Der vollständige Wortlaut steht im offiziellen Challenge-Brief. Bei Widersprüchen gelten Case-Brief, Rubrik und API-Dokumentation vor diesem Playbook.
 
 ## 10. Opener für die Partnergespräche
 
@@ -245,7 +287,10 @@ Steig mit etwas Konkretem über sie ein und stell dann eine echte Frage. Unter 2
 
 ### revel8
 
-- „M&S hat durch einen einzigen Helpdesk-Anruf Hunderte Millionen verloren. Wie schnell könnt ihr so eine neue Welle heute in eine Simulation übersetzen?"
+- „Wie ist die Session im API genau von den zehn bewerteten Kontakten abgegrenzt, und wie bleibt der Twin-Kontext erhalten?"
+- „Welche Topic-Signale sieht unser Agent während eines Runs, und welche wertet ihr erst nach dem Run aus?"
+- „Welche Kanal-Payloads und Landingpage-Elemente rendert ihr in der Bewertung genau?"
+- „Wie verhalten sich die drei Scoring-Runs bei neuen Targets, und wann werden Target- und Zeitinformationen freigegeben?"
 
 ## Quellen
 

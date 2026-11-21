@@ -1,6 +1,6 @@
 # START Munich 2026 Challenge Context — revel8
 
-> Working context from the 20:30 Voice Memos recording titled “Technische Universität München”. The source recording is in German. The appendix is a machine-generated English translation using Faster Whisper (`small`, German → English); it has not been checked against the audio line by line. Treat the structured summary as the reliable working brief and the transcript as a search aid. The final portion contains low-confidence / likely hallucinated fragments and timestamps beyond the recording duration.
+> Historical context from the 20:30 Voice Memos recording titled “Technische Universität München”. The source recording is in German. The appendix is a machine-generated English translation using Faster Whisper (`small`, German → English); it has not been checked against the audio line by line. The official case and scoring PDFs transcribed in [`revel8-official-challenge.md`](revel8-official-challenge.md) take precedence over this transcript. Its final portion contains low-confidence fragments and timestamps beyond the recording duration.
 
 ## Executive summary
 
@@ -17,7 +17,7 @@ The organizers emphasize system architecture, persistence, explainability, user-
 5. Reassess the run, record what happened, and decide whether to continue or change approach.
 6. Present the full interaction trace, including timing, rationale, alternatives considered, and a readable rendering of the messages.
 
-The transcript refers to email, SMS, and “live interaction” events, but the exact available channels and endpoint contract need to be confirmed in the API documentation. Organizers suggested building an internal rendering/preview feature because final scoring will manually review rendered interaction histories.
+The official case brief lists the supported channel families and says the API renders submitted mail and landing-page artifacts after scoring. The API start-page documentation remains authoritative for exact endpoint and payload schemas.
 
 ## Rubric
 
@@ -29,15 +29,15 @@ The audio-only interpretation below has been superseded by the case-page details
 - **Keep an evidence trail:** show the public-source observations behind the profile and the reasoning behind consequential system decisions.
 - **Persist and reassess:** track attempts and outcomes; identify when a path is unproductive and choose a justified next step.
 - **Make the run legible:** provide a UI with an end-to-end timeline, rendered messages, resulting events, and concise rationale/alternatives.
-- **Support rehearsal:** organizers permit testing with self-created personas, but caution against simply targeting the three challenge founders as custom test personas.
+- **Support rehearsal:** unlimited practice is available against the three founder twins. Local fictional fixtures can test generalization, but do not replace the official practice or scoring API.
 - **Keep evaluation in bounds:** the official case brief confirms that practice and scoring targets are AI twins and all interactions stay inside the simulation. Use the supplied challenge API and do not contact real people or use real communication channels.
 - **Do not attack the persona model:** organizers explicitly say not to use prompt injection or workarounds to make the agent disclose information it should not. The intended simulation concerns how a person responds to interactions, not how to jailbreak the underlying model.
 
 ## Challenge inputs and remaining implementation questions
 
-The official case description is in [`revel8-official-challenge.md`](revel8-official-challenge.md). It confirms three founder AI twins for practice, new targets for scoring, API-based interactions, sessions with memory, a broad channel list, and the incident categories and score formulas.
+The official case description is in [`revel8-official-challenge.md`](revel8-official-challenge.md). It confirms three founder AI twins for unlimited practice, new AI-twin targets for scoring, API-based interactions, a ten-contact limit in each of three scoring runs, the channel list, incident categories, score formulas, and a five-minute pitch.
 
-Remaining implementation questions are operational: the precise API schema and rate limits, what sender/channel fields each endpoint accepts, how the API represents replies and events, and how the registered landing-page content is submitted. Resolve these from the API start-page documentation before building the adapter.
+Remaining implementation questions are operational: the precise API schema and rate limits, what sender/channel fields each endpoint accepts, how sessions map to contacts, how the API represents replies and events, and how registered landing-page content is submitted. Resolve these from the API start-page documentation before building the adapter.
 
 ## Scope and source note
 

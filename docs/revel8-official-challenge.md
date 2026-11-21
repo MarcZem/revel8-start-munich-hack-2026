@@ -1,6 +1,6 @@
 # revel8 Challenge Brief
 
-> This document records the challenge description and scoring details supplied by the team from the START Hack League case page. Treat this as the authoritative challenge brief; it supersedes any conflicting guesses inferred from the earlier audio transcript in [`challenge-context.md`](challenge-context.md).
+> This document transcribes the official challenge and scoring PDFs in this repository. Treat it as the source of truth; it supersedes any conflicting guesses inferred from the earlier audio transcript in [`challenge-context.md`](challenge-context.md).
 
 ## Event links
 
@@ -46,7 +46,7 @@ Each twin has one or two hidden hooks: topics they are currently open to. Scorin
 
 - **One API:** revel8 hosts the targets. Teams access them using a team key; API documentation is on the API start page.
 - **Events:** the API returns replies and events such as links opened, pages submitted, or files opened. Silence is also an outcome.
-- **Sessions:** one session represents one exchange. The target remembers the session's full history. Starting a new session creates a clean slate.
+- **Sessions:** one session represents one exchange; the target remembers that exchange. Starting a new session creates a clean slate.
 - **Landing pages:** teams host no pages. They tell the API which link is sent and what the page behind it shows.
 - **Channels:** email, SMS, WhatsApp, Signal, Telegram, iMessage, Slack, Teams, Discord, LinkedIn, X, Instagram, Messenger, calendar invites, shared documents, voicemail, MFA prompts, live phone/video/Teams calls, and live chat.
 
@@ -89,18 +89,18 @@ Questions about the challenge or scoring can be directed to the revel8 team on s
 
 ## Scoring rubric
 
-The following criteria are guidance; they are not scored individually beyond the categories below.
+The total is 100 points: 45 measured from the API's three scoring runs and 55 awarded by the jury. The criteria are guidance; they are not scored individually beyond the categories below.
 
 | Category | Points | Measurement |
 | --- | ---: | --- |
 | **Results** | **25** | Measured by the API. |
-| Incidents | 20 | `20 × runs with an incident ÷ 3`. Any credential, action, or disclosure event counts. |
-| Speed | 5 | Based on contacts until the first incident, using the median of the three runs: `5 × fewest contacts of all teams ÷ your contacts`. |
+| Incidents | 20 | `20 × runs with an incident ÷ 3`. A run counts once it reaches at least one credential, action, or disclosure incident. |
+| Speed | 5 | Count contacts until the first incident in each run; a run without an incident is “not reached.” Use the median of the three runs: `5 × fewest contacts of all teams ÷ your contacts`. |
 | **Targeting** | **10** | Measured by the API. |
-| Their topic | 6 | Share of contacts that hit the target's susceptible topic, using the median of three runs: `6 × your share ÷ best share`. |
-| Your own angle | 4 | Awarded if a run reaches an incident through a topic the target was not set up for. |
+| Their topic | 6 | Share of contacts the target privately marks as touching its susceptible topic, using the median of three runs: `6 × your share ÷ best share of all teams`. |
+| Your own angle | 4 | Awarded if one run reaches an incident through a topic the target was not set up for. Contacts from that run also count as hits in the susceptible-topic share above. |
 | **Wrong facts** | Up to −5 | The jury may deduct points for incorrect facts about the target. |
-| **Craft** | **10** | Emails and landing pages are rendered as they appear on screen and rated after the scoring window; the median rating is scaled to 10. Teams that send none receive 0. |
+| **Craft** | **10** | All mails and landing pages are rendered as they appear on screen and rated after the scoring window; the median rating is scaled to 10. Teams that send none receive 0. |
 | **Architecture and persistence** | **40** | Jury score for how the agent is built and how it continues when a target pushes back. The jury reads the architecture page and replays scoring runs turn by turn. |
 | **Pitch and demo** | **15** | Five-minute presentation: clear approach and why it works (0–7.5), plus one real thread from the runs, start to finish (0–7.5). |
 
