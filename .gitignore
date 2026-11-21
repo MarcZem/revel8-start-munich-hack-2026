@@ -1,0 +1,20 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Vercel local metadata
+.vercel/
+
+# Editor and operating system files
+.DS_Store
+.idea/
+.vscode/
