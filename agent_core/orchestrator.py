@@ -7,19 +7,26 @@ from pathlib import Path
 
 from agent_core.challenge_api import FakeChallengeAPI
 from agent_core.fixtures import synthetic_graph
-from agent_core.model_committee import default_stub_committee
+from agent_core.model_committee import ModelCommittee, default_stub_committee
 from agent_core.schema import Objective, RunLog, StrategyUpdate, to_jsonable
 
 
 class Orchestrator:
-    def __init__(self, api: FakeChallengeAPI | None = None) -> None:
+    def __init__(
+        self,
+        api: FakeChallengeAPI | None = None,
+        committee: ModelCommittee | None = None,
+    ) -> None:
         self.api = api or FakeChallengeAPI()
-        self.committee = default_stub_committee()
+        self.committee = committee or default_stub_committee()
 
     def run(self, persona_id: str = "lena_kraus", objective: Objective = Objective.ACTION) -> RunLog:
         graph = synthetic_graph(persona_id)
         context, decision = self.committee.run(graph, objective)
-        winner = _candidate_by_id(decision.winner_candidate_id, decision.candidates)
+        winner = next(
+            (candidate for candidate in decision.candidates if candidate.id == decision.winner_candidate_id),
+            None,
+        )
         event = self.api.send(persona_id, winner) if winner else None
         wrong_fact_penalty = _wrong_fact_penalty(decision)
         event_signal = event.signal_score if event else -1
@@ -56,15 +63,6 @@ class Orchestrator:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(to_jsonable(log), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         return log
-
-
-def _candidate_by_id(candidate_id: str | None, candidates: tuple) -> object:
-    if candidate_id is None:
-        raise RuntimeError("No sendable candidate was selected.")
-    for candidate in candidates:
-        if candidate.id == candidate_id:
-            return candidate
-    raise RuntimeError(f"Winner candidate '{candidate_id}' missing from committee output.")
 
 
 def _wrong_fact_penalty(decision) -> int:

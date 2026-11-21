@@ -41,6 +41,8 @@ class EvaluatorGate:
             blocked.append("uses_unrouted_or_unsupported_evidence")
         if candidate.metadata.get("unsupported_fact"):
             blocked.append("wrong_or_unsupported_fact")
+        if candidate.metadata.get("irreversible_action") or candidate.metadata.get("external_effect"):
+            blocked.append("irreversible_or_external_effect")
         if PROMPT_INJECTION.search(candidate.subject + "\n" + candidate.body):
             blocked.append("prompt_injection_attempt")
         if SECRET_OR_CREDENTIAL_REQUEST.search(candidate.body):

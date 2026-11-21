@@ -17,18 +17,25 @@ The frontend/application framework has not been selected yet. The first local pr
 1. Clone this repository.
 2. Run the local agent core:
 
-   ```powershell
-   python .\scripts\run_agent_core.py --persona lena_kraus --out runs\latest_agent_core_run.json
+   ```sh
+   python3 scripts/run_agent_core.py --persona lena_kraus --out runs/latest_agent_core_run.json
    ```
 
 3. Run tests:
 
-   ```powershell
-   python -m unittest discover -s tests
+   ```sh
+   python3 -m unittest discover -s tests
    ```
 
-4. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
-5. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
+4. Run the synthetic persona evaluation suite:
+
+   ```sh
+   python3 -m evals.run_evals
+   ```
+
+   The suite writes `evals/report.json` and a minimized `evals/feedback.jsonl`. It uses the local fake API only; it does not call Revel8 or require API credentials.
+5. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
+6. Keep local credentials in an untracked `.env.local` file. Never commit secrets.
 
 ## Project notes
 
