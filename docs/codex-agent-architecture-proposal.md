@@ -4,7 +4,7 @@
 
 ## Product objective
 
-Build one autonomous agent system that, inside revel8's API simulation, researches a target from public information, chooses a supported channel and sender, conducts up to ten contacts per scoring run, and adapts to the target's replies and returned events. It must generalize from the three founder AI twins used for unlimited practice to new AI-twin targets revealed for scoring.
+Build one autonomous agent system that, inside revel8's API simulation, researches a target from public information, chooses a supported channel and sender, conducts up to ten touches per scoring session, and adapts to the target's replies and returned events. It must generalize from the three founder AI twins used for unlimited practice to new AI-twin targets revealed for scoring.
 
 The solution is an agent workflow, not a standalone message generator. Its central evidence trail should let the jury understand what the system knew, which evidence it used, how the run changed after each reaction, and what event resulted.
 
@@ -13,9 +13,10 @@ The solution is an agent workflow, not a standalone message generator. Its centr
 - **Simulation only:** all contacts go through the revel8 API. Do not contact real people, use real communication channels, host real landing pages, or use real malware.
 - **Autonomous scored runs:** no person writes, edits, or approves messages during scoring. The agent chooses, writes, sends, and decides on its own.
 - **Fair play:** do not address targets as AI, alter their instructions, or use prompt injection. Use only sender addresses and domains allowed by the rules; never use a real organization's own domain.
-- **Session semantics:** the brief says one session is one exchange, the target remembers it, and a new session is a clean slate. Preserve API session IDs exactly as documented; confirm how scoring contacts map to sessions rather than assuming they are interchangeable.
+- **Session semantics:** one scoring session is one continuous exchange for one target; the target remembers everything in that session, and separate sessions share no memory. Use one scoring session for each of the three hidden targets. Practice also uses independent sessions.
 - **Landing-page handling:** teams host nothing. Submit the link and the page content/experience through the API.
-- **Scoring protocol:** 45 points are API-measured and 55 are jury-awarded. Practice is unlimited against three founder twins. Scoring uses three runs of ten contacts each against newly revealed AI-twin targets; times are announced at kickoff. Use medians where specified. The API records and renders scoring turns; there is no separate run submission.
+- **Scoring protocol:** 45 points are API-measured and 55 are jury-awarded. Scoring uses one session per each of three newly revealed targets, with a maximum of ten touches per session; the median of the three sessions counts where specified. One started message or call is one touch, including a call with up to ten utterances; ignored messages count. Page registration, uploads, event reads, and retries of failed requests are free. Practice is unscored, with unlimited sessions and 30 touches per session for each founder twin. The API records and renders scoring turns; there is no separate run submission.
+- **Form and time semantics:** registered field names determine how submitted values are classified; a basic name/email alone is not a win. `page.submitted` returns entered `values`, with secrets redacted. Message, call, and conversation-turn payloads may include timezone-aware `sent_at` to set story time.
 - **Permitted implementation:** any model, framework, or tool is allowed. Select components based on speed, reliable structured output, cost/latency, and ability to run unattended.
 
 ## Rubric-driven priorities
@@ -79,7 +80,7 @@ The diagram is intentionally compact enough to reuse as the required one-page ar
 
 ### 1. Run controller
 
-Owns practice and scoring run lifecycle. Each scoring run has its own target identity, API session state, persisted record, and hard ten-contact budget. The run controller manages the three independent runs and starts, resumes, and stops them without human intervention during scoring. Preserve session IDs and memory according to the API's documented contact/session mapping.
+Owns practice and scoring run lifecycle. Each scoring session has one target identity, its own API session ID and persisted record, and a hard ten-touch budget. Practice sessions have a 30-touch budget. The run controller manages the three independent scoring sessions and starts, resumes, and stops them without human intervention during scoring. A message or call consumes one touch; a call may contain up to ten utterances. The target remembers activity within a session, and sessions share no memory.
 
 ### 2. Research coordinator and specialist extractors
 
@@ -222,14 +223,16 @@ Keep the challenge API's actual field names authoritative; these examples are in
 ### Scoring mode
 
 - Wait for the scoring window and newly revealed target details.
-- Start three independent runs, each with the official ten-contact limit.
+- Start one session for each of the three revealed targets, each with the official ten-touch limit.
 - Ensure the agent operates autonomously from run start to completion, with no manual edits or approvals.
-- Preserve all turns for replay and follow the API's documented session/contact relationship; the case brief's session wording is not enough to assume whether each contact creates a session.
-- Do not stop automatically at the first incident: incident, speed, targeting, and own-angle metrics reward different things. Let the autonomous run policy decide whether another contact is justified, within the ten-contact limit and fair-play rules.
+- Preserve all turns for replay. Keep a call and its up-to-ten utterances as one touch; count each started message separately. Do not count free page registration, uploads, event reads, or failed-request retries against the contact budget.
+- Do not stop automatically at the first incident: incident, speed, targeting, and own-angle metrics reward different things. Let the autonomous run policy decide whether another contact is justified, within the ten-touch limit and fair-play rules.
 
 ### Post-run evaluation
 
 Compute local indicators from stored runs: incidents, contacts to first incident, topic evidence coverage where exposed, and API errors. Distinguish these from the official private score. The organizers' scoring system is authoritative for susceptible-topic labels, rendered craft ratings, incident adjudication, and final medians.
+
+For form events, retain the returned field names and entered-value indicators. Secrets are redacted by the API; local evaluation should never try to infer or log secret contents. Preserve an optional `sent_at` value in the submitted-payload record when used.
 
 ## One-thread demo
 
@@ -247,7 +250,7 @@ Fit these elements on one page:
 
 - The system diagram above.
 - The evidence flow from public source to fact, context packet, contact decision, API event, and next state.
-- Session and run boundaries, including the ten-contact cap.
+- Session and run boundaries, including the ten-touch scoring cap and 30-touch practice-session cap.
 - Where autonomy occurs and how the agent handles replies, silence, and pushback.
 - The API-only boundary and fair-play checks.
 - The observable record the jury can replay.
@@ -257,7 +260,7 @@ Fit these elements on one page:
 Prioritize the requirements by score and dependency, not by number of agents:
 
 1. **API contract and run store:** read the API start-page docs, implement one end-to-end contact, and persist requests, replies, events, and errors.
-2. **Scoring run controller:** three run records, ten-contact cap per run, exact session/contact semantics, deterministic stop rules.
+2. **Scoring run controller:** three session records, ten-touch cap per scoring session, 30-touch practice-session cap, and deterministic stop rules.
 3. **Research evidence pipeline:** small specialist agents, provenance, deduplication, confidence, and contradiction checks.
 4. **Autonomous contact loop:** context routing, API payload composition, fair-play validation, API submission, state update.
 5. **Jury replay surface:** timeline, evidence references, decisions, responses/events, session state, and submitted artifact rendering.

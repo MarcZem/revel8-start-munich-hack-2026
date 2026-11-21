@@ -103,6 +103,7 @@ class Revel8API:
         subject: str | None = None,
         attachments: list[Any] | None = None,
         idempotency_key: str,
+        sent_at: str | None = None,
     ) -> Any:
         """Send one message into a Revel8 simulation; this spends one touch."""
         if not idempotency_key.strip():
@@ -114,6 +115,8 @@ class Revel8API:
             payload["subject"] = subject
         if attachments is not None:
             payload["attachments"] = attachments
+        if sent_at is not None:
+            payload["sent_at"] = sent_at
         return self._request(
             "POST", self._session_path(session_id) + "/messages",
             payload=payload, idempotency_key=idempotency_key,
@@ -127,24 +130,35 @@ class Revel8API:
         return self._request("POST", self._session_path(session_id) + "/pages", payload=payload)
 
     def start_conversation(self, session_id: str, *, to: str, channel: str,
-                           opening: str, idempotency_key: str) -> Any:
+                           opening: str, idempotency_key: str,
+                           sent_at: str | None = None) -> Any:
         if not idempotency_key.strip():
             raise ValueError("idempotency_key is required to prevent duplicate touches")
         return self._request(
             "POST", self._session_path(session_id) + "/conversations",
-            payload={"to": to, "channel": channel, "opening": opening},
+            payload={
+                "to": to,
+                "channel": channel,
+                "opening": opening,
+                **({"sent_at": sent_at} if sent_at is not None else {}),
+            },
             idempotency_key=idempotency_key,
         )
 
     def conversation_turn(self, session_id: str, conversation_id: str, *,
-                          body: str, idempotency_key: str) -> Any:
+                          body: str, idempotency_key: str,
+                          sent_at: str | None = None) -> Any:
         if not _SESSION_ID.fullmatch(conversation_id):
             raise ValueError("invalid Revel8 conversation id")
         if not idempotency_key.strip():
             raise ValueError("idempotency_key is required to prevent duplicate touches")
         return self._request(
             "POST", self._session_path(session_id) + f"/conversations/{conversation_id}/turns",
-            payload={"body": body}, idempotency_key=idempotency_key,
+            payload={
+                "body": body,
+                **({"sent_at": sent_at} if sent_at is not None else {}),
+            },
+            idempotency_key=idempotency_key,
         )
 
     def end_conversation(self, session_id: str, conversation_id: str) -> Any:
