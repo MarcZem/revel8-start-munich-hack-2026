@@ -61,6 +61,10 @@
   .panel .ph svg{width:16px;height:16px;color:var(--accent)}
   .panel .ph .sp{margin-left:auto;font-weight:500;font-size:12px;color:var(--muted)}
   .pb{padding:16px}
+  .fold>summary{list-style:none;cursor:pointer}
+  .fold>summary::-webkit-details-marker{display:none}
+  .fold>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:none;margin-left:8px}
+  .fold[open]>summary::after{transform:rotate(45deg)}
   #graph{width:100%;height:auto;display:block;background:radial-gradient(circle at 1px 1px, var(--line) 1px, transparent 0) 0 0/22px 22px}
   .node rect{fill:var(--panel);stroke:var(--line);stroke-width:1.5}
   .node .ttl{font:600 12.5px -apple-system,Segoe UI,sans-serif;fill:var(--ink)}
@@ -157,10 +161,10 @@
         <div class="legend"><span><i></i> flow</span><span><i class="dash"></i> API call → Personal Interface</span><span id="stageline" style="margin-left:auto"></span></div>
       </div>
 
-      <div class="panel">
-        <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="17" cy="17" r="2.5"/><circle cx="7" cy="18" r="2.5"/><path d="M8 7l8-1M8.5 17l7-1M6.5 8.4 6.8 15.5M8 6.4 16 16"/></svg>Knowledge graph<span class="sp" id="kgn"></span></div>
+      <details class="panel fold">
+        <summary class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="17" cy="17" r="2.5"/><circle cx="7" cy="18" r="2.5"/><path d="M8 7l8-1M8.5 17l7-1M6.5 8.4 6.8 15.5M8 6.4 16 16"/></svg>Knowledge graph<span class="sp" id="kgn"></span></summary>
         <svg id="kg" viewBox="0 0 680 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Knowledge graph"></svg>
-      </div>
+      </details>
 
       <div class="panel">
         <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Message thread · real craft + twin replies</div>
@@ -169,10 +173,10 @@
     </div>
 
     <div>
-      <div class="panel">
-        <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Reconnaissance · sources visited<span class="sp" id="recoN"></span></div>
+      <details class="panel fold">
+        <summary class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Reconnaissance · sources visited<span class="sp" id="recoN"></span></summary>
         <div class="srcs" id="sources"></div>
-      </div>
+      </details>
 
       <div class="panel">
         <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>Targeting decision</div>
@@ -184,10 +188,10 @@
         </div>
       </div>
 
-      <div class="panel">
-        <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>All-channel tactic sweep<span class="sp" id="sweepn"></span></div>
+      <details class="panel fold">
+        <summary class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>All-channel tactic sweep<span class="sp" id="sweepn"></span></summary>
         <div class="pb" style="padding:0"><div id="sweep"></div></div>
-      </div>
+      </details>
 
       <div class="panel">
         <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Outcome</div>
@@ -200,7 +204,7 @@
 
 <script id="run-data" type="application/json">
 {
-"generated_at": "2026-11-21T23:03:05+00:00",
+"generated_at": "2026-11-21T23:21:43+00:00",
 "model": "DeepSeek-V4-Flash · AMD Token Factory",
 "pipeline": [
 {
@@ -352,30 +356,6 @@
 "reliability": "unsicher",
 "domain": "cybersecuritytalks.podbean.com",
 "cited": false
-},
-{
-"id": "f_julius_revel8_aims_to_build_10_million_human_fi",
-"label": "Revel8 aims to build '10 million human firewalls'.",
-"category": "project",
-"reliability": "unsicher",
-"domain": "cybersecuritytalks.podbean.com",
-"cited": false
-},
-{
-"id": "f_julius_julius_m_is_ai_powered_social_engineerin",
-"label": "Julius M. is AI-Powered Social Engineering at revel…",
-"category": "role",
-"reliability": "unsicher",
-"domain": "linkedin.com",
-"cited": false
-},
-{
-"id": "f_julius_revel8_offers_a_free_tool_to_generate_yo",
-"label": "revel8 offers a free tool to generate your own deep…",
-"category": "project",
-"reliability": "unsicher",
-"domain": "revel8.ai",
-"cited": false
 }
 ],
 "research_count": 58,
@@ -506,18 +486,6 @@
 "kind": "investor",
 "channel": "web",
 "count": 10
-},
-{
-"domain": "careers.celonis.com",
-"kind": "jobs",
-"channel": "web",
-"count": 7
-},
-{
-"domain": "research.crustdata.com",
-"kind": "web",
-"channel": "web",
-"count": 2
 }
 ],
 "knowledge": [
@@ -565,30 +533,6 @@
 "id": "f_tom_tom_m_ller_co_founded_revel8_a_consultin",
 "label": "Tom Müller co-founded revel8, a consulting company,…",
 "category": "project",
-"reliability": "unsicher",
-"domain": "linkedin.com",
-"cited": false
-},
-{
-"id": "f_tom_tom_m_ller_will_give_a_keynote_for_tset_",
-"label": "Tom Müller will give a keynote for TSET members.",
-"category": "talk",
-"reliability": "unsicher",
-"domain": "linkedin.com",
-"cited": false
-},
-{
-"id": "f_tom_tom_m_ller_is_co_founder_at_revel8",
-"label": "Tom Müller is Co-Founder at revel8.",
-"category": "role",
-"reliability": "unsicher",
-"domain": "linkedin.com",
-"cited": false
-},
-{
-"id": "f_tom_tom_m_ller_is_co_founder_of_revel8",
-"label": "Tom Müller is co-founder of revel8.",
-"category": "role",
 "reliability": "unsicher",
 "domain": "linkedin.com",
 "cited": false
@@ -726,12 +670,6 @@
 "kind": "web",
 "channel": "web",
 "count": 7
-},
-{
-"domain": "careers.celonis.com",
-"kind": "jobs",
-"channel": "web",
-"count": 6
 }
 ],
 "knowledge": [
@@ -779,30 +717,6 @@
 "id": "f_robert_revel8_is_moving_to_munich_in_early_2026",
 "label": "revel8 is moving to Munich in early 2026.",
 "category": "project",
-"reliability": "unsicher",
-"domain": "linkedin.com",
-"cited": false
-},
-{
-"id": "f_robert_julius_muth_appeared_on_the_cyber_securi",
-"label": "Julius Muth appeared on the Cyber Security District…",
-"category": "talk",
-"reliability": "unsicher",
-"domain": "cybersecuritytalks.podbean.com",
-"cited": false
-},
-{
-"id": "f_robert_cto_at_revel8_since_oct_2024",
-"label": "CTO at revel8 since Oct 2024",
-"category": "role",
-"reliability": "unsicher",
-"domain": "linkedin.com",
-"cited": false
-},
-{
-"id": "f_robert_robert_seilbeck_is_cto_at_revel8",
-"label": "Robert Seilbeck is CTO at revel8.",
-"category": "role",
 "reliability": "unsicher",
 "domain": "linkedin.com",
 "cited": false

@@ -117,7 +117,7 @@ def _reliability_index(records: list[dict]) -> dict[str, str]:
     return {r["id"]: r.get("reliability", "unsicher") for r in records if r.get("id")}
 
 
-def _sources(records: list[dict], max_sources: int = 8) -> list[dict]:
+def _sources(records: list[dict], max_sources: int = 5) -> list[dict]:
     """Distinct source domains the agent visited — LinkedIn first, then by volume.
 
     Domains only (no paths/query), so no per-person URL detail ships.
@@ -137,7 +137,7 @@ def _sources(records: list[dict], max_sources: int = 8) -> list[dict]:
     return rows[:max_sources]
 
 
-def _knowledge(records: list[dict], hook: dict, max_nodes: int = 9) -> list[dict]:
+def _knowledge(records: list[dict], hook: dict, max_nodes: int = 6) -> list[dict]:
     """A rough knowledge graph of key, public professional facts.
 
     Cited-evidence facts first (what the angle was built on), then one per

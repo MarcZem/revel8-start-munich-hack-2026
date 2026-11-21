@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-21T23:03:05+00:00",
+  "generated_at": "2026-11-21T23:21:43+00:00",
   "model": "DeepSeek-V4-Flash · AMD Token Factory",
   "pipeline": [
     {
@@ -151,30 +151,6 @@
           "reliability": "unsicher",
           "domain": "cybersecuritytalks.podbean.com",
           "cited": false
-        },
-        {
-          "id": "f_julius_revel8_aims_to_build_10_million_human_fi",
-          "label": "Revel8 aims to build '10 million human firewalls'.",
-          "category": "project",
-          "reliability": "unsicher",
-          "domain": "cybersecuritytalks.podbean.com",
-          "cited": false
-        },
-        {
-          "id": "f_julius_julius_m_is_ai_powered_social_engineerin",
-          "label": "Julius M. is AI-Powered Social Engineering at revel…",
-          "category": "role",
-          "reliability": "unsicher",
-          "domain": "linkedin.com",
-          "cited": false
-        },
-        {
-          "id": "f_julius_revel8_offers_a_free_tool_to_generate_yo",
-          "label": "revel8 offers a free tool to generate your own deep…",
-          "category": "project",
-          "reliability": "unsicher",
-          "domain": "revel8.ai",
-          "cited": false
         }
       ],
       "research_count": 58,
@@ -305,18 +281,6 @@
           "kind": "investor",
           "channel": "web",
           "count": 10
-        },
-        {
-          "domain": "careers.celonis.com",
-          "kind": "jobs",
-          "channel": "web",
-          "count": 7
-        },
-        {
-          "domain": "research.crustdata.com",
-          "kind": "web",
-          "channel": "web",
-          "count": 2
         }
       ],
       "knowledge": [
@@ -364,30 +328,6 @@
           "id": "f_tom_tom_m_ller_co_founded_revel8_a_consultin",
           "label": "Tom Müller co-founded revel8, a consulting company,…",
           "category": "project",
-          "reliability": "unsicher",
-          "domain": "linkedin.com",
-          "cited": false
-        },
-        {
-          "id": "f_tom_tom_m_ller_will_give_a_keynote_for_tset_",
-          "label": "Tom Müller will give a keynote for TSET members.",
-          "category": "talk",
-          "reliability": "unsicher",
-          "domain": "linkedin.com",
-          "cited": false
-        },
-        {
-          "id": "f_tom_tom_m_ller_is_co_founder_at_revel8",
-          "label": "Tom Müller is Co-Founder at revel8.",
-          "category": "role",
-          "reliability": "unsicher",
-          "domain": "linkedin.com",
-          "cited": false
-        },
-        {
-          "id": "f_tom_tom_m_ller_is_co_founder_of_revel8",
-          "label": "Tom Müller is co-founder of revel8.",
-          "category": "role",
           "reliability": "unsicher",
           "domain": "linkedin.com",
           "cited": false
@@ -525,12 +465,6 @@
           "kind": "web",
           "channel": "web",
           "count": 7
-        },
-        {
-          "domain": "careers.celonis.com",
-          "kind": "jobs",
-          "channel": "web",
-          "count": 6
         }
       ],
       "knowledge": [
@@ -578,30 +512,6 @@
           "id": "f_robert_revel8_is_moving_to_munich_in_early_2026",
           "label": "revel8 is moving to Munich in early 2026.",
           "category": "project",
-          "reliability": "unsicher",
-          "domain": "linkedin.com",
-          "cited": false
-        },
-        {
-          "id": "f_robert_julius_muth_appeared_on_the_cyber_securi",
-          "label": "Julius Muth appeared on the Cyber Security District…",
-          "category": "talk",
-          "reliability": "unsicher",
-          "domain": "cybersecuritytalks.podbean.com",
-          "cited": false
-        },
-        {
-          "id": "f_robert_cto_at_revel8_since_oct_2024",
-          "label": "CTO at revel8 since Oct 2024",
-          "category": "role",
-          "reliability": "unsicher",
-          "domain": "linkedin.com",
-          "cited": false
-        },
-        {
-          "id": "f_robert_robert_seilbeck_is_cto_at_revel8",
-          "label": "Robert Seilbeck is CTO at revel8.",
-          "category": "role",
           "reliability": "unsicher",
           "domain": "linkedin.com",
           "cited": false
