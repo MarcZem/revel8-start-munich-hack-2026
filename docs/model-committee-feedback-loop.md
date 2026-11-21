@@ -1,200 +1,146 @@
-# Model Committee and Feedback Loop
+# Model Committee for the Revel8 Simulation
 
-## Core idea
+> Optional model architecture for the current leading proposal in [`codex-agent-architecture-proposal.md`](codex-agent-architecture-proposal.md). The official case brief, API documentation, and scoring rubric take precedence. A committee is an implementation choice, not a challenge requirement.
 
-Use local open-weight models on AMD Developer Cloud as a committee instead of relying on a single model or immediate fine-tuning.
+## Purpose
 
-The system should first learn through structured test runs:
+Use a small set of model roles to improve evidence handling, API-payload quality, and run continuity without making live fine-tuning a dependency. The committee must follow the same challenge boundary as the orchestrator: all scored interactions go through the Revel8 API, and the agent operates without human edits or approvals during a scoring run.
 
-1. Generate several candidate strategies and messages.
-2. Score them with independent critics.
-3. Send only the best rule-compliant candidate to the simulation API.
-4. Store the result, event, and critic scores.
-5. Turn successful and failed attempts into preference data for later training.
+The committee should help the jury understand the architecture and the system's decisions. Avoid adding agents solely to increase the count of components.
 
-This gives the team a strong architecture and a clear learning story without making live fine-tuning the critical path.
+## Recommended roles
 
-## Recommended model roles
+### Evidence synthesizer
 
-### Social-engineering advisor
+Input: sourced facts from the research graph. Output: a compact, cited context packet with confidence, freshness, contradictions, and excluded facts. It must not invent missing information or treat private target labels as observable.
 
-Candidate model: `smd20/socialengineering`
+### Contact planner
 
-Use this model to propose tactics, pretexts, and scenario patterns for the authorized simulation. It should not be the only writer and should not decide what gets sent.
+Input: current run/session state, contact budget, API-returned replies/events, and the approved context packet. Output: a structured next-step plan, or a stop decision. It follows the API session/contact mapping and does not rely on information the API has not returned.
 
-Good outputs:
+### Channel composer
 
-- Possible contact angles.
-- Social-engineering principle behind each angle.
-- Likely target objections.
-- Follow-up strategy after silence or pushback.
-- Risk notes for the evaluator.
+Input: the plan, cited evidence, and the selected API channel schema. Output: a schema-valid contact payload and, where required, the landing-page content to submit through the API. It does not call external channels or host content.
 
-### Primary writer
+### Independent evaluators
 
-Candidate models:
+Run evaluators automatically before API submission. Their output is a structured assessment, not a manual approval request.
 
-- `Qwen/Qwen3-14B`
-- `Qwen/Qwen3-32B`
-- `Mistral-Small-24B-Instruct`
+- **Evidence evaluator:** checks that target-specific factual claims map to evidence IDs and flags contradictions or stale facts.
+- **Schema evaluator:** validates the channel payload against the API contract.
+- **Fair-play evaluator:** checks the challenge rules: no real external contact, no real organization's own domain, no real malware, and no prompt injection or attempts to change the target's instructions.
+- **Continuity evaluator:** checks that the next turn is consistent with the recorded replies, events, and session state.
 
-Use the primary writer to draft the actual channel-specific message. It receives only the context paths selected by the context router, not the whole target profile.
+A deterministic code-level validator has final authority to block an invalid API call. During scored runs, the orchestrator acts autonomously: it repairs, replans, or stops without asking a person to approve a message.
 
-The writer should produce multiple candidates with structured metadata:
-
-```json
-{
-  "channel": "email",
-  "sender_type": "fake_vendor_research_contact",
-  "objective": "action",
-  "angle": "vendor onboarding review",
-  "message": "...",
-  "landing_page_summary": "...",
-  "used_evidence_ids": ["evidence_001", "evidence_004"],
-  "known_risks": ["could sound too urgent"]
-}
-```
-
-### Security and realism critics
-
-Candidate models:
-
-- `fdtn-ai/Foundation-Sec-8B-Instruct`
-- `fdtn-ai/Foundation-Sec-8B-Reasoning`
-- `athena129/CyberSecQwen-4B`
-- `dreamgroup/MiST-8B`
-- `ibm-granite/granite-3.3-8b-instruct`
-
-Use critics to score each candidate before anything is sent to the challenge API.
-
-Critic rubrics:
-
-- Rule compliance: no real channels, no real domains, no malware, no prompt injection.
-- Evidence fidelity: no unsupported or wrong facts.
-- Persona fit: matches role, public interests, and current context.
-- Craft: plausible channel formatting and tone.
-- Persistence: sets up a coherent next step.
-- Risk: likely to be disqualified or seen as unsafe.
-
-The critics should return structured scores:
-
-```json
-{
-  "candidate_id": "msg_002",
-  "scores": {
-    "rule_compliance": 4,
-    "evidence_fidelity": 3,
-    "persona_fit": 4,
-    "craft": 3,
-    "persistence": 4,
-    "disqualification_risk": 1
-  },
-  "send_recommendation": "send",
-  "reasoning_summary": "Uses high-confidence CFO evidence and fake-domain constraints; no real-world contact path."
-}
-```
-
-Use a 1-4 scale where 4 is best, except risk where 1 is lowest risk.
-
-## Orchestrator flow
+## Committee flow
 
 ```text
-Person knowledge graph
-   |
-   v
-Context router selects relevant paths
-   |
-   v
-Social-engineering advisor proposes angles
-   |
-   v
-Primary writer drafts candidates
-   |
-   v
-Critic committee scores candidates
-   |
-   v
-Safety gate blocks disallowed candidates
-   |
-   v
-Orchestrator sends best candidate to fake/challenge API
-   |
-   v
-API response updates strategy scores
-   |
-   v
-Run log becomes eval + preference data
+Evidence graph
+  → context synthesizer
+  → run planner
+  → channel composer
+  → evidence / schema / fair-play / continuity evaluators
+  → deterministic validator
+  → Revel8 API adapter
+  → normalized reply, event, silence, or error
+  → persisted run state
+  → next autonomous plan or stop
 ```
 
-## Feedback data format
+Use one writer/composer by default. Candidate generation and reranking can be added only if local evaluation shows a measurable benefit and the scoring-run decision remains autonomous.
 
-Every test run should store enough data to train or tune later.
+## Structured records
+
+The following are internal records. The API's documented field names remain authoritative.
+
+### Evaluator result
 
 ```json
 {
-  "persona_id": "lena_kraus",
-  "run_id": "run_2026_11_21_001",
-  "objective": "action",
-  "loaded_context_paths": ["person.role", "company.audit_preparation", "interest.supplier_risk"],
-  "candidates": [
-    {
-      "candidate_id": "msg_001",
-      "writer_model": "Qwen3-14B",
-      "advisor_model": "smd20/socialengineering",
-      "critic_scores": {},
-      "sent": false,
-      "rejection_reason": "Used low-confidence old job fact"
-    },
-    {
-      "candidate_id": "msg_002",
-      "writer_model": "Qwen3-14B",
-      "advisor_model": "smd20/socialengineering",
-      "critic_scores": {},
-      "sent": true,
-      "api_event": "link_opened"
-    }
-  ],
-  "winner_candidate_id": "msg_002",
-  "lesson": "Vendor-risk angle worked; old-job personalization should stay excluded."
+  "contact_id": "...",
+  "checks": {
+    "evidence_supported": true,
+    "channel_schema_valid": true,
+    "fair_play_valid": true,
+    "session_consistent": true
+  },
+  "flags": [],
+  "decision": "submit|repair|stop",
+  "summary": "Short, user-visible reason"
 }
 ```
 
-## Training strategy
+### Run feedback record
 
-Do not start with fine-tuning. Start with committee scoring and reranking.
+```json
+{
+  "run_id": "...",
+  "target_id": "...",
+  "session_id": "...",
+  "contact_index": 1,
+  "context_fact_ids": ["..."],
+  "composer_model": "...",
+  "evaluator_results": [],
+  "api_outcome": "reply|event|silence|error",
+  "normalized_events": [],
+  "next_decision": "continue|replan|stop"
+}
+```
 
-Fine-tuning becomes useful only after the team has enough high-quality examples:
+Keep secrets out of these records. Store only information needed to replay the simulation and diagnose failures; the Revel8 API is authoritative for recorded and rendered scoring turns.
 
-- 100-300 synthetic or authorized examples for a small LoRA experiment.
-- Preference pairs from real test runs.
-- Clear evals that show improvement over the committee-only baseline.
-- No training data from real private people.
+## Run modes and exact challenge fit
 
-If training is attempted, train a well-supported base model such as Qwen rather than a GGUF-only social-engineering model. Keep the framing as authorized security-awareness simulation writing, not real-world phishing or bypassing model safeguards.
+- **Practice:** unlimited sessions against the three founder AI twins. Use practice to check API behavior, session semantics, supported payloads, persistence, and evaluator reliability.
+- **Scoring:** three independent runs of ten contacts each against new AI-twin targets. The exact times are announced at kickoff. The agent chooses, writes, sends, and continues/stops without human intervention.
+- **Session mapping:** the brief says a session is one exchange and a new session is a clean slate. Read the API docs before deciding whether a contact creates a session or continues one. Persist session IDs exactly.
+- **Feedback:** adapt only to replies and events returned during the run. The target's susceptible-topic annotations are private; do not assume the committee can inspect them. Use official scoring feedback after the run where available.
+- **Landing pages:** submit link and page content through the API; do not host a page.
+- **Channel rendering:** use the API's supported channel schemas and rendered output. Do not add live integrations with external channels.
 
-## Pitch value
+## How this maps to the rubric
 
-This is strong for the jury because it shows:
+| Rubric | Committee contribution |
+| --- | --- |
+| Results (25) | Reliable API payloads, event normalization, and accurate incident/contact logging. |
+| Targeting (10) | Evidence-backed context selection and a record of which facts were used; private topic labels remain an API scoring signal, not a prompt input. |
+| Craft (10) | Schema-correct payloads and a preview based on the API representation; the API's scoring render is authoritative. |
+| Architecture & Persistence (40) | Clear responsibilities, durable run state, autonomous re-planning, evaluator outputs, and replayable decisions. |
+| Pitch & Demo (15) | Show the committee as part of one real run thread; explain what each role contributes without spending the pitch listing models. |
 
-- Multiple specialized models with clear responsibilities.
-- Local AMD Developer Cloud usage with reproducible inference.
-- A learning loop based on simulation outcomes.
-- Explainable scoring before each contact.
-- Safety enforced by code and critics, not only by model refusals.
+Wrong facts can cost up to five points. The evidence evaluator should therefore reject or flag unsupported target facts before submission. The official formula for each measured score is in [`revel8-official-challenge.md`](revel8-official-challenge.md).
 
-Suggested pitch wording:
+## Model selection and training
 
-> We do not rely on one black-box model to write messages. Our agent uses a local model committee: one advisor proposes the social-simulation angle, a writer drafts candidates, independent security critics score them, and a code-level safety gate blocks anything outside the rules. Every test run becomes preference data for later tuning.
+The case allows any model, framework, or tool. Select models only after checking availability on the team's chosen runtime, structured-output quality, latency, licensing, and cost. Local inference on AMD hardware may be tested if the team has access, but it is not an official requirement.
+
+Do not fine-tune during the scoring window. First establish a deterministic baseline, API adapter, run persistence, and evals. Use authorized practice-run records and fictional fixtures for offline evaluation. Treat the official scoring run as an evaluation set; do not alter prompts or model weights manually during it.
+
+## Evaluation plan
+
+Use local fixtures and practice sessions to check:
+
+- Evidence records preserve source, date, confidence, and contradictions.
+- Context synthesis excludes irrelevant or low-confidence facts.
+- Session IDs and memory follow API documentation; independent runs do not leak state into each other.
+- The API adapter handles replies, events, silence, rate limits, and errors.
+- The run controller never exceeds ten contacts in a scoring run.
+- Evaluators flag unsupported facts, invalid channel payloads, rule violations, and discontinuity.
+- The scored mode has no manual message approval or edit step.
+- Logs distinguish observed API responses from private official scoring labels.
+
+Keep development measurements separate from official scoring. The official rubric uses 45 API-measured points and 55 jury points, with medians across three runs where specified.
 
 ## Hackathon priority
 
-Build this in stages:
+Build in this order:
 
-1. Committee interfaces and JSON contracts.
-2. Stubbed local model outputs for deterministic evals.
-3. Real local inference for one advisor and one writer.
-4. Critic scoring and reranking.
-5. Feedback data export.
-6. Optional LoRA only if the baseline is already stable.
+1. One API/mock adapter contract and persistent run record.
+2. Session/contact semantics and the ten-contact run controller.
+3. Evidence synthesizer plus deterministic schema and fair-play validators.
+4. One composer and a reliable event-driven feedback loop.
+5. Replay UI and the one-page architecture hand-in.
+6. Optional model committee/reranking only after the end-to-end path is stable.
 
-The demo can win without fine-tuning if the committee, logs, evals, and replay are strong.
+The committee is successful if it makes one real scoring thread more reliable and easier to explain. It is not successful merely because it contains several models.

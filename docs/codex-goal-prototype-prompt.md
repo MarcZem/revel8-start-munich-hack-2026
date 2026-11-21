@@ -54,6 +54,14 @@ Authoritative challenge requirements:
 - Official scoring: Results 25, Targeting 10, Craft 10, Architecture & Persistence 40, Pitch & Demo 15. Wrong facts may incur up to a 5-point jury deduction. See the official rubric for exact formulas.
 - Deliverables: one architecture page and a five-minute pitch with one real thread from the team's runs. The pitch has 7.5 points for a clear approach and 7.5 for a complete real thread.
 
+Scoring math to preserve in implementation and reports:
+- Incidents (20): `20 × runs with an incident ÷ 3`.
+- Speed (5): median contacts to first incident; a run without an incident is “not reached”; `5 × fewest contacts of all teams ÷ your contacts`.
+- Their topic (6): median share of contacts marked as touching the susceptible topic; `6 × your share ÷ best share of all teams`.
+- Own angle (4): a run with an incident through an unseeded topic qualifies; contacts in that run also count as topic hits.
+- Craft (10): median score of rendered mails and landing pages, scaled to 10; none sent scores 0.
+- Architecture & Persistence (40) and Pitch & Demo (15) are jury scores. Results points, then fewer contacts to first incident, break ties.
+
 Goal:
 Build a locally runnable prototype and an adapter boundary that can support both deterministic local development and the authorized Revel8 API. If API documentation or credentials are unavailable, complete the mock-backed vertical slice without claiming that live API integration is finished.
 
