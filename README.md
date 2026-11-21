@@ -37,13 +37,15 @@ The frontend/application framework has not been selected yet. The first local pr
 5. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
 6. For the official, opt-in Revel8 API client and read-only connection check, see
    [docs/revel8-api.md](docs/revel8-api.md).
-7. For the AMD Developer Cloud / Token Factory model endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
+7. For the latest organizer clarifications about form values, story timestamps,
+   and touch/session limits, see [the dated Revel8 update](docs/revel8-updates-2026-11-21.md).
+8. For the AMD Developer Cloud / Token Factory model endpoint, use [docs/amd-vllm-endpoint.md](docs/amd-vllm-endpoint.md) and run:
 
    ```sh
    python3 scripts/check_vllm_endpoint.py --env-file .env.local
    ```
 
-8. Keep local credentials in an untracked `.env.local` file or environment variable. Never commit secrets.
+9. Keep local credentials in an untracked `.env.local` file or environment variable. Never commit secrets.
 
 ## Project notes
 

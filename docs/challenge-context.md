@@ -2,6 +2,8 @@
 
 > Historical context from the 20:30 Voice Memos recording titled “Technische Universität München”. The source recording is in German. The appendix is a machine-generated English translation using Faster Whisper (`small`, German → English); it has not been checked against the audio line by line. The official case and scoring PDFs transcribed in [`revel8-official-challenge.md`](revel8-official-challenge.md) take precedence over this transcript. Its final portion contains low-confidence fragments and timestamps beyond the recording duration.
 
+For later organizer clarifications about scoring touches, form submissions, and `sent_at`, use the dated [November 21 update](revel8-updates-2026-11-21.md) and the current [API guide](revel8-api.md); those details were not in the original recording.
+
 ## Executive summary
 
 The challenge is to build a generalizable, agent-driven security simulation that interacts with organizer-provided AI personas through an API. The personas represent people and should be treated as simulated human targets, not as language models to manipulate. The system should use publicly available information to form an understanding of each persona, create context-appropriate interactions, send them through the challenge interface, observe resulting events, and adapt its next step. The final scoring run is expected to use personas beyond the three practice personas, so a system that only memorizes the supplied founders will not generalize.
@@ -35,9 +37,9 @@ The audio-only interpretation below has been superseded by the case-page details
 
 ## Challenge inputs and remaining implementation questions
 
-The official case description is in [`revel8-official-challenge.md`](revel8-official-challenge.md). It confirms three founder AI twins for unlimited practice, new AI-twin targets for scoring, API-based interactions, a ten-contact limit in each of three scoring runs, the channel list, incident categories, score formulas, and a five-minute pitch.
+The official case description is in [`revel8-official-challenge.md`](revel8-official-challenge.md). It confirms three founder AI twins for unlimited practice, new AI-twin targets for scoring, API-based interactions, a ten-touch limit in each of three scoring sessions, the channel list, incident categories, score formulas, and a five-minute pitch.
 
-Remaining implementation questions are operational: the precise API schema and rate limits, what sender/channel fields each endpoint accepts, how sessions map to contacts, how the API represents replies and events, and how registered landing-page content is submitted. Resolve these from the API start-page documentation before building the adapter.
+Remaining implementation questions are operational: exact endpoint schemas and rate limits, sender/channel fields, and the response/event structures. Resolve these from the current API docs before changing the adapter. Session memory, touch accounting, form value handling, and story timestamps are covered by the dated update and API guide.
 
 ## Scope and source note
 

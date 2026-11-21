@@ -197,10 +197,13 @@ Der Agent muss selbst recherchieren, Kanal und Sender wählen, schreiben, senden
 
 ### Offizielle Mechanik
 
-- **Practice:** unbegrenzt mit den drei Founder-AI-Twins ab Samstag-Kickoff; Practice wird nicht gewertet.
-- **Scoring:** drei Runs mit je zehn Kontakten, Sonntagmorgen zu den beim Kickoff genannten Zeiten, gegen neue Targets. Der Median der drei Runs zählt, wo in der Rubrik angegeben.
-- **Session:** Das Briefing sagt: eine Session ist ein Austausch, der Target merkt sich den Inhalt; eine neue Session ist ein Neustart. Die genaue Zuordnung von Session zu Kontakt im Code erst anhand der API-Doku festlegen.
+- **Practice:** unbegrenzt viele Sessions mit den drei Founder-AI-Twins; jede Session hat 30 Touches. Practice wird nicht gewertet.
+- **Scoring:** Im Scoring-Fenster werden drei neue, verborgene Targets freigeschaltet. Pro Target genau eine Session, jeweils mit maximal zehn Touches. Das sind die drei Scoring-Runs; wo die Rubrik es vorsieht, zählt der Median.
+- **Touch:** Ein Touch ist ein gestarteter Kontakt: eine Nachricht auf einem beliebigen Kanal oder ein Anruf. Ein kompletter Anruf zählt einmal und kann bis zu zehn Äußerungen enthalten. Auch ignorierte Nachrichten zählen. Seiten registrieren, Dateien hochladen, Events lesen und fehlgeschlagene Requests wiederholen ist kostenlos. Nach zehn Touches nimmt die Session keine neuen Kontakte an.
+- **Session:** Ein Target merkt sich den gesamten Austausch innerhalb einer Session; getrennte Sessions teilen kein Gedächtnis.
 - **API:** nur die revel8 API verwenden. Sie hostet Targets und stellt Events bereit. Teams hosten keine Landingpages, sondern übermitteln Link und Seiteninhalt an die API.
+- **Formulare:** Die eingetragenen Feldwerte bestimmen die Wertung. Name oder E-Mail allein zählen nicht als Gewinn; es braucht ein Secret (z. B. Passwort/Einmalcode) oder interne Information. Bei der Seitenregistrierung deklarierte Feldnamen bestimmen, was das Target ausfüllt und wie eine Einreichung klassifiziert wird. `page.submitted` liefert `values`; Secret-Inhalte werden als `"(entered, not shown)"` maskiert.
+- **Story-Zeit:** Nachrichten, Anrufe und Conversation-Turns können ein optionales `sent_at` im ISO-8601-Format mit Zeitzone enthalten, damit das Target den Zeitpunkt innerhalb der erzählten Handlung kennt.
 - **Kanäle:** die API-Liste umfasst E-Mail, SMS und Messenger/Collaboration-Plattformen, Kalender und Dokumente sowie textbasierte Live-Interaktionen über Telefon, Video, Teams oder Chat. Vor dem Bau die konkreten Payloads und verfügbaren Endpunkte nachschlagen.
 - **Auswertung:** Revel8 zeichnet alle Scoring-Turns auf und rendert sie. Es gibt keine separate Run-Abgabe.
 
@@ -215,6 +218,8 @@ Der Agent muss selbst recherchieren, Kanal und Sender wählen, schreiben, senden
 | Pitch & Demo | 15 | Fünf Minuten: 7,5 Punkte für Ansatz und Wirksamkeit, 7,5 für einen echten Run-Thread von Anfang bis Ende. |
 
 Weitere Einzelheiten und Formeln stehen in [`docs/revel8-official-challenge.md`](revel8-official-challenge.md). Besonders wichtig: Jede Run zählt bei Incidents nur einmal; Speed basiert auf dem Median der Kontakte bis zum ersten Incident; Targeting bewertet den Anteil der Kontakte zum gesetzten Topic; die Jury kann bis zu fünf Punkte wegen falscher Fakten abziehen. Eigene erfolgreiche Angles haben einen eigenen Wert. Score-Formeln nicht aus dem Audiotranskript ableiten.
+
+Die Organizer-Klarstellungen vom 21.11.2026 sind zusätzlich in [`docs/revel8-updates-2026-11-21.md`](revel8-updates-2026-11-21.md) dokumentiert.
 
 ### Agentenstruktur aus dem aktuellen Vorschlag
 
@@ -234,7 +239,7 @@ Jede Spezialrolle soll ein kompaktes, typisiertes Ergebnis liefern. Das hält di
 
 Für jeden Run getrennt speichern:
 
-- Target- und Session-IDs, API-Modus und Kontaktindex (1–10).
+- Target- und Session-IDs, API-Modus und Touchindex (1–10 im Scoring; bis zu 30 pro Practice-Session).
 - Quellen und Evidenz-IDs des Profils.
 - Gewählte Fakten und kurze Entscheidungsbegründung pro Turn.
 - Übermittelter Kanal, Sender und API-Payload.

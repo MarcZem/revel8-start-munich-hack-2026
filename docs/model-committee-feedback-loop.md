@@ -16,7 +16,7 @@ Input: sourced facts from the research graph. Output: a compact, cited context p
 
 ### Contact planner
 
-Input: current run/session state, contact budget, API-returned replies/events, and the approved context packet. Output: a structured next-step plan, or a stop decision. It follows the API session/contact mapping and does not rely on information the API has not returned.
+Input: current run/session state, touch budget, API-returned replies/events, and the approved context packet. Output: a structured next-step plan, or a stop decision. It follows the session and touch rules in the official update and does not rely on information the API has not returned.
 
 ### Channel composer
 
@@ -93,8 +93,9 @@ Keep secrets out of these records. Store only information needed to replay the s
 ## Run modes and exact challenge fit
 
 - **Practice:** unlimited sessions against the three founder AI twins. Use practice to check API behavior, session semantics, supported payloads, persistence, and evaluator reliability.
-- **Scoring:** three independent runs of ten contacts each against new AI-twin targets. The exact times are announced at kickoff. The agent chooses, writes, sends, and continues/stops without human intervention.
-- **Session mapping:** the brief says a session is one exchange and a new session is a clean slate. Read the API docs before deciding whether a contact creates a session or continues one. Persist session IDs exactly.
+- **Scoring:** one session per each of three new AI-twin targets, up to ten touches per session. One initiated message or call is one touch; calls may contain up to ten utterances, and ignored messages count. The exact scoring window is announced at the event. The agent chooses, writes, sends, and continues/stops without human intervention.
+- **Session memory:** each session is one continuous exchange; the target remembers everything in that session and separate sessions share no memory. Practice remains unscored with unlimited sessions and 30 touches per session for each practice target.
+- **Updated API fields:** registered page field names determine how `page.submitted.values` are classified; secrets are redacted. Messages, calls, and turns may carry optional timezone-aware `sent_at` timestamps.
 - **Feedback:** adapt only to replies and events returned during the run. The target's susceptible-topic annotations are private; do not assume the committee can inspect them. Use official scoring feedback after the run where available.
 - **Landing pages:** submit link and page content through the API; do not host a page.
 - **Channel rendering:** use the API's supported channel schemas and rendered output. Do not add live integrations with external channels.
@@ -125,7 +126,7 @@ Use local fixtures and practice sessions to check:
 - Context synthesis excludes irrelevant or low-confidence facts.
 - Session IDs and memory follow API documentation; independent runs do not leak state into each other.
 - The API adapter handles replies, events, silence, rate limits, and errors.
-- The run controller never exceeds ten contacts in a scoring run.
+- The run controller never exceeds ten touches in a scoring session; a call is one touch even when it has multiple turns.
 - Evaluators flag unsupported facts, invalid channel payloads, rule violations, and discontinuity.
 - The scored mode has no manual message approval or edit step.
 - Logs distinguish observed API responses from private official scoring labels.
@@ -137,7 +138,7 @@ Keep development measurements separate from official scoring. The official rubri
 Build in this order:
 
 1. One API/mock adapter contract and persistent run record.
-2. Session/contact semantics and the ten-contact run controller.
+2. Session memory semantics and the ten-touch scoring controller.
 3. Evidence synthesizer plus deterministic schema and fair-play validators.
 4. One composer and a reliable event-driven feedback loop.
 5. Replay UI and the one-page architecture hand-in.

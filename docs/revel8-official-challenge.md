@@ -59,8 +59,14 @@ Each twin has one or two hidden hooks: topics they are currently open to. Scorin
 
 ## Practice and scoring runs
 
-- **Practice:** unlimited sessions against the three founder twins from Saturday kickoff. Practice sessions are not scored.
-- **Scoring:** three runs of ten contacts on Sunday morning, at times announced at kickoff, against new targets. Scores use the median across the three runs.
+- **Practice:** unlimited sessions against the three founder twins from Saturday kickoff. Each practice session allows 30 touches. Practice sessions are not scored.
+- **Scoring:** the scoring window provides three new hidden targets. Use one session per target, with up to ten touches in each session; these are the three scoring runs. The final score uses the median across the three sessions. The exact window is announced at the event.
+- **Touch:** one contact started: one message on any channel or one call. A whole call is one touch, with up to ten utterances. Ignored messages count. Registering pages, uploading files, reading events, and retrying failed requests are free. After ten touches, a scoring session accepts no new contacts.
+- **Session memory:** the target remembers everything within one session; separate sessions share no memory.
+- **Form outcomes:** the entered values determine the outcome. A submission counts as a win only when the target enters a secret (such as a password or one-time code) or internal information; name and email alone are only a step. Page registration declares field names, which guide what the target fills and determine how a submission is classified. `page.submitted` now returns `values`; secrets appear as `"(entered, not shown)"`.
+- **Story time:** messages, calls, and conversation turns may include optional ISO-8601 `sent_at` timestamps with a timezone offset. This tells the target when the event happened in the story. Existing clients may omit it.
+
+The dated organizer clarification and implementation notes are captured in [`revel8-updates-2026-11-21.md`](revel8-updates-2026-11-21.md).
 
 ## Rules
 

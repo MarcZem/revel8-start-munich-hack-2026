@@ -61,3 +61,34 @@ The API processes messages with a model and can take up to 90 seconds; the clien
 defaults to a 120-second timeout. API errors omit response bodies and credentials.
 See the [official API docs](https://target-api.apps.01.cf.eu01.stackit.cloud/docs.md)
 for current scenario, channel, page, and conversation contracts.
+
+## Forms, story timestamps, and touch accounting
+
+For registered pages, provide realistic field names in `fields`; these names
+determine how submitted values are classified. A name or email alone does not
+count as a win. A `page.submitted` event includes entered `values`; secret
+contents are redacted as `"(entered, not shown)"`.
+
+Message, call/conversation, and conversation-turn payloads accept an optional
+ISO-8601 `sent_at` value with timezone offset. The Python client exposes this as
+an optional argument on `send_message`, `start_conversation`, and
+`conversation_turn`:
+
+```python
+result = api.send_message(
+    session["session_id"],
+    to="julius",
+    channel="email",
+    body="Example message for an authorized practice scenario.",
+    sent_at="2026-11-23T09:14:00+01:00",
+    idempotency_key="run-123-message-1",
+)
+```
+
+Scoring uses one session per each of three hidden targets, with a 10-touch
+maximum per session; each started message or call is one touch, and up to ten
+utterances in a call remain one touch. Ignored messages count. Page registration,
+uploads, event reads, and retries of failed requests are free. Practice remains
+unscored, with unlimited sessions and 30 touches per session for each practice
+target. See the [November 21 update](revel8-updates-2026-11-21.md) for the full
+clarification.

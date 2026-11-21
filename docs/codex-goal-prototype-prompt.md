@@ -46,8 +46,10 @@ GitHub issue coordination:
 Authoritative challenge requirements:
 - The agent researches public information about a real person represented by an AI twin, contacts that twin only through the Revel8 API, and adapts to replies/events.
 - Practice: unlimited sessions with the three founder twins; new AI-twin targets are used in scoring.
-- Scoring: three runs of ten contacts each, at announced Sunday-morning times. The API records and renders every scored turn; no separate run submission is required.
-- A session is one exchange and a new session is a clean slate. Confirm the API's exact session/contact mapping before implementing continuity.
+- Scoring: one session per each of three newly revealed targets, up to ten touches per session. One started message or call is one touch; a call may contain up to ten utterances, and ignored messages count. Page registration, uploads, event reads, and failed-request retries are free. The median of the three sessions counts where specified. The API records and renders every scored turn; no separate run submission is required.
+- Each session is one continuous exchange: the target remembers everything in it, and sessions do not share memory. Practice remains unlimited sessions with 30 touches per session for each of the three practice targets; practice is unscored.
+- Form field names declared at page registration determine how submitted values are classified. Name/email alone are not a win. `page.submitted` includes `values`; secrets are redacted as `"(entered, not shown)"`.
+- Messages, calls, and conversation turns may include optional timezone-aware ISO-8601 `sent_at` timestamps to set story time.
 - Targets can respond to supported channels through the API. Teams do not host landing pages; submit their link and page content through the API.
 - The scored agent is autonomous: no human may write, edit, or approve messages during a scoring run.
 - Fair play: API simulation only; no real people or real communication channels, no real malware, no prompt injection or attempts to change target instructions, and never a real organization's own domain.
@@ -69,7 +71,7 @@ Required capabilities:
 1. Convert permitted public evidence or local fixtures into a sourced person evidence graph.
 2. Delegate bounded research tasks to specialist agents, returning compact facts with source, time, confidence, and contradiction status.
 3. Let a run orchestrator select relevant evidence, a supported API channel, and the next contact step.
-4. Keep the session/run state and contact count persistent. Enforce the ten-contact scoring-run limit.
+4. Keep session/run state and touch counts persistent. Enforce ten touches per scoring session and 30 per practice session; count one call as one touch, regardless of its number of utterances (up to ten).
 5. Compose and validate channel-specific API payloads without using external messaging services or hosting landing pages.
 6. Submit through an isolated Revel8 API adapter; provide a deterministic mock adapter for local evals.
 7. Normalize replies, events, silence, and API errors; adapt the next step using only information the API actually exposes.
@@ -95,7 +97,7 @@ Use fictional personas only in the mock adapter to exercise schemas and generali
 Required evals:
 - One end-to-end mock practice session with replies, events, silence, and API errors.
 - Session/contact mapping and memory behavior matching the official API documentation.
-- Three independent run records, ten-contact cap per scoring run, and no cross-run state leakage.
+- Three independent scoring-session records, ten-touch cap per session, 30-touch cap per practice session, and no cross-session memory leakage.
 - Generalization cases using held-out fictional profiles and varied evidence quality.
 - Wrong-fact and stale-source checks.
 - Context-router check: writer receives selected evidence only, not unrelated or low-confidence facts.
