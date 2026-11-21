@@ -22,6 +22,8 @@ TEMPLATE = r"""<!doctype html>
     *{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     button{font:inherit}.topbar{background:var(--navy);color:#fff;padding:26px max(24px,calc((100vw - 1180px)/2));display:flex;justify-content:space-between;gap:24px;align-items:center}.brand{font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:#a8bad0}.topbar h1{margin:5px 0 0;font-size:27px;line-height:1.2}.topbar p{margin:7px 0 0;color:#c2cedb}.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}.pitch-button{border:1px solid #8194a9;background:#fff;color:var(--navy);padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer}.pitch-count{min-width:92px;color:#d6e1ec;font-size:13px}.layout{max-width:1180px;margin:24px auto 64px;padding:0 20px}.simulation-banner{display:flex;align-items:center;gap:10px;background:#e8f3f2;border:1px solid #c5e0dd;color:#145a57;padding:11px 14px;border-radius:10px;margin-bottom:16px;font-weight:650}.dot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex:none}.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.metric,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 8px #20324a08}.metric{padding:14px 16px}.metric-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}.metric-value{font-size:17px;font-weight:700;margin-top:4px;overflow-wrap:anywhere}.columns{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);gap:16px;align-items:start}.stack{display:grid;gap:16px}.panel{padding:20px}.panel h2{font-size:17px;margin:0 0 4px}.panel-intro{margin:0 0 16px;color:var(--muted);font-size:13px}.pitch-step{transition:opacity .2s,filter .2s}.pitch-active .pitch-step.pitch-hidden{display:none}.pitch-active .pitch-step.pitch-current{outline:3px solid #90b9e2;outline-offset:3px}
     .timeline{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:7px;overflow-x:auto;padding:8px 2px 4px}.timeline-item{position:relative;padding:10px;background:#f6f8fb;border:1px solid var(--line);border-radius:9px;min-height:91px}.timeline-item:before{content:attr(data-step);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#dce8f5;color:var(--blue);font-weight:750;font-size:12px;margin-bottom:7px}.timeline-label{font-size:12px;font-weight:700;line-height:1.3}.timeline-detail{font-size:11px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+    .agent-map-wrap{width:100%;overflow-x:auto;padding:2px 0 6px}.agent-map{display:block;width:100%;min-width:850px;height:auto}.agent-edge{fill:none;stroke:#cbd5e1;stroke-width:2;marker-end:url(#agent-arrow);transition:stroke .25s,opacity .25s}.agent-edge.feedback{stroke-dasharray:6 6}.agent-edge.is-complete{stroke:#83aaa9}.agent-edge.is-active{stroke:var(--teal);stroke-width:3}.flow-packet{opacity:0;fill:#087e78}.agent-edge.is-active .flow-packet{opacity:1}.agent-node rect{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5;rx:12;transition:fill .25s,stroke .25s,filter .25s}.agent-node .node-dot{fill:#94a3b8}.agent-node .node-title{fill:#172438;font-size:13px;font-weight:700}.agent-node .node-detail{fill:#617086;font-size:10px}.agent-node.is-complete rect{fill:#eaf4f1;stroke:#83aaa9}.agent-node.is-complete .node-dot{fill:#087e78}.agent-node.is-active rect{fill:#e5f5f3;stroke:#087e78;stroke-width:2.5;filter:drop-shadow(0 3px 7px #087e7833)}.agent-node.is-active .node-dot{fill:#087e78}.graph-legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:6px}.legend-item{display:inline-flex;align-items:center;gap:7px}.legend-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8}.legend-dot.agent{background:#087e78}.legend-line{width:22px;border-top:2px dashed #83aaa9}.graph-caption{margin:4px 0 0;color:var(--muted);font-size:12px}
+    @media(prefers-reduced-motion:reduce){.flow-packet{display:none}.agent-edge,.agent-node rect{transition:none}}
     .evidence-list,.path-list,.verdict-list{display:grid;gap:10px}.evidence{padding:12px;border:1px solid var(--line);border-radius:9px}.evidence-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.evidence-title{font-weight:700}.confidence{font-variant-numeric:tabular-nums;color:var(--blue);font-weight:750}.bar{height:5px;border-radius:6px;background:#e7edf3;margin:8px 0}.bar span{display:block;height:100%;background:var(--teal);border-radius:6px}.meta{color:var(--muted);font-size:12px}.evidence p{margin:6px 0 0}.path{border-left:3px solid #83aaa9;padding:2px 0 4px 11px}.path-title{font-weight:650}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.chip{background:#edf2f7;border-radius:99px;padding:3px 8px;color:#4c5b6c;font-size:11px}.message{background:#f9fbfd;border:1px solid var(--line);border-radius:10px;overflow:hidden}.mail-head{padding:12px 15px;border-bottom:1px solid var(--line);font-size:13px;color:#526177}.mail-head strong{color:var(--ink)}.mail-subject{padding:13px 15px 0;font-weight:750}.mail-body{padding:12px 15px 16px;white-space:pre-wrap}.mail-link{padding:10px 15px;border-top:1px solid var(--line);font-size:13px;color:var(--blue);overflow-wrap:anywhere}.status{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:99px;font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.04em}.status-send{color:#14674f;background:#e4f3ed}.status-block{color:#9a2938;background:#fbe9eb}.verdict{border:1px solid var(--line);border-radius:9px;padding:11px 12px}.verdict-top{display:flex;justify-content:space-between;gap:12px;align-items:center}.verdict-reasons{margin:8px 0 0;padding-left:18px;color:#903747;font-size:12px}.event-box{border-left:4px solid var(--teal);background:#f0f8f7;padding:14px;border-radius:0 9px 9px 0}.event-name{font-weight:750;color:#155b56}.event-reply{margin:8px 0 0}.event-meta{font-size:12px;color:var(--muted);margin-top:7px}.decision{background:#f7f9fc;border:1px solid var(--line);padding:13px;border-radius:9px}.decision-score{display:flex;gap:8px;align-items:baseline;margin-bottom:6px}.decision-score strong{font-size:24px}.footnote{color:var(--muted);font-size:12px;margin:18px 2px 0}.empty{color:var(--muted);font-style:italic}
     @media(max-width:850px){.columns{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.timeline{grid-template-columns:repeat(6,130px)}}@media(max-width:560px){.topbar{align-items:flex-start;flex-direction:column;padding:22px 20px}.tools{justify-content:flex-start}.layout{margin-top:16px}.summary{gap:8px}.metric{padding:12px}.panel{padding:16px}.topbar h1{font-size:23px}}
   </style>
@@ -43,6 +45,13 @@ TEMPLATE = r"""<!doctype html>
       <h2 id="timeline-title">Run timeline</h2><p class="panel-intro">Each step is taken from the structured run log.</p>
       <div class="timeline">@@TIMELINE@@</div>
     </section>
+    <section class="panel" style="margin-bottom:16px" aria-labelledby="agent-network-title">
+      <h2 id="agent-network-title">Agent handoffs</h2>
+      <p class="panel-intro">Follow the pitch replay to watch evidence, drafts, checks, and the simulated response move through the run.</p>
+      <div class="agent-map-wrap">@@AGENT_GRAPH@@</div>
+      <div class="graph-legend" aria-label="Graph legend"><span class="legend-item"><span class="legend-dot agent"></span>active component</span><span class="legend-item"><span class="legend-dot"></span>workflow component</span><span class="legend-item"><span class="legend-line"></span>feedback saved for a possible next turn</span></div>
+      <p class="graph-caption">This demo run uses deterministic stubs and a fake API adapter. The feedback loop is stored; it does not execute another contact in this replay.</p>
+    </section>
     <div class="columns">
       <div class="stack">
         <section class="panel pitch-step" data-pitch-step="0"><h2>1 · Evidence and confidence</h2><p class="panel-intro">Facts available to this synthetic run, with source and confidence.</p>@@EVIDENCE@@</section>
@@ -58,7 +67,7 @@ TEMPLATE = r"""<!doctype html>
     <p class="footnote">Replay source: @@SOURCE@@ · No real contacts, channels, pages, or API requests were used.</p>
   </main>
   <script>
-    (()=>{const button=document.getElementById('pitch-toggle');const count=document.getElementById('pitch-count');const steps=[...document.querySelectorAll('[data-pitch-step]')];let active=false,index=-1;function paint(){document.body.classList.toggle('pitch-active',active);steps.forEach((el,i)=>{el.classList.toggle('pitch-current',active&&i===index);el.classList.toggle('pitch-hidden',active&&i!==index)});if(!active){button.textContent='Start pitch replay';count.textContent='';return}count.textContent=`Step ${index+1} of ${steps.length}`;button.textContent=index===steps.length-1?'Finish replay':'Next step'}button.addEventListener('click',()=>{if(!active){active=true;index=0}else if(index<steps.length-1){index+=1}else{active=false;index=-1}paint()})})();
+    (()=>{const button=document.getElementById('pitch-toggle');const count=document.getElementById('pitch-count');const steps=[...document.querySelectorAll('[data-pitch-step]')];const graph=document.querySelector('[data-agent-map]');const nodes=[...document.querySelectorAll('[data-agent-stage]')];const edges=[...document.querySelectorAll('[data-flow-step]')];let active=false,index=-1;function paint(){document.body.classList.toggle('pitch-active',active);steps.forEach((el,i)=>{el.classList.toggle('pitch-current',active&&i===index);el.classList.toggle('pitch-hidden',active&&i!==index)});nodes.forEach(el=>{const stage=Number(el.dataset.agentStage);el.classList.toggle('is-active',active&&stage===index);el.classList.toggle('is-complete',active&&stage<index)});edges.forEach(el=>{const stage=Number(el.dataset.flowStep);el.classList.toggle('is-active',active&&stage===index);el.classList.toggle('is-complete',active&&stage<index)});graph.dataset.replayStep=active?String(index):'idle';if(!active){button.textContent='Start pitch replay';count.textContent='';return}count.textContent=`Step ${index+1} of ${steps.length}`;button.textContent=index===steps.length-1?'Finish replay':'Next step'}button.addEventListener('click',()=>{if(!active){active=true;index=0}else if(index<steps.length-1){index+=1}else{active=false;index=-1}paint()})})();
   </script>
 </body>
 </html>
@@ -186,6 +195,67 @@ def _timeline_html(run: dict[str, Any]) -> str:
     return "".join(rows) if rows else '<p class="empty">No timeline steps in this run.</p>'
 
 
+def _agent_graph_html(run: dict[str, Any]) -> str:
+    """Render an accessible, animated handoff map for the six replay stages."""
+    nodes = run.get("graph", {}).get("nodes", {})
+    persona = next((node.get("label") for node in nodes.values() if node.get("type") == "Person"), "Synthetic twin")
+    event_type = (run.get("api_event") or {}).get("event_type", "no event")
+    if not str(event_type).startswith("fake_"):
+        event_type = "recorded response"
+    positions = {
+        "evidence": (20, 42, "Evidence graph", "synthetic facts", 0),
+        "advisor": (205, 42, "Advisor", "deterministic stub", 1),
+        "router": (390, 42, "Context router", "selects evidence", 1),
+        "writer": (575, 42, "Writer", "deterministic stub", 2),
+        "critic": (760, 42, "Critic", "deterministic stub", 2),
+        "gate": (945, 42, "Safety gate", "rule checks", 3),
+        "api": (945, 205, "Fake API", str(event_type), 4),
+        "persona": (700, 205, "Persona twin", str(persona), 4),
+        "memory": (455, 205, "Run memory", "strategy update", 5),
+    }
+    node_html = []
+    for key, (x, y, title, detail, stage) in positions.items():
+        title = _esc(title)
+        detail = _esc(detail)
+        node_html.append(
+            f'<g class="agent-node" data-agent-stage="{stage}" aria-label="{title}: {detail}">'
+            f'<rect x="{x}" y="{y}" width="165" height="62" rx="12"></rect>'
+            f'<circle class="node-dot" cx="{x + 18}" cy="{y + 20}" r="5"></circle>'
+            f'<text class="node-title" x="{x + 31}" y="{y + 24}">{title}</text>'
+            f'<text class="node-detail" x="{x + 14}" y="{y + 45}">{detail}</text></g>'
+        )
+    flows = [
+        (0, "M185 73 H205"),
+        (1, "M370 73 H390"),
+        (1, "M555 73 H575"),
+        (2, "M740 73 H760"),
+        (3, "M925 73 H945"),
+        (4, "M1027 104 V205"),
+        (4, "M945 236 H865"),
+        (5, "M700 236 H620"),
+    ]
+    edge_html = []
+    for index, path in flows:
+        edge_html.append(
+            f'<g class="agent-edge" data-flow-step="{index}"><path d="{path}"></path>'
+            f'<circle class="flow-packet" r="5"><animateMotion dur="1.25s" repeatCount="indefinite" path="{path}"></animateMotion></circle></g>'
+        )
+    feedback = "M455 236 C390 236 365 205 365 145 C365 112 375 90 390 73"
+    edge_html.append(
+        f'<g class="agent-edge feedback" data-flow-step="5"><path d="{feedback}"></path>'
+        f'<circle class="flow-packet" r="5"><animateMotion dur="1.7s" repeatCount="indefinite" path="{feedback}"></animateMotion></circle>'
+        '<text x="390" y="188" fill="#617086" font-size="10">saved for next turn</text></g>'
+    )
+    return (
+        '<svg class="agent-map" data-agent-map viewBox="0 0 1130 300" role="img" '
+        'aria-labelledby="agent-map-svg-title agent-map-svg-desc" xmlns="http://www.w3.org/2000/svg">'
+        '<title id="agent-map-svg-title">Agent handoff map</title>'
+        '<desc id="agent-map-svg-desc">Evidence passes through advisor, context router, writer, critic, safety gate, fake API, and a synthetic persona twin. The recorded strategy feedback is saved for a possible next turn.</desc>'
+        '<defs><marker id="agent-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#cbd5e1" stroke-width="1.4"></path></marker></defs>'
+        + "".join(edge_html) + "".join(node_html) + "</svg>"
+    )
+
+
 def render_replay(run: dict[str, Any], source: str = "local run log") -> str:
     """Build an escaped, dependency-free HTML replay from a schema-compatible run log."""
     if not isinstance(run, dict):
@@ -208,6 +278,7 @@ def render_replay(run: dict[str, Any], source: str = "local run log") -> str:
         "EVENT_TYPE": _esc(event.get("event_type", "none")),
         "SIGNAL": _esc(strategy.get("event_signal", "—")),
         "TIMELINE": _timeline_html(run),
+        "AGENT_GRAPH": _agent_graph_html(run),
         "EVIDENCE": _evidence_html(run, allowed),
         "EXCLUDED_COUNT": _esc(len(routed.get("excluded_evidence_ids", []))),
         "PATHS": _paths_html(run),
