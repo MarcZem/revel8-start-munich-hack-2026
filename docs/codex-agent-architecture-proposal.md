@@ -1,4 +1,4 @@
-# Agent Architecture Proposal
+# Codex Agent Architecture Proposal
 
 ## Core idea
 
