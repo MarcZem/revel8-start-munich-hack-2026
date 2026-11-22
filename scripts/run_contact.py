@@ -32,6 +32,8 @@ def main() -> int:
     p.add_argument("--scenario", default="practice")
     p.add_argument("--max-touches", type=int, default=4)
     p.add_argument("--findings", default=None, help="Path to research/<target>.jsonl (skips re-research)")
+    p.add_argument("--channel", default="email")
+    p.add_argument("--tactic-hint", default=None, help="steer the pretext, e.g. a journalist/press angle")
     args = p.parse_args()
 
     load_env_file(str(ROOT / ".env.local"))
@@ -43,6 +45,7 @@ def main() -> int:
     log = contact_loop.run_contact(
         args.target, args.name, objective=args.objective, scenario=args.scenario,
         max_touches=args.max_touches, findings_path=findings,
+        channel=args.channel, tactic_hint=args.tactic_hint,
     )
     if log.get("error"):
         print("error:", log["error"])
@@ -54,7 +57,8 @@ def main() -> int:
             print(f"  {i}. SKIPPED: {c['skipped']}")
             continue
         kinds = [e.get("type") for e in c.get("events", [])]
-        print(f"  {i}. [{c['payload']['channel']}] '{c['payload']['subject']}' → {kinds or 'silence'}")
+        payload = c.get("payload", {})
+        print(f"  {i}. [{payload.get('channel', '')}] '{payload.get('subject', '')}' → {kinds or 'silence'}")
     return 0
 
 

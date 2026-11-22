@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from agent_core import angle_reasoner, compose, context_broker, graph_loader, lever_critic, llm
@@ -43,9 +43,12 @@ _BREACH_SYSTEM = (
     "- TAKE THE PATH THEY OFFER: if they offer a route ('send a partnership note', 'go via comms', 'book a "
     "call'), USE it as your vehicle and work inside it — do not bypass it; bypassing the path they just "
     "offered reads as pushy and gets silence.\n"
-    "- Do NOT invent checkable specifics (real names, URLs, dates, ticket numbers) you cannot back up — a "
-    "security-aware target will try to verify and a caught fabrication kills the thread (observed live). "
-    "If you can't be verified, acknowledge it plainly and pivot to a low-sensitivity ask.\n"
+    "- GROUND EVERY specific in the TRUE facts you were given. NEVER invent names, dates, partnerships, "
+    "events, companies, affiliations, or shared contacts that are not in those facts — a security-aware "
+    "target checks, and ONE caught fabrication kills the thread (observed live, every single time). If you "
+    "lack a specific, stay deliberately vague ('a mutual contact', 'a recent session') rather than invent "
+    "one; when unsure, say less. If you can't be verified, acknowledge it plainly and pivot to a "
+    "low-sensitivity ask or take the path they offer.\n"
     "- NEVER claim a fact about the target's OWN company or colleagues that they can instantly check — "
     "that a named person there signed off, that a partnership exists, an internal address. It is their org; "
     "they debunk it in one line and the thread dies (observed live). Anchor your pretext in their PUBLIC "
@@ -144,7 +147,7 @@ def react_compose(target_name, hook, evidence, thread, link_url, link_brand, per
     name = (persona or {}).get("name") or obj["from_name"] or "Alex Weber"
     addr = (persona or {}).get("address") or obj["from_address"] or "alex.weber@muc-events.de"
     if channel in compose._HTML_CHANNELS:
-        body = compose.render_email_html(name, obj["body"], link_url, link_brand or "Sign in")
+        body = compose.render_email_html(name, obj["body"], link_url, link_brand or "Sign in", addr)
     else:
         body = obj["body"]
         if link_url:
@@ -163,23 +166,40 @@ def _attach_filename(hook) -> str:
     return f"{slug}.pdf"
 
 
+def _match_evidence(findings, terms, limit=5):
+    """Evidence ids whose fact mentions any anchor term — cite real facts for a forced pretext."""
+    low = [t.strip().lower() for t in terms if t and t.strip()]
+    ids = [f.id for f in findings if any(t in f.fact.lower() for t in low)]
+    return ids[:limit] or [f.id for f in findings[:3]]
+
+
 def run_breach(target_id, target_name, scenario="practice", max_touches=8, channel="email",
                own_domains=("revel8.ai",), findings_path=None, out_dir="runs", attach=False,
-               critique=True) -> dict:
+               critique=True, anchor=None, api=None, findings=None) -> dict:
     """Deep, single-session, reactive breach attempt. Stops at the first REAL incident.
-    attach=True pursues the ACTION incident (get them to OPEN a declared file) instead of credentials."""
-    findings = (
-        graph_loader.load_findings(findings_path)
-        if findings_path and Path(findings_path).exists()
-        else run_research(target_id, target_name)
-    )
+    attach=True pursues the ACTION incident (get them to OPEN a declared file) instead of credentials.
+    anchor={topic, angle, why_now, match} forces an EXTERNAL-anchored pretext (a public talk/paper the
+    target gave) instead of the top auto-ranked hook — external anchors dodge the verifiability wall."""
+    if findings is None:
+        findings = (
+            graph_loader.load_findings(findings_path)
+            if findings_path and Path(findings_path).exists()
+            else run_research(target_id, target_name)
+        )
     hooks = angle_reasoner.rank_hooks(findings)
-    if not hooks:
+    if anchor and anchor.get("topic"):
+        ev = _match_evidence(findings, [anchor["topic"], *anchor.get("match", "").split(",")])
+        hook = angle_reasoner.Hook(topic=anchor["topic"], why_now=anchor.get("why_now", ""),
+                                   evidence_ids=tuple(ev), suggested_channel=channel,
+                                   suggested_angle=anchor.get("angle", anchor["topic"]))
+        hooks = [hook, *hooks]
+    elif not hooks:
         return {"error": "no hooks", "target": target_id}
-    hook = hooks[0]
+    else:
+        hook = hooks[0]
     evidence = context_broker.select_evidence(findings, hook)  # rank cited facts: reliable + fresh first
 
-    api = TargetAPI()
+    api = api or TargetAPI()
     sid = api.create_session(scenario)["session_id"]
     log = {"session_id": sid, "target": target_id, "target_name": target_name,
            "scenario": scenario, "objective": "breach", "channel": channel,
@@ -240,6 +260,9 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
                 log["contacts"].append({"skipped": reason, "payload": payload})
                 print(f"  {reason}")
                 break
+            # Story-time pacing: space touches ~a day apart in-story so it reads as natural follow-up,
+            # not chasing within seconds (organizer note: rapid-fire / 4 a.m. makes targets hold off).
+            payload["sent_at"] = (date.today() + timedelta(days=len(log["contacts"]))).isoformat() + "T09:15:00+01:00"
             reaction = api.send_message(sid, **payload)
             events = reaction.get("events", [])
             reply = _first_reply(events)
