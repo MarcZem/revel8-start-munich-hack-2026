@@ -87,6 +87,20 @@ class ParseLabeledTest(unittest.TestCase):
         self.assertEqual(out["from_address"], "a@b.de")
         self.assertEqual(out["body"], "Line 1\nLine 2")
 
+    def test_strips_junk_tokens_keeps_german(self):
+        out = contact_loop._parse_labeled("BODY:\nHallo Julius, kurze Frage 坨 zur Zusammenarbeit über München.")
+        self.assertNotIn("坨", out["body"])
+        self.assertIn("über München", out["body"])  # German umlauts preserved
+
+    def test_salvages_body_when_no_labels(self):
+        # model ignored the format and wrote prose — we must still get a non-empty body
+        out = contact_loop._parse_labeled("Hi Julius, quick question about your rollout.\nBest, Lena")
+        self.assertIn("quick question", out["body"])
+
+    def test_header_only_output_salvages_empty(self):
+        out = contact_loop._parse_labeled("FROM_NAME: Lena\nFROM_ADDRESS: lena@x.de\nSUBJECT: Hi\nBODY:")
+        self.assertEqual(out["body"], "")  # nothing to salvage → empty, caller must skip/retry
+
     def test_without_body_label(self):
         # model omits BODY: and writes the message straight after SUBJECT
         raw = "FROM_NAME: Lena\nFROM_ADDRESS: lena@x.de\nSUBJECT: Re: demo\n\nHi Julius,\n\nThanks for the reply.\nBest, Lena"
@@ -94,6 +108,40 @@ class ParseLabeledTest(unittest.TestCase):
         self.assertEqual(out["subject"], "Re: demo")
         self.assertTrue(out["body"].startswith("Hi Julius,"))
         self.assertIn("Best, Lena", out["body"])
+
+
+class IncidentClassifyTest(unittest.TestCase):
+    def setUp(self):
+        self._orig = llm.chat
+
+    def tearDown(self):
+        llm.chat = self._orig
+
+    def test_secret_submit_is_credentials(self):
+        ev = [{"type": "page.submitted", "fields": ["email", "password"],
+               "values": {"email": "x@y.de", "password": "(entered, not shown)"}}]
+        self.assertEqual(contact_loop._classify_incident(ev, None, "J")[0], "credentials")
+
+    def test_name_email_only_is_not_incident(self):
+        ev = [{"type": "page.submitted", "fields": ["name", "email"],
+               "values": {"name": "Jul", "email": "x@y.de"}}]
+        llm.chat = lambda *a, **k: '{"disclosed": false, "fact": ""}'
+        self.assertEqual(contact_loop._classify_incident(ev, None, "J"), (None, None))
+
+    def test_attachment_opened_is_action(self):
+        ev = [{"type": "attachment.opened", "filename": "Invoice.docm"}]
+        self.assertEqual(contact_loop._classify_incident(ev, None, "J")[0], "action")
+
+    def test_disclosure_judged_from_reply(self):
+        llm.chat = lambda *a, **k: '{"disclosed": true, "fact": "uses internal tool Atlas for approvals"}'
+        itype, cap = contact_loop._classify_incident([{"type": "reply"}], "We use Atlas internally", "J")
+        self.assertEqual(itype, "disclosure")
+        self.assertIn("Atlas", cap["fact"])
+
+    def test_plain_reply_is_not_incident(self):
+        llm.chat = lambda *a, **k: '{"disclosed": false, "fact": ""}'
+        self.assertEqual(contact_loop._classify_incident([{"type": "reply"}], "contact our sales team", "J"),
+                         (None, None))
 
 
 if __name__ == "__main__":

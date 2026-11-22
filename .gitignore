@@ -24,5 +24,6 @@ __pycache__/
 # Generated research dossiers (real-person OSINT output)
 research/
 
-# Real contact-thread logs (twin interaction data)
-runs/contact_*.json
+# Local run artifacts (twin interaction logs). The curated, privacy-filtered
+# subset ships embedded in dashboard/ (data.json + index.html), never raw here.
+runs/

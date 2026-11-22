@@ -18,6 +18,10 @@ from typing import Any
 DEFAULT_BASE = "https://target-api.apps.01.cf.eu01.stackit.cloud/v1"
 _RETRYABLE = {429, 502, 503, 504}
 
+# Team-wide cap is 60 new sessions/hour; pace creates to stay under it (one sequential campaign).
+_MIN_SESSION_INTERVAL = 62.0
+_last_session_create = 0.0
+
 
 class TargetAPIError(RuntimeError):
     def __init__(self, status: int, body: str) -> None:
@@ -89,7 +93,23 @@ class TargetAPI:
         return self._request("GET", "/channels")
 
     def create_session(self, scenario_id: str = "practice") -> dict:
-        return self._request("POST", "/sessions", {"scenario_id": scenario_id})
+        # Respect the team-wide cap of 60 NEW sessions/hour: keep ≥62 s between creates (≤~58/h),
+        # and when the hour budget is already spent, wait it out and retry instead of failing.
+        global _last_session_create
+        gap = _MIN_SESSION_INTERVAL - (time.monotonic() - _last_session_create)
+        if gap > 0:
+            time.sleep(gap)
+        for attempt in range(12):
+            try:
+                resp = self._request("POST", "/sessions", {"scenario_id": scenario_id})
+                _last_session_create = time.monotonic()
+                return resp
+            except TargetAPIError as exc:
+                if exc.status == 429 and "session" in exc.body.lower() and attempt < 11:
+                    print(f"  [session cap] hour budget spent — waiting 90s (try {attempt + 1}/12)")
+                    time.sleep(90)
+                    continue
+                raise
 
     def get_session(self, sid: str) -> dict:
         return self._request("GET", f"/sessions/{sid}")

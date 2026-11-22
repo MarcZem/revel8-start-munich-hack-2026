@@ -45,7 +45,7 @@ def chat(
     temperature: float = 0.0,
     max_tokens: int = 1500,
     timeout: float = 120.0,
-    retries: int = 3,
+    retries: int = 5,
 ) -> str:
     base, key, default_model = _endpoint(provider)
     model = model or default_model
@@ -73,7 +73,15 @@ def chat(
         except HTTPError as exc:
             last = f"HTTP {exc.code}: {exc.read().decode('utf-8', 'replace')[:300]}"
             if exc.code in _RETRYABLE and attempt < retries - 1:
-                time.sleep(2**attempt + 1)
+                # 429 here is the endpoint's own per-minute cap (e.g. AMD Token Factory's
+                # "20 requests per minute"): honor Retry-After, else back off longer than for 5xx
+                # so a sustained rate limit actually clears instead of exhausting retries in ~10s.
+                if exc.code == 429:
+                    retry_after = exc.headers.get("Retry-After") if exc.headers else None
+                    delay = float(retry_after) if (retry_after or "").isdigit() else min(30, 5 * 2**attempt)
+                else:
+                    delay = 2**attempt + 1
+                time.sleep(delay)
                 continue
             raise LLMError(last) from None
         except (URLError, TimeoutError, OSError) as exc:

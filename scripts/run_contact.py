@@ -20,6 +20,11 @@ from agent_core.target_api import load_env_file
 
 
 def main() -> int:
+    # Windows consoles default to cp1252, which can't encode the loop's → status prints.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+    except (AttributeError, ValueError):
+        pass
     p = argparse.ArgumentParser(description="One autonomous contact thread via the live API.")
     p.add_argument("--target", required=True, help="Scenario target id, e.g. julius")
     p.add_argument("--name", required=True)
