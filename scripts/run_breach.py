@@ -34,6 +34,7 @@ def main() -> int:
     p.add_argument("--anchor-angle", default=None, help="one-line pretext for the anchor")
     p.add_argument("--anchor-why", default=None, help="why-now for the anchor")
     p.add_argument("--anchor-match", default="", help="comma-separated terms to cite matching real facts")
+    p.add_argument("--channels", default=None, help="comma-separated channels to cycle, e.g. email,slack,whatsapp")
     args = p.parse_args()
 
     load_env_file(str(ROOT / ".env.local"))
@@ -46,9 +47,10 @@ def main() -> int:
     if args.anchor_topic:
         anchor = {"topic": args.anchor_topic, "angle": args.anchor_angle or args.anchor_topic,
                   "why_now": args.anchor_why or "", "match": args.anchor_match}
+    channels = [c.strip() for c in args.channels.split(",")] if args.channels else None
     log = breach.run_breach(args.target, args.name, channel=args.channel,
                             max_touches=args.max_touches, findings_path=findings, attach=args.attach,
-                            anchor=anchor)
+                            anchor=anchor, channels=channels)
     if log.get("error"):
         print("error:", log["error"])
         return 1

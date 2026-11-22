@@ -31,9 +31,11 @@ TOUCH_CAP = {"eval": 10, "practice": 30}
 
 
 class RunController:
-    def __init__(self, scenario: str = "practice", channel: str = "email", out_dir: str = "runs") -> None:
+    def __init__(self, scenario: str = "practice", channel: str = "email", out_dir: str = "runs",
+                 channels: list[str] | None = None) -> None:
         self.scenario = scenario
         self.channel = channel
+        self.channels = channels  # cycle these across touches (multi-channel) if given
         self.out_dir = out_dir
         self.touch_cap = TOUCH_CAP.get(scenario, 10)
 
@@ -46,6 +48,7 @@ class RunController:
         log = breach.run_breach(
             target_id, target_name, scenario=self.scenario, channel=self.channel,
             max_touches=cap, findings_path=findings_path, out_dir=self.out_dir, attach=attach,
+            channels=self.channels,
         )
         if log.get("error"):
             raise RuntimeError(f"run_session({target_id}) failed: {log['error']}")
