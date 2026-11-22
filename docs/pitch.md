@@ -1,8 +1,9 @@
 # 5-minute pitch — revel8 agent
 
 Scoring: 7.5 for a clear approach and why it works, 7.5 for one real thread from the runs, start to
-finish. Two halves, ~2.5 min each. Open the operator console (`dashboard/index.html`) and drive it
-live while you talk.
+finish. Two halves, ~2.5 min each. Open the operator console —
+[revel8-operator-console.vercel.app](https://revel8-operator-console.vercel.app) (or
+`dashboard/index.html` locally) — and drive it live while you talk.
 
 ---
 
