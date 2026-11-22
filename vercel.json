@@ -1,10 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/live_run.py": {
-      "maxDuration": 120
-    }
-  },
   "rewrites": [
     {
       "source": "/",
