@@ -58,6 +58,7 @@ class Touch:
     critique: dict[str, Any] | None  # lever-critic self-check scores, if any
     decision: Decision | None  # the continue/switch/stop reassessment after this touch
     state_after: dict[str, Any]  # {silent_streak, touches_used, gate_seen}
+    sent_because: str = ""  # why this touch was sent (cold open / react-to-gate / re-engage)
 
     @property
     def silent(self) -> bool:
@@ -130,6 +131,7 @@ class RunRecord:
                     decision=_decision_from(c, bool(inc), i, raw_touches),
                     state_after=c.get("state_after")
                     or {"touches_used": c.get("touches_used"), "silent": not events},
+                    sent_because=c.get("sent_because", ""),
                 )
             )
         return cls(
@@ -218,7 +220,7 @@ def _skipped_touch(i: int, c: dict, objective: str) -> Touch:
         sender={}, subject=None, body="", expected_observable="",
         events=(), reply=None, incident=None, critique=None,
         decision=Decision(action="stop", reason=c.get("skipped", "skipped")),
-        state_after={"skipped": True},
+        state_after={"skipped": True}, sent_because="",
     )
 
 
