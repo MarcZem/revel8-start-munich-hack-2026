@@ -31,6 +31,8 @@ def main() -> int:
     p = argparse.ArgumentParser(description="Run the scored reactive agent (one session per target).")
     p.add_argument("--scenario", default="practice", choices=["practice", "eval"])
     p.add_argument("--channel", default="email")
+    p.add_argument("--channels", default=None,
+                   help="comma-separated channels to cycle across touches, e.g. email,slack,whatsapp,linkedin_message")
     p.add_argument("--target", default=None, help="single target id (default: all practice twins)")
     p.add_argument("--name", default=None, help="display name when --target is a custom id")
     p.add_argument("--max-touches", type=int, default=None, help="override the scenario touch cap")
@@ -38,7 +40,8 @@ def main() -> int:
     args = p.parse_args()
     load_env_file(str(ROOT / ".env.local"))
 
-    ctrl = RunController(scenario=args.scenario, channel=args.channel)
+    channels = [c.strip() for c in args.channels.split(",")] if args.channels else None
+    ctrl = RunController(scenario=args.scenario, channel=args.channel, channels=channels)
     names = dict(PRACTICE_TARGETS)
     if args.target:
         targets = ((args.target, args.name or names.get(args.target, args.target)),)

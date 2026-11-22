@@ -82,7 +82,8 @@ _JUNK_CHARS = re.compile(
 def _sanitize(text: str) -> str:
     """Strip stray CJK/fullwidth junk tokens the writer model sometimes emits (a craft tell),
     while keeping Latin + German umlauts. Seen live: '坨', fullwidth punctuation mid-sentence."""
-    cleaned = _JUNK_CHARS.sub("", text)
+    cleaned = _JUNK_CHARS.sub(" ", text)  # space, not empty, so stripping a glitch char doesn't glue words
+    cleaned = re.sub(r"\s+([.,;:!?])", r"\1", cleaned)  # tidy space-before-punct the replace can leave
     return re.sub(r"[ \t]{2,}", " ", cleaned)
 
 

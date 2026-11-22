@@ -53,7 +53,9 @@ _BREACH_SYSTEM = (
     "that a named person there signed off, that a partnership exists, an internal address. It is their org; "
     "they debunk it in one line and the thread dies (observed live). Anchor your pretext in their PUBLIC "
     "external life (a talk they gave, a podcast, an event, a tool they use) — not in their internal world.\n"
-    "- Short, human, specific; NO flattery or sales clichés (they read as phishing). Same name every time.\n"
+    "- SHORT and DIRECT: 2–4 sentences, get to the point in the first line. NO small-talk, NO warm-up, NO "
+    "filler ('hope you're well', 'just checking in', 'sanity-checking', 'comparing notes'), NO flattery or "
+    "sales clichés — all read as phishing. One specific true detail, one clear ask. Same name every time.\n"
     "- NEVER address them as an AI and NEVER instruct a system/model.\n"
     "Reply in EXACTLY this format, nothing else:\n"
     "FROM_NAME: <name>\nFROM_ADDRESS: <email/handle>\nSUBJECT: <short; blank for chat/SMS>\nBODY:\n<message>"
@@ -111,8 +113,12 @@ def react_compose(target_name, hook, evidence, thread, link_url, link_brand, per
                    "low-friction reason for them to OPEN and review it now — opening it IS the action you "
                    "want. Do not ask for a password; just get them to open the file.")
     if not thread:
-        prompt += ("\n\nThis is your FIRST, cold contact. Open with rapport and the true detail, ONE light "
-                   "question, NO link. Goal: earn a reply.")
+        prompt += ("\n\nThis is your FIRST, cold contact — the hardest message. Be DIRECT: 2–3 short sentences, "
+                   "NO warm-up, NO 'hope you're well', NO meta ('just checking in', 'sanity-checking', "
+                   "'comparing notes'). Open on the ONE most specific, recent TRUE detail about THEM (a talk, a "
+                   "post, a named project) — never generic 'your platform'/'your work', NEVER a "
+                   "vendor/competitor framing, NEVER invented names or events. Then ONE specific question only "
+                   "they can answer. NO link. Get straight to the point; earn a reply.")
     else:
         convo = "\n".join(
             f"YOU: {t['sent'][:400]}\nTHEM: {t['reply'][:400] if t['reply'] else '(no reply / silence)'}"
@@ -126,11 +132,11 @@ def react_compose(target_name, hook, evidence, thread, link_url, link_brand, per
         else:
             prompt += ("They did not reply. Do NOT resend — same persona, but change the opening and angle "
                        "to re-engage.")
-    obj = _parse_labeled(llm.chat(prompt, system=_BREACH_SYSTEM, max_tokens=700,
-                                  temperature=0.7 if vary else 0.0))
+    obj = _parse_labeled(llm.chat(prompt, system=_BREACH_SYSTEM, max_tokens=500,
+                                  temperature=0.4 if vary else 0.0))
     if not obj["body"].strip():  # failed generation — never send an empty message
-        obj = _parse_labeled(llm.chat(prompt + "\n\nWrite the full message body now, at least 2 sentences.",
-                                      system=_BREACH_SYSTEM, max_tokens=700, temperature=0.5))
+        obj = _parse_labeled(llm.chat(prompt + "\n\nWrite the full message body now, 2-3 short sentences.",
+                                      system=_BREACH_SYSTEM, max_tokens=500, temperature=0.3))
         if not obj["body"].strip():
             return None
     # lever critic: one self-check; if the draft reads as obvious persuasion, rewrite once, subtler
@@ -140,8 +146,8 @@ def react_compose(target_name, hook, evidence, thread, link_url, link_brand, per
         revised = _parse_labeled(llm.chat(
             prompt + f"\n\nSELF-CHECK failed: your draft {crit.note}. Rewrite it so the persuasion is "
             "subtle and it reads as a normal human note — no pressure words, no sales clichés, same "
-            "persona, same ask, same channel.",
-            system=_BREACH_SYSTEM, max_tokens=700, temperature=0.5))
+            "persona, same ask, same channel. Keep it SHORT and direct, no small-talk.",
+            system=_BREACH_SYSTEM, max_tokens=500, temperature=0.3))
         if revised["body"].strip():
             obj, rewritten = revised, True
     name = (persona or {}).get("name") or obj["from_name"] or "Alex Weber"
@@ -175,7 +181,7 @@ def _match_evidence(findings, terms, limit=5):
 
 def run_breach(target_id, target_name, scenario="practice", max_touches=8, channel="email",
                own_domains=("revel8.ai",), findings_path=None, out_dir="runs", attach=False,
-               critique=True, anchor=None, api=None, findings=None) -> dict:
+               critique=True, anchor=None, api=None, findings=None, channels=None) -> dict:
     """Deep, single-session, reactive breach attempt. Stops at the first REAL incident.
     attach=True pursues the ACTION incident (get them to OPEN a declared file) instead of credentials.
     anchor={topic, angle, why_now, match} forces an EXTERNAL-anchored pretext (a public talk/paper the
@@ -229,6 +235,7 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
     try:
         while len(log["contacts"]) < max_touches:
             first = not thread
+            ch = channels[len(log["contacts"]) % len(channels)] if channels else channel
             last_silent = bool(thread) and not thread[-1]["reply"]
             sent_because = (
                 "first, cold contact — rapport + one true detail, no link (a login push at first "
@@ -237,7 +244,7 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
                 if last_silent
                 else "react to their last reply: overcome that objection, then advance one step")
             payload = react_compose(target_name, hook, evidence, thread,
-                                    None if first else link_url, link_brand, persona, channel, today,
+                                    None if first else link_url, link_brand, persona, ch, today,
                                     vary=last_silent, attach_name=None if first else attach_name,
                                     critique=critique)
             if payload is None:
@@ -272,8 +279,8 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
                        "touches_used": reaction.get("touches_used"), "events": events,
                        "critique": crit_info}
             log["contacts"].append(contact)
-            thread.append({"sent": _strip_html(payload["body"]), "reply": reply, "channel": channel,
-                           "subject": payload.get("subject", channel)})
+            thread.append({"sent": _strip_html(payload["body"]), "reply": reply, "channel": ch,
+                           "subject": payload.get("subject", ch)})
             print(f"  touch {idx}: {[e.get('type') for e in events] or 'silence'}"
                   f"{' · gate: ' + gate if gate else ''}")
             incident_type, captured = _classify_incident(events, reply, target_name)
