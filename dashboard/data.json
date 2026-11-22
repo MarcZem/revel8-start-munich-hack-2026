@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T06:31:34+00:00",
+  "generated_at": "2026-11-22T06:42:39+00:00",
   "model": "DeepSeek-V4-Flash · AMD Token Factory",
   "pipeline": [
     {
@@ -167,6 +167,472 @@
           "category": "project",
           "reliability": "unsicher",
           "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        }
+      ],
+      "facts": [
+        {
+          "id": "f_julius_julius_m_is_collaborating_with_jona_henr",
+          "label": "Julius M. is collaborating with Jona Henrich and Jonas Walcher to organize the hackathon challenge.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_julius_julius_m_s_company_revel8_is_a_partner_i",
+          "label": "Julius M.'s company revel8 is a partner in the hackathon alongside OpenAI, Make, Zauber, Knowunity, Qontext, telli, Celonis, and OSM.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_julius_julius_m_is_associated_with_the_tum_ai_c",
+          "label": "Julius M. is associated with the TUM.ai community, as the hackathon is resharded from TUM.ai.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_julius_julius_m_is_promoting_the_make_x_openai_",
+          "label": "Julius M. is promoting the Make x OpenAI Hackathon on Jan 16, which emphasizes real use cases and competition over presentations.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_julius_revel8_s_team_has_operator_dna_from_celo",
+          "label": "Revel8's team has operator DNA from Celonis.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_offers_interactive_trainings_that",
+          "label": "revel8 offers Interactive Trainings that people don't want to skip.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_has_a_contact_center_protection_m",
+          "label": "revel8 has a Contact Center Protection module to secure contact centers.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_worked_on_the_investment_team_at_project",
+          "label": "Worked on the Investment Team at Project A from Jan 2020 to Apr 2020 in Berlin.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_worked_in_hr_analytics_at_accenture_from",
+          "label": "Worked in HR Analytics at Accenture from Jun 2015 to Jul 2016 in Frankfurt am Main.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_before_revel8_julius_held_several_positi",
+          "label": "Before revel8, Julius held several positions at the German B2B SaaS decacorn Celonis.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "take-aware.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_worked_on_the_growth_team_at_celonis_fro",
+          "label": "Worked on the Growth Team at Celonis from Sep 2020 to May 2024 in Metropolregion Madrid.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_is_affiliated_with_revel8_which",
+          "label": "Julius M. is affiliated with revel8, which has a new website featuring the deepfake tool.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_provides_threat_intelligence_osin",
+          "label": "revel8 provides Threat Intelligence & OSINT services to know exposure before attackers do.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_provides_risk_monitoring_mitigati",
+          "label": "revel8 provides Risk Monitoring & Mitigation to turn employees into a human detection layer.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_offers_a_platform_for_creating_de",
+          "label": "revel8 offers a platform for creating deepfakes, with a free tool for users to create their own deepfake.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_offers_a_platform_with_ai_powered",
+          "label": "revel8 offers a platform with AI-powered simulations across every attack channel, including an Awareness Playlist.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_collaborated_with_nviso_security_on_a_pr",
+          "label": "Collaborated with NVISO Security on a presentation at it-sa 2026.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_muth_is_connected_with_laurens_ja",
+          "label": "Julius Muth is connected with Laurens Jagt, host of Cyber Security District.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_reposted_a_job_opening_from_jonas_haas_f",
+          "label": "Reposted a job opening from Jonas Haas for a team member in Munich to help customers protect themselves.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_muth_is_based_in_berlin",
+          "label": "Julius Muth is based in Berlin.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_the_name_revel8_has_a_naming_story",
+          "label": "The name Revel8 has a naming story.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_is_moving_to_a_munich_office",
+          "label": "Revel8 is moving to a Munich office.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_holds_a_b_sc_in_mathematics_from_",
+          "label": "Julius holds a B.Sc. in Mathematics from TU Darmstadt.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "take-aware.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_holds_an_m_sc_in_finance_from_whu",
+          "label": "Julius holds an M.Sc. in Finance from WHU – Otto Beisheim School of Management.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "take-aware.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_was_a_jugendtrainer_youth_coach_at_mtv_k",
+          "label": "Was a Jugendtrainer (youth coach) at MTV Kronberg Hockey from Sep 2010 to Oct 2014.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_received_the_dpg_buchpreis_2012_f_r_phys",
+          "label": "Received the DPG-Buchpreis 2012 für Physik from the Deutsche Physikalische Gesellschaft.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_uses_workforce_sensors_as_a_kpi",
+          "label": "Revel8 uses workforce sensors as a KPI.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_turns_real_attacks_into_simulatio",
+          "label": "Revel8 turns real attacks into simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_aims_to_build_10_million_human_fi",
+          "label": "Revel8 aims to build '10 million human firewalls'.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_offers_a_free_tool_to_generate_yo",
+          "label": "revel8 offers a free tool to generate your own deepfake.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_validated_the_market_with_100_han",
+          "label": "Revel8 validated the market with 100 handwritten letters.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_has_a_contact_center_module_as_pa",
+          "label": "revel8 has a Contact Center module as part of its platform.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_scaled_from_early_mvps_to_large_e",
+          "label": "Revel8 scaled from early MVPs to large enterprise rollouts.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_in_2020_julius_helped_build_up_celonis_s",
+          "label": "In 2020, Julius helped build up Celonis's location in Madrid.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "take-aware.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_personalizes_awareness_with_role_",
+          "label": "Revel8 personalizes awareness with role-based 'playlist' simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_uses_time_to_first_report_as_a_se",
+          "label": "Revel8 uses time-to-first-report as a security KPI instead of click rate.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_uses_a_spotify_playlist_model_for",
+          "label": "Revel8 uses a 'Spotify playlist' model for personalized learning journeys.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_provides_interactive_security_tra",
+          "label": "revel8 provides interactive security training that users do not click away.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_specializes_in_protecting_compani",
+          "label": "revel8 specializes in protecting companies from AI-based social engineering.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "take-aware.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_offers_threat_intelligence_osint_",
+          "label": "revel8 offers Threat Intelligence & OSINT to show the attack surface at a glance.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_offers_risk_monitoring_mitigation",
+          "label": "revel8 offers Risk Monitoring & Mitigation to turn employees into a human firewall.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_and_his_team_built_a_deepfake_a",
+          "label": "Julius M. and his team built a deepfake avatar to demonstrate how quickly a convincing fake can be created.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_revel8_provides_ai_simulations_over_ever",
+          "label": "revel8 provides AI simulations over every attack channel as part of its Awareness Playlist platform feature.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_works_on_a_personalized_playlis",
+          "label": "Julius M. works on a personalized playlist of cyberattack simulations that adapts over time to the user's role.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_offers_a_free_tool_that_creates",
+          "label": "Julius M. offers a free tool that creates a deepfake of the user from their webcam and mic in about two minutes.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_building_up_revel8_to_prepare_businesses",
+          "label": "Building up revel8 to prepare businesses to defend against deepfake-driven phishing and modern social engineering threats.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_is_involved_in_revel8_s_officia",
+          "label": "Julius M. is involved in revel8's official HQ move from Berlin to Munich, which is being kicked off with a hackathon challenge.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_co_founded_energyhopper_which_automated_",
+          "label": "Co-founded Energyhopper, which automated contract switches of gas and electricity contracts in Germany and was sold to Remind.me in May 2020.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_muth_is_co_founder_ceo_of_revel8",
+          "label": "Julius Muth is Co-Founder & CEO of revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_is_ai_powered_social_engineerin",
+          "label": "Julius M. is AI-Powered Social Engineering at revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_works_in_ai_powered_social_engi",
+          "label": "Julius M. works in AI-Powered Social Engineering at revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_muth_is_co_founder_of_revel8_a_mu",
+          "label": "Julius Muth is co-founder of revel8, a Munich-based startup.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "take-aware.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_co_founder_of_revel8_previously_company_",
+          "label": "Co-Founder of revel8 (previously Company Shield), an AI-powered social engineering company.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_muth_is_co_founder_of_revel8_a_st",
+          "label": "Julius Muth is co-founder of Revel8, a startup tackling deepfake-powered social engineering.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_muth_appeared_on_the_cyber_securi",
+          "label": "Julius Muth appeared on the Cyber Security District podcast in Amsterdam.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_prepared_a_workshop_for_it_sa_home_of_it",
+          "label": "Prepared a workshop for it-sa – Home of IT Security demonstrating how easy it is to create live-video deepfakes.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_julius_m_publicly_shared_his_take_that_a",
+          "label": "Julius M. publicly shared his take that attackers will always be a step ahead technically and that detection alone won't win the race.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_julius_presented_a_workshop_at_it_sa_2026_with_",
+          "label": "Presented a workshop at it-sa 2026 with NVISO Security on how attackers use AI and how to protect against it, including voice phishing.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
           "cited": false
         }
       ],
@@ -390,6 +856,912 @@
           "cited": false
         }
       ],
+      "facts": [
+        {
+          "id": "f_tom_tom_m_ller_reshared_a_post_from_kevin_fe",
+          "label": "Tom Müller reshared a post from Kevin FERREIRA, who built the AI Course Builder inside revel8.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_promoting_the_ai_course_bu",
+          "label": "Tom Müller is promoting the AI Course Builder, a feature of revel8's Academy that turns policies into interactive training modules.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_tom_the_ai_course_builder_allows_users_to_up",
+          "label": "The AI Course Builder allows users to upload a policy)Skip, generate a complete training module with AI or from templates, customise content, target people via triggered campaigns, and track engagement and risk reduction.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_tom_tom_m_ller_shared_a_post_about_the_ai_co",
+          "label": "Tom Müller shared a post about the AI Course Builder update, highlighting its features and the goal of making security policies understandable and applied.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_a_co_founder_of_revel8",
+          "label": "Tom Müller is a co-founder of revel8.",
+          "category": "role",
+          "reliability": "belastbar",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_peak_is_leading_revel8_s_5_7m_seed_round",
+          "label": "Peak is leading revel8's €5.7M seed round.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_worked_at_celonis_in_munich_b",
+          "label": "Tom Müller worked at Celonis in Munich, Bavaria, Germany.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_currently_at_revel8_which_",
+          "label": "Tom Müller is currently at revel8, which has 57 employees.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "research.crustdata.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_worked_at_bmw_group_in_munich",
+          "label": "Tom Müller worked at BMW Group in Munich, Bavaria, Germany.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_previously_worked_at_the_muni",
+          "label": "Tom Müller previously worked at the Munich decacorn Celonis.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_a_senior_value_engineer_a",
+          "label": "Tom Müller was a Senior Value Engineer at Celonis until 2024.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "research.crustdata.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_peak_backs_founders_building_next_genera",
+          "label": "Peak backs founders building next-generation category leaders.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_worked_at_vibes_technology_in",
+          "label": "Tom Müller worked at VIBES.technology in Munich, Bavaria, Germany.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_worked_at_celonis_in_madrid_c",
+          "label": "Tom Müller worked at Celonis in Madrid, Comunidad de Madrid, Spain.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_is_a_partner_of_tset_talente_spen",
+          "label": "revel8 is a partner of TSET (Talente Spenden Entrepreneurship Track).",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_has_a_product_called_the_academy_",
+          "label": "revel8 has a product called The Academy, which includes the AI Course Builder.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_company_revel8_has_customer",
+          "label": "Tom Müller's company revel8 has customers including FC Bayern, OBI, and Stihl.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_company_revel8_counts_fc_ba",
+          "label": "Tom Müller's company revel8 counts FC Bayern, OBI and Stihl among its customers.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_worked_at_technical_universit",
+          "label": "Tom Müller worked at Technical University of Munich in Garching, Bavaria, Germany.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_peak_is_partnering_with_revel8_an_ai_nat",
+          "label": "Peak is partnering with revel8, an AI-native, deepfake-first cybersecurity platform.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_was_a_finalist_of_the_best_german",
+          "label": "revel8 was a finalist of the 'Best German IT-startup' award at the German IT Security Congress 2025.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_affiliated_with_revel8_a",
+          "label": "Tom C. Müller is affiliated with revel8, a company that offers AI-powered simulations and security training.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_company_revel8_raised_a_5_7",
+          "label": "Tom Müller's company revel8 raised a €5.7 million seed round led by Peak Capital, bringing total funding to €7 million.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_has_raised_seed_funding_adding_up",
+          "label": "revel8 has raised seed funding adding up to €7 million in total, with investors including Peak, Fortino Capital, and Merantix Capital.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_works_at_celonis_a_company_th",
+          "label": "Tom Müller works at Celonis, a company that does not separate Pre- and Post-Sales but has one central Value Engineering team owning the end-to-end Customer Value Lifecycle.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_joins_round_2_of_tset_as_a_partne",
+          "label": "revel8 joins round 2 of TSET as a partner.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_affiliated_with_revel8_on_",
+          "label": "Tom Müller is affiliated with revel8 on LinkedIn.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_affiliated_with_celonis_on",
+          "label": "Tom Müller is affiliated with Celonis on LinkedIn.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_affiliated_with_bmw_group_",
+          "label": "Tom Müller is affiliated with BMW Group on LinkedIn.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_affiliated_with_vibes_tech",
+          "label": "Tom Müller is affiliated with VIBES.technology on LinkedIn.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_co_founders_are_julius_muth",
+          "label": "Tom Müller's co-founders are Julius Muth and Robert Seilbeck.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_jasper_albrecht_represented_revel8_at_in",
+          "label": "Jasper Albrecht represented revel8 at Internet Security Days in Cologne.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_affiliated_with_technical_",
+          "label": "Tom Müller is affiliated with Technical University of Munich on LinkedIn.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_thanks_sergej_s_avatar_in_the",
+          "label": "Tom Müller thanks Sergej's avatar in the context of the deepfake demonstration.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_min_uh_shin_represented_revel8_at_ihk_os",
+          "label": "Min-Uh Shin represented revel8 at IHK Ost Brandenburg's 14. Sicherheitstag conference.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_appearance_at_tech_soir_e_m",
+          "label": "Tom Müller's appearance at Tech Soirée MCSC is associated with Fortino Ventures, which organized the event.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_attended_the_shaping_cybersecurit",
+          "label": "revel8 attended the Shaping Cybersecurity Conference by German Federal Foreign Office in Berlin in June 2025.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_affiliated_with_merantix_c",
+          "label": "Tom Müller is affiliated with Merantix Capital, which backed revel8's pre-seed round and participated in the seed round.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_describes_the_collaboration_w",
+          "label": "Tom Müller describes the collaboration with CISPA as excellent, especially the exchange with other founders and researchers.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_peak_s_seed_round_for_revel8_includes_in",
+          "label": "Peak's seed round for revel8 includes investors Fortino, Merantix, and angels Mario Götze, Sergej Epp, Michael Schrank, Rogier Fischer, and Alexander Rinke.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_appearing_alongside_jay_ch",
+          "label": "Tom Müller is appearing alongside Jay Chaudhry (CEO of Zscaler), J. Michael Daniel (President & CEO of Cyber Threat Alliance), and Mark Hughes (Global Managing Partner at IBM) at the roundtable.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_part_of_a_lineup_of_founde",
+          "label": "Tom Müller is part of a lineup of founders at Tech Soirée MCSC, including Rogier Fischer (Hadrian), Santiago Castiñeira (Maze), Hanah-Marie Darley (Geordie AI), Sounil Yu (Knostic), and Ariel Herbert-Voss (RunSybil).",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_eight_of_the_40_dax_companies_use_the_re",
+          "label": "Eight of the 40 DAX companies use the revel8 platform.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_said_that_the_typical_day_at_",
+          "label": "Tom Müller said that the typical day at his job is anything but typical.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_earned_a_master_of_science_in",
+          "label": "Tom Müller earned a Master of Science in Mechanical Engineering from Technical University of Munich.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_interested_in_cybersecurit",
+          "label": "Tom Müller is interested in cybersecurity, security awareness, cyber training, AI, and risk management.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_trained_more_than_40_contact_cent",
+          "label": "revel8 trained more than 40 contact centers at a global insurer in recognizing voice phishing and social engineering.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_and_his_co_founders_founded_r",
+          "label": "Tom Müller and his co-founders founded revel8 after seeing how unprepared organizations were for AI-based impersonation.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_interested_in_ai_security_",
+          "label": "Tom Müller is interested in AI, security, and building human resilience at scale, and is hiring for open roles at revel8.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_achieved_measurable_results_with_",
+          "label": "revel8 achieved measurable results with Zufall Logistics Group, increasing training completion from 83 to 96 percent within two months.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_loves_working_at_early_mid_st",
+          "label": "Tom Müller loves working at early/mid-stage start-ups, experiencing hyper-growth, creating a new category (Process Intelligence), and all the change and excitement it drives.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_co_founded_revel8_a_consultin",
+          "label": "Tom Müller co-founded revel8, a consulting company, in June 2024.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_building_revel8_a_product_",
+          "label": "Tom Müller is building revel8, a product in cybersecurity and AI.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_involved_with_revel8_s_c",
+          "label": "Tom C. Müller is involved with revel8's Contact Center Protection module.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_simulation_is_a_full_multichann",
+          "label": "revel8's simulation is a full multichannel attack, as in a real emergency.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_has_a_new_callback_attack_simulat",
+          "label": "revel8 has a new Callback Attack Simulation that goes beyond the first ring.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_involved_with_revel8_s_t",
+          "label": "Tom C. Müller is involved with revel8's Threat Intelligence & OSINT offering.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_vision_extends_beyond_classic_s",
+          "label": "revel8's vision extends beyond classic security awareness to include AI agents.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_training_platform_is_described_",
+          "label": "revel8's training platform is described as a 'Spotify playlist for cyberattacks'.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_involved_with_revel8_s_i",
+          "label": "Tom C. Müller is involved with revel8's Interactive Trainings for security training.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_published_a_paper_on_airborne",
+          "label": "Tom Müller published a paper on airborne transfer path analysis for an e-compressor.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_is_a_cybersecurity_awareness_and_",
+          "label": "revel8 is a cybersecurity awareness and AI-powered training company for enterprises.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_is_pioneering_ai_native_deepfake_",
+          "label": "revel8 is pioneering AI-native, deepfake-first cybersecurity for human risk management.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_protects_companies_from_deepfake_",
+          "label": "revel8 protects companies from deepfake attacks by training employees to recognize them.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_can_inject_ai_generated_deepfakes",
+          "label": "revel8 can inject AI-generated deepfakes live into video conferences as an attack simulation.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_aims_to_make_the_risk_of_the_enti",
+          "label": "revel8 aims to make the risk of the entire workforce visible and reduce it, from humans to AI agents.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_published_a_paper_on_componen",
+          "label": "Tom Müller published a paper on component TPA including rotational degrees of freedom and over-determination.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_provides_immediate_contextual_fee",
+          "label": "revel8 provides immediate, contextual feedback during simulated attacks to build a culture of active defense.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_plans_to_grow_beyond_security_awa",
+          "label": "revel8 plans to grow beyond security awareness and build a platform for workforce risk management in the AI age.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_involved_with_revel8_s_p",
+          "label": "Tom C. Müller is involved with revel8's platform, which includes an Awareness Playlist for AI-powered simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_collects_signals_across_the_organ",
+          "label": "revel8 collects signals across the organization, from reported emails to flagged interactions, to build a live defense.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_involved_with_revel8_s_r",
+          "label": "Tom C. Müller is involved with revel8's Risk Monitoring & Mitigation, which turns employees into a human detection layer.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_creates_a_personalized_playlist_o",
+          "label": "revel8 creates a personalized 'playlist of attacks' for every employee, adapting to role, behavior, and performance history.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_is_a_platform_that_prepares_emplo",
+          "label": "revel8 is a platform that prepares employees for cyberattacks through adaptive training across various communication channels.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_has_a_deepfake_first_simulation_e",
+          "label": "revel8 has a deepfake-first simulation engine that replicates the latest impersonation tactics within hours of their emergence.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_co_founded_revel8_a_company_t",
+          "label": "Tom Müller co-founded revel8, a company that provides personalized cybersecurity training using AI-generated attack simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_company_revel8_is_contribut",
+          "label": "Tom Müller's company revel8 is contributing to the global conversation at the intersection of AI, security, and leadership in Davos.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_attack_simulation_combines_synt",
+          "label": "revel8's attack simulation combines synthetic identities in real-time Teams calls with fake emails, calls, and manipulated documents.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_participated_in_the_tum_ai_hackat",
+          "label": "revel8 participated in the TUM.ai Hackathon - Agentic AI Hackathon alongside OpenAI, Make, ElevenLabs, Zauber, Celonis and CDTM in Munich.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_callback_attack_simulation_uses",
+          "label": "revel8's Callback Attack Simulation uses an AI-powered attack agent that answers when someone misses a simulated deepfake call and calls back.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_co_founded_revel8_a_berlin_ba",
+          "label": "Tom Müller co-founded revel8, a Berlin-based cybersecurity startup that trains employees with realistic attack simulations of AI cyber threats.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_involved_with_the_orbit_gr",
+          "label": "Tom Müller is involved with the Orbit Graduate Program at Celonis, which hires entry-level professionals to launch their Value Engineering careers.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_the_ai_powered_attack_agent_in_revel8_s_",
+          "label": "The AI-powered attack agent in revel8's Callback Attack Simulation is tailored to the target's role, language, and context, and designed to deceive.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_platform_replicates_modern_atta",
+          "label": "revel8's platform replicates modern attacker tactics including phishing, SMS spoofing, voice cloning, and video deepfakes as hyper-personalized simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_s_platform_combines_attack_simula",
+          "label": "revel8's platform combines attack simulations, short learning units, and targeted impulses, personalized based on role, public information, and past behavior.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_co_founded_revel8_a_deepfake_",
+          "label": "Tom Müller co-founded revel8, a deepfake-first human cybersecurity platform that prepares employees with realistic, AI-powered simulations before attackers can reach them.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_associated_with_the_two_ve",
+          "label": "Tom Müller is associated with the two VE Centres of Excellence (COE) at Celonis in Madrid and Raleigh, which nurture talent and impact Celonis' top line with innovative solutions, methodologies, and tools.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_co_founder_at_revel8",
+          "label": "Tom Müller is Co-Founder at revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_co_founder_of_revel8",
+          "label": "Tom Müller is co-founder of revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_value_engineer_at_celonis",
+          "label": "Tom Müller was Value Engineer at Celonis.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_co_founder_and_ceo_of_reve",
+          "label": "Tom Müller is co-founder and CEO of revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_solution_engineer_at_celo",
+          "label": "Tom Müller was Solution Engineer at Celonis.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_c_m_ller_is_co_founder_product_at_re",
+          "label": "Tom C. Müller is Co-Founder & Product at revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_senior_value_engineer_at_",
+          "label": "Tom Müller was Senior Value Engineer at Celonis.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_master_thesis_student_at_",
+          "label": "Tom Müller was Master Thesis Student at BMW Group.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_associate_solution_engine",
+          "label": "Tom Müller was Associate Solution Engineer at Celonis.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_project_manager_r_d_at_vi",
+          "label": "Tom Müller was Project Manager R&D at VIBES.technology.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_a_co_founder_of_revel8_and",
+          "label": "Tom Müller is a co-founder of revel8 and an ex-Celonis employee.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_was_research_assistant_at_tec",
+          "label": "Tom Müller was Research Assistant at Technical University of Munich.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_a_member_of_the_value_engi",
+          "label": "Tom Müller is a member of the Value Engineering team at Celonis, which manages the entire customer value lifecycle from sales through value realization, renewal and expansion.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_will_give_a_keynote_for_tset_",
+          "label": "Tom Müller will give a keynote for TSET members.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_offers_to_show_the_deepfake_a",
+          "label": "Tom Müller offers to show the deepfake attack simulation live to interested parties.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_revel8_participated_in_a_panel_discussio",
+          "label": "revel8 participated in a panel discussion on the Elevate Stage at GITEX Europe Berlin 2025.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_revealed_that_he_saw_celonis_",
+          "label": "Tom Müller revealed that he saw Celonis in 2019 and knew they had something different going on.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_julius_muth_gave_a_live_demo_of_the_late",
+          "label": "Julius Muth gave a live demo of the latest vishing attacks on stage at it-sa Expo 2025 in Nuremberg, Germany.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_posted_about_the_danger_of_ca",
+          "label": "Tom Müller posted about the danger of calling back missed suspicious calls, emphasizing awareness on every move.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_paper_on_airborne_transfer_",
+          "label": "Tom Müller's paper on airborne transfer path analysis describes a method for airborne source description of an e-compressor.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_scheduled_to_pitch_and_dem",
+          "label": "Tom Müller is scheduled to pitch and demo revel8 at Tech Soirée MCSC - Munich Cyber AI Startup Night on 12 February in Munich.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_publicly_shared_his_experienc",
+          "label": "Tom Müller publicly shared his experience of hearing his own voice as a deepfake attack, which motivated the founding of revel8.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_is_participating_in_a_roundta",
+          "label": "Tom Müller is participating in a roundtable at AI House Davos 2026 titled 'Empowering Defenders: AI as the New Frontier in Cyber Defense'.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_tom_m_ller_s_paper_on_component_tpa_comp",
+          "label": "Tom Müller's paper on component TPA compares different complexities of interface descriptions on an electromagnetic roll control in a passenger car.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_tom_julius_muth_and_jasper_albrecht_hosted_a",
+          "label": "Julius Muth and Jasper Albrecht hosted a live webinar titled 'Die Salesforce-Attacke: Awareness bei Vishing-Angriffen (DE)' at Conf3rence in Dortmund.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        },
+        {
+          "id": "f_tom_julius_attended_the_gartner_security_ris",
+          "label": "Julius attended the Gartner Security & Risk Management Summit 2025 in London to exchange about leveraging AI and enhancing resilience for organizational protection.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "revel8-f04e95.webflow.io",
+          "cited": false
+        }
+      ],
       "research_count": 113,
       "thread": [
         {
@@ -607,6 +1979,712 @@
           "category": "talk",
           "reliability": "unsicher",
           "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        }
+      ],
+      "facts": [
+        {
+          "id": "f_robert_vishing_attacks_doubled_in_the_first_hal",
+          "label": "Vishing attacks doubled in the first half of 2026 alone, which is a context for the project.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_proud_of_a_project_de",
+          "label": "Robert Seilbeck is proud of a project developed with Allianz SE, a Contact Center solution using real vishing simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_robert_there_is_an_upcoming_live_session_on_sep",
+          "label": "There is an upcoming live session on September 9, 11:00–11:45 CEST, about the Contact Center solution, featuring Daria Catalui, Global Head of Human Firewall and Cluster CISO at Allianz SE, and revel8 founders Tom and Julius.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": true
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_a_co_founder_of_revel",
+          "label": "Robert Seilbeck is a co-founder of revel8.",
+          "category": "role",
+          "reliability": "belastbar",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_has_approximately_50_employees",
+          "label": "revel8 has approximately 50 employees.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_peak_is_leading_revel8_s_5_7m_seed_round",
+          "label": "Peak is leading revel8's €5.7M seed round.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_team_has_operator_dna_from_celo",
+          "label": "Revel8's team has operator DNA from Celonis.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_was_formerly_known_as_company_shi",
+          "label": "revel8 was formerly known as Company Shield.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_protects_companies_against_ai_att",
+          "label": "revel8 protects companies against AI attacks.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_iso_iec_27001_2022_certified_a",
+          "label": "revel8 is ISO/IEC 27001:2022 certified and GDPR compliant.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_counts_fc_bayern_obi_and_stihl_am",
+          "label": "revel8 counts FC Bayern, OBI and Stihl among its customers.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_a_member_of_the_allianz_f_r_cy",
+          "label": "revel8 is a member of the Allianz für Cyber-Sicherheit (BSI).",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_headquartered_at_sandstra_e_3_",
+          "label": "revel8 is headquartered at Sandstraße 3, 80335 Munich, Germany.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_left_celonis_after_9_yea",
+          "label": "Robert Seilbeck left Celonis after 9 years to join Company Shield.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_hosted_in_germany_on_stackit_s",
+          "label": "revel8 is hosted in Germany on STACKIT (Schwarz Group) sovereign cloud.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_s_company_revel8_is_used",
+          "label": "Robert Seilbeck's company revel8 is used by eight of Germany's 40 DAX-listed companies.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_an_ai_native_deepfake_first_cy",
+          "label": "revel8 is an AI-native, deepfake-first cybersecurity platform for human risk management.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_among_the_first_cybersecurity_",
+          "label": "revel8 is among the first cybersecurity providers on the Stackit marketplace from Schwarz Group.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_affiliated_with_celon",
+          "label": "Robert Seilbeck is affiliated with Celonis, as the blog post is hosted on the Celonis careers site.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_an_ai_native_security_awarenes",
+          "label": "revel8 is an AI-native security awareness and human risk management platform founded in 2024 in Munich, Germany.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_a_data_security_software_produ",
+          "label": "revel8 is a Data Security Software Products company with 30-40 employees, founded in 2023, headquartered in Munich",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_s_company_revel8_has_tra",
+          "label": "Robert Seilbeck's company revel8 has trained more than 40 contact centers at a global insurance company to recognize voice phishing and social engineering.",
+          "category": "company",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_has_customers_and_invest",
+          "label": "Robert Seilbeck has customers and investors backing Company Shield.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_affiliated_with_revel",
+          "label": "Robert Seilbeck is affiliated with revel8, which collaborates with Allianz SE.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_s_company_revel8_collabo",
+          "label": "Robert Seilbeck's company revel8 collaborates with CISPA, and the founder values exchanging ideas with fellow founders and researchers there.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_seed_round_includes_investors_f",
+          "label": "revel8's seed round includes investors Fortino, Merantix, and angels Mario Götze, Sergej Epp, Michael Schrank, Rogier Fischer, and Alexander Rinke.",
+          "category": "network",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_was_founded_in_2024",
+          "label": "revel8 was founded in 2024.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_name_has_a_naming_story",
+          "label": "Revel8's name has a naming story.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_moving_to_a_munich_office",
+          "label": "Revel8 is moving to a Munich office.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_the_source_text_does_not_mention_robert_",
+          "label": "The source text does not mention Robert Seilbeck.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_julius_muth_validated_the_market_with_10",
+          "label": "Julius Muth validated the market with 100 handwritten letters.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_looking_for_motivated",
+          "label": "Robert Seilbeck is looking for motivated colleagues to join Company Shield.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_taglines_are_activate_your_huma",
+          "label": "revel8's taglines are 'Activate Your Human Firewall' (EN) and 'Schutz vor der dunklen Seite der KI' (DE).",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_interface_is_in_english_and_ger",
+          "label": "revel8's interface is in English and German, with 30+ simulation languages assigned automatically per employee.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_s_blog_post_discusses_ho",
+          "label": "Robert Seilbeck's blog post discusses how memory arenas can cause memory-leak-like behavior in C++ applications.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_peak_believes_the_cybersecurity_opportun",
+          "label": "Peak believes the cybersecurity opportunity and urgency have never been greater due to AI supercharging attackers.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_hiring_for_multiple_roles_incl",
+          "label": "revel8 is hiring for multiple roles including Junior Software Engineer, Full Stack Engineer, Junior Customer Success Manager, and Senior Product Designer.",
+          "category": "other",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_moving_to_munich_in_early_2026",
+          "label": "revel8 is moving to Munich in early 2026.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_evaluated_new_development_tools_for_z_os",
+          "label": "Evaluated new development tools for z/OS at IBM",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_added_experimental_features_to_the_oracl",
+          "label": "Added experimental features to the Oracle database",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_goal_is_to_build_10_million_hum",
+          "label": "Revel8's goal is to build '10 million human firewalls.'",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_goal_is_to_train_10_million_hum",
+          "label": "revel8's goal is to train 10 million 'human firewalls.'",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_scaled_from_early_mvps_to_large_e",
+          "label": "Revel8 scaled from early MVPs to large enterprise rollouts.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_introduced_a_new_query_language_for_proc",
+          "label": "Introduced a new query language for process mining at Celonis",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_supported_the_build_up_of_the_engineerin",
+          "label": "Supported the build up of the engineering hub in Madrid onsite",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_aims_to_be_europe_s_most_exciting",
+          "label": "revel8 aims to be Europe's most exciting cybersecurity platform.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_building_a_highly_scalable_sec",
+          "label": "revel8 is building a highly scalable security awareness platform.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_is_a_startup_tackling_deepfake_po",
+          "label": "Revel8 is a startup tackling deepfake-powered social engineering.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_building_a_platform_to_protect_companies",
+          "label": "Building a platform to protect companies against AI attacks at revel8",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_personalizes_awareness_with_role_",
+          "label": "Revel8 personalizes awareness with role-based 'playlist' simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_implemented_a_log_analyse_tool_for_a_mas",
+          "label": "Implemented a log analyse tool for a massively parallel system at Oracle",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_built_up_and_grew_a_team_around_the_core",
+          "label": "Built up and grew a team around the Core Mining Engine (SaolaDB) at Celonis",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_company_shield_s_mission_is_to_protect_c",
+          "label": "Company Shield's mission is to protect companies against AI generated hacker attacks.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_created_a_github_reposit",
+          "label": "Robert Seilbeck created a GitHub repository with an example program demonstrating memory arena behavior.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_developed_a_domain_specific_in_memory_ol",
+          "label": "Developed a domain specific in-memory OLAP query engine for Process Mining, written in C++ and Java, at Celonis",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_authored_a_blog_post_abo",
+          "label": "Robert Seilbeck authored a blog post about C++ memory arenas and their implications, based on a lightning talk.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_has_a_deepfake_first_simulation_e",
+          "label": "revel8 has a deepfake-first simulation engine that replicates impersonation tactics within hours of their emergence.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_uses_open_source_intelligence_gat",
+          "label": "revel8 uses open-source intelligence gathering to make training scenarios indistinguishable from real-world threats.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_provides_immediate_contextual_fee",
+          "label": "revel8 provides immediate, contextual feedback during simulated attacks to turn interactions into teachable moments.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_collects_signals_across_the_organ",
+          "label": "revel8 collects signals across the organization, from reported emails to flagged interactions, to build a live picture.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_the_threat_composer_is_the_ai_engine_tha",
+          "label": "The Threat Composer is the AI engine that turns a one-line brief into a ready-to-run multi-channel simulation in minutes.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_co_founded_revel8_a_trai",
+          "label": "Robert Seilbeck co-founded revel8, a training platform that creates personalized cybersecurity training programs for employees.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_creates_a_personalized_playlist_o",
+          "label": "revel8 creates a personalized 'playlist of attacks' for each employee, adapting to role, behavior patterns, and performance history.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_runs_continuous_multi_channel_att",
+          "label": "revel8 runs continuous, multi-channel attack simulations across email, SMS, WhatsApp, voice (vishing), messenger and deepfake video.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_led_the_core_mining_engine_engineering_t",
+          "label": "Led the Core Mining Engine engineering teams (~40 engineers) developing SaolaDB, a highly performant analytical database based on PQL",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_the_awareness_playlist_module_runs_the_w",
+          "label": "The Awareness Playlist module runs the whole awareness programme on autopilot with personalised, multi-channel simulations and training.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_s_company_revel8_covers_",
+          "label": "Robert Seilbeck's company revel8 covers training for attacks across multiple channels including email, Teams, SMS, and calls using cloned voices.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_co_founded_revel8_a_berl",
+          "label": "Robert Seilbeck co-founded revel8, a Berlin-based cybersecurity startup that trains employees with realistic attack simulations of AI cyber threats.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_s_company_revel8_aims_to",
+          "label": "Robert Seilbeck's company revel8 aims to build a platform for workforce risk management in the age of AI, covering both human employees and AI agents.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "cispa.de",
+          "cited": false
+        },
+        {
+          "id": "f_robert_the_project_is_a_collaboration_between_a",
+          "label": "The project is a collaboration between Allianz and revel8, showcasing what can be achieved when a major enterprise collaborates with an ambitious startup.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_platform_replicates_modern_atta",
+          "label": "revel8's platform replicates modern attacker tactics including phishing, SMS spoofing, voice cloning, and video deepfakes as hyper-personalized simulations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "peak.capital",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_attack_simulation_module_covers",
+          "label": "revel8's Attack Simulation module covers email (BEC, vendor impersonation, malicious attachments, ClickFix), SMS and WhatsApp smishing, voice/vishing, and deepfake video.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_revel8_s_platform_spans_seven_capability",
+          "label": "revel8's platform spans seven capability areas: Awareness Playlist, Threat Composer, Threat Intelligence & OSINT, Interactive Trainings, Risk Monitoring & Mitigation, Call Center Security, and Integrations.",
+          "category": "project",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_cto_at_revel8_since_oct_2024",
+          "label": "CTO at revel8 since Oct 2024",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_cto_at_revel8",
+          "label": "Robert Seilbeck is CTO at revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_julius_muth_is_co_founder_of_revel8",
+          "label": "Julius Muth is co-founder of Revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_the_cto_at_revel8",
+          "label": "Robert Seilbeck is the CTO at revel8.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "revel8.ai",
+          "cited": false
+        },
+        {
+          "id": "f_robert_applied_science_student_at_ibm_in_feb_20",
+          "label": "Applied science student at IBM in Feb 2012",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_contractor_at_oracle_from_jan_2015_to_au",
+          "label": "Contractor at Oracle from Jan 2015 to Aug 2015",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_engineering_lead_at_celonis_from_sep_201",
+          "label": "Engineering Lead at Celonis from Sep 2019 to Sep 2024",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_research_assistant_at_oracle_from_jun_20",
+          "label": "Research Assistant at Oracle from Jun 2014 to Dec 2014",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_senior_software_engineer_at_celonis_from",
+          "label": "Senior Software Engineer at Celonis from Sep 2015 to Aug 2017",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_head_of_backend_development_at_celonis_f",
+          "label": "Head of Backend Development at Celonis from Sep 2017 to Sep 2019",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_is_cto_at_revel8_protect",
+          "label": "Robert Seilbeck is CTO at revel8, protecting companies against AI attacks.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_applied_science_student_bachelor_s_thesi",
+          "label": "Applied science student, Bachelor's thesis at IBM from Jun 2011 to Sep 2011",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_took_the_role_of_cto_of_",
+          "label": "Robert Seilbeck took the role of CTO of Company Shield, a cyber security startup.",
+          "category": "role",
+          "reliability": "unsicher",
+          "domain": "linkedin.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_julius_muth_appeared_on_the_cyber_securi",
+          "label": "Julius Muth appeared on the Cyber Security District podcast in Amsterdam.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "cybersecuritytalks.podbean.com",
+          "cited": false
+        },
+        {
+          "id": "f_robert_robert_seilbeck_gave_a_lightning_talk_at",
+          "label": "Robert Seilbeck gave a lightning talk at a C++ user group meeting in Munich about memory arenas.",
+          "category": "talk",
+          "reliability": "unsicher",
+          "domain": "careers.celonis.com",
           "cited": false
         }
       ],
