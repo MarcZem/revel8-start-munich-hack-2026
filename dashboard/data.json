@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T01:43:58+00:00",
+  "generated_at": "2026-11-22T06:31:34+00:00",
   "model": "DeepSeek-V4-Flash · AMD Token Factory",
   "pipeline": [
     {
@@ -123,7 +123,7 @@
       "knowledge": [
         {
           "id": "f_julius_julius_m_is_promoting_the_make_x_openai_",
-          "label": "Julius M. is promoting the Make x OpenAI Hackathon …",
+          "label": "Julius M. is promoting the Make x OpenAI Hackathon on Jan 16, which emphasizes real use cases and competition over presentations.",
           "category": "talk",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -155,7 +155,7 @@
         },
         {
           "id": "f_julius_julius_muth_appeared_on_the_cyber_securi",
-          "label": "Julius Muth appeared on the Cyber Security District…",
+          "label": "Julius Muth appeared on the Cyber Security District podcast in Amsterdam.",
           "category": "talk",
           "reliability": "unsicher",
           "domain": "cybersecuritytalks.podbean.com",
@@ -343,7 +343,7 @@
       "knowledge": [
         {
           "id": "f_tom_tom_m_ller_is_promoting_the_ai_course_bu",
-          "label": "Tom Müller is promoting the AI Course Builder, a fe…",
+          "label": "Tom Müller is promoting the AI Course Builder, a feature of revel8's Academy that turns policies into interactive training modules.",
           "category": "project",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -351,7 +351,7 @@
         },
         {
           "id": "f_tom_the_ai_course_builder_allows_users_to_up",
-          "label": "The AI Course Builder allows users to upload a poli…",
+          "label": "The AI Course Builder allows users to upload a policy)Skip, generate a complete training module with AI or from templates, customise content, target people via triggered campaigns, and track engagement and risk reduction.",
           "category": "project",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -359,7 +359,7 @@
         },
         {
           "id": "f_tom_tom_m_ller_shared_a_post_about_the_ai_co",
-          "label": "Tom Müller shared a post about the AI Course Builde…",
+          "label": "Tom Müller shared a post about the AI Course Builder update, highlighting its features and the goal of making security policies understandable and applied.",
           "category": "talk",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -383,7 +383,7 @@
         },
         {
           "id": "f_tom_tom_m_ller_co_founded_revel8_a_consultin",
-          "label": "Tom Müller co-founded revel8, a consulting company,…",
+          "label": "Tom Müller co-founded revel8, a consulting company, in June 2024.",
           "category": "project",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -563,7 +563,7 @@
       "knowledge": [
         {
           "id": "f_robert_robert_seilbeck_is_proud_of_a_project_de",
-          "label": "Robert Seilbeck is proud of a project developed wit…",
+          "label": "Robert Seilbeck is proud of a project developed with Allianz SE, a Contact Center solution using real vishing simulations.",
           "category": "project",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -571,7 +571,7 @@
         },
         {
           "id": "f_robert_there_is_an_upcoming_live_session_on_sep",
-          "label": "There is an upcoming live session on September 9, 1…",
+          "label": "There is an upcoming live session on September 9, 11:00–11:45 CEST, about the Contact Center solution, featuring Daria Catalui, Global Head of Human Firewall and Cluster CISO at Allianz SE, and revel8 founders Tom and Julius.",
           "category": "talk",
           "reliability": "unsicher",
           "domain": "linkedin.com",
@@ -603,7 +603,7 @@
         },
         {
           "id": "f_robert_julius_muth_appeared_on_the_cyber_securi",
-          "label": "Julius Muth appeared on the Cyber Security District…",
+          "label": "Julius Muth appeared on the Cyber Security District podcast in Amsterdam.",
           "category": "talk",
           "reliability": "unsicher",
           "domain": "cybersecuritytalks.podbean.com",

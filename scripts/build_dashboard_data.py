@@ -159,7 +159,7 @@ def _knowledge(records: list[dict], hook: dict, max_nodes: int = 6) -> list[dict
     for rid in chosen[:max_nodes]:
         r = by_id[rid]
         fact = (r.get("fact") or "").strip()
-        nodes.append({"id": rid, "label": fact if len(fact) <= 52 else fact[:51] + "…",
+        nodes.append({"id": rid, "label": fact,
                       "category": r.get("category", "other"),
                       "reliability": r.get("reliability", "unsicher"),
                       "domain": _domain((r.get("sources") or [{}])[0].get("url", "")),

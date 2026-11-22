@@ -108,20 +108,26 @@
   .fold[open]>summary::after{transform:rotate(45deg)}
   .fold>summary:hover{background:var(--surface)}
 
-  /* agent graph */
+  /* agent graph — orchestrator hub */
   #graph{width:100%;height:auto;display:block;background:
-    radial-gradient(circle at 1px 1px, color-mix(in srgb,var(--line) 70%,transparent) 1px, transparent 0) 0 0/24px 24px}
-  .node rect{fill:var(--panel);stroke:var(--line-2);stroke-width:1.4}
-  .node .ttl{font-family:var(--font-display);font-weight:600;font-size:13px;fill:var(--fg)}
+    radial-gradient(circle at 1px 1px, color-mix(in srgb,var(--line) 70%,transparent) 1px, transparent 0) 0 0/26px 26px}
+  .node rect{fill:var(--panel);stroke:var(--line-2);stroke-width:1.4;transition:stroke .2s}
+  .node .ttl{font-family:var(--font-display);font-weight:600;font-size:14px;fill:var(--fg)}
   .node .rl{font-family:var(--font-mono);font-size:9.5px;fill:var(--muted)}
-  .node.on rect{stroke:var(--accent);stroke-width:2}
-  .node.on{filter:drop-shadow(0 0 9px var(--accent-weak))}
-  .node.src rect{fill:var(--surface);stroke-dasharray:3 3}
-  .node.hub rect{fill:var(--accent-weak);stroke:var(--accent);stroke-width:1.8}
-  .edge{stroke:var(--line-2);stroke-width:1.5;fill:none}
-  .edge.api{stroke-dasharray:5 4}
-  .edge.on{stroke:var(--accent);stroke-width:2.6}
+  .node.on rect{stroke:var(--accent);stroke-width:2.4}
+  .node.active{animation:blink 1.1s ease-in-out infinite}
+  /* orchestrator: always the visual lead in the centre */
+  .orch rect{fill:var(--accent-weak);stroke:var(--accent);stroke-width:2.2}
+  .orch .ttl{font-family:var(--font-display);font-weight:700;font-size:20px;fill:var(--accent-ink);letter-spacing:-.01em}
+  .orch .rl{font-family:var(--font-mono);font-size:10.5px;fill:var(--accent-ink);opacity:.75}
+  .orch.active{animation:none}
+  .orch.on rect{stroke-width:3;filter:drop-shadow(0 0 13px var(--accent))}
+  @keyframes blink{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 12px var(--accent))}}
+  .edge{stroke:var(--line-2);stroke-width:1.5;fill:none;transition:stroke .2s}
+  .edge.api{stroke-dasharray:6 5}
+  .edge.on{stroke:var(--accent);stroke-width:2.8}
   .pulse{fill:var(--accent)}
+  .pulse.api{fill:var(--accent-ink)}
   .elabel{font-family:var(--font-mono);font-size:10px;fill:var(--muted)}
   .legend{display:flex;gap:18px;flex-wrap:wrap;padding:13px 17px;border-top:1px solid var(--line);
     font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
@@ -144,15 +150,26 @@
     border:1px solid var(--line);border-radius:7px;padding:2px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
 
   /* knowledge graph */
-  #kg{width:100%;height:auto;display:block;padding:6px 10px}
+  #kg{width:100%;height:auto;display:block;padding:6px 8px}
   .kg-center rect{fill:var(--accent-weak);stroke:var(--accent);stroke-width:1.8}
   .kg-center text{font-family:var(--font-display);font-weight:600;font-size:13px;fill:var(--fg)}
-  .kg-node rect{fill:var(--panel);stroke:var(--line-2);stroke-width:1.3}
+  .kg-node{cursor:help}
+  .kg-node rect{fill:var(--panel);stroke:var(--line-2);stroke-width:1.3;transition:stroke .15s,filter .15s}
   .kg-node.cited rect{stroke:var(--accent);stroke-width:1.8}
+  .kg-node:hover rect{stroke:var(--accent);stroke-width:2.2;filter:drop-shadow(0 4px 12px rgba(20,28,60,.18))}
   .kg-node .cat{font-family:var(--font-mono);font-weight:600;font-size:8px;fill:var(--muted);letter-spacing:.08em}
   .kg-node.cited .cat{fill:var(--accent-ink)}
-  .kg-node .fx{font-family:var(--font-body);font-size:10.5px;fill:var(--fg)}
+  .kg-node .fx{font-family:var(--font-body);font-size:11px;fill:var(--fg)}
   .kg-edge{stroke:var(--accent);fill:none}
+  /* knowledge-graph hover detail */
+  #kgtip{position:fixed;z-index:30;max-width:340px;pointer-events:none;opacity:0;transform:translateY(5px);
+    transition:opacity .12s,transform .12s;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;
+    box-shadow:0 16px 40px -14px rgba(16,20,40,.55);padding:13px 15px}
+  #kgtip.on{opacity:1;transform:none}
+  #kgtip .fact{font-family:var(--font-body);font-size:13.5px;line-height:1.5;color:var(--fg);margin-bottom:9px}
+  #kgtip pre{margin:0;white-space:pre-wrap;font-family:var(--font-mono);font-size:11px;line-height:1.55;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:9px}
+  #kgtip pre b{color:var(--accent-ink);font-weight:600}
 
   /* targeting */
   .ring{display:flex;align-items:center;gap:17px}
@@ -257,7 +274,7 @@
 
       <div class="panel">
         <div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="17" cy="17" r="2.5"/><circle cx="7" cy="18" r="2.5"/><path d="M8 7l8-1M8.5 17l7-1M6.5 8.4 6.8 15.5M8 6.4 16 16"/></svg>Knowledge graph<span class="sp" id="kgn"></span></div>
-        <svg id="kg" viewBox="0 0 680 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Knowledge graph"></svg>
+        <svg id="kg" viewBox="0 0 760 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Knowledge graph"></svg>
       </div>
     </div>
 
@@ -298,7 +315,7 @@
 
 <script id="run-data" type="application/json">
 {
-"generated_at": "2026-11-22T01:43:58+00:00",
+"generated_at": "2026-11-22T06:31:34+00:00",
 "model": "DeepSeek-V4-Flash · AMD Token Factory",
 "pipeline": [
 {
@@ -422,7 +439,7 @@
 "knowledge": [
 {
 "id": "f_julius_julius_m_is_promoting_the_make_x_openai_",
-"label": "Julius M. is promoting the Make x OpenAI Hackathon …",
+"label": "Julius M. is promoting the Make x OpenAI Hackathon on Jan 16, which emphasizes real use cases and competition over presentations.",
 "category": "talk",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -454,7 +471,7 @@
 },
 {
 "id": "f_julius_julius_muth_appeared_on_the_cyber_securi",
-"label": "Julius Muth appeared on the Cyber Security District…",
+"label": "Julius Muth appeared on the Cyber Security District podcast in Amsterdam.",
 "category": "talk",
 "reliability": "unsicher",
 "domain": "cybersecuritytalks.podbean.com",
@@ -642,7 +659,7 @@
 "knowledge": [
 {
 "id": "f_tom_tom_m_ller_is_promoting_the_ai_course_bu",
-"label": "Tom Müller is promoting the AI Course Builder, a fe…",
+"label": "Tom Müller is promoting the AI Course Builder, a feature of revel8's Academy that turns policies into interactive training modules.",
 "category": "project",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -650,7 +667,7 @@
 },
 {
 "id": "f_tom_the_ai_course_builder_allows_users_to_up",
-"label": "The AI Course Builder allows users to upload a poli…",
+"label": "The AI Course Builder allows users to upload a policy)Skip, generate a complete training module with AI or from templates, customise content, target people via triggered campaigns, and track engagement and risk reduction.",
 "category": "project",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -658,7 +675,7 @@
 },
 {
 "id": "f_tom_tom_m_ller_shared_a_post_about_the_ai_co",
-"label": "Tom Müller shared a post about the AI Course Builde…",
+"label": "Tom Müller shared a post about the AI Course Builder update, highlighting its features and the goal of making security policies understandable and applied.",
 "category": "talk",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -682,7 +699,7 @@
 },
 {
 "id": "f_tom_tom_m_ller_co_founded_revel8_a_consultin",
-"label": "Tom Müller co-founded revel8, a consulting company,…",
+"label": "Tom Müller co-founded revel8, a consulting company, in June 2024.",
 "category": "project",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -862,7 +879,7 @@
 "knowledge": [
 {
 "id": "f_robert_robert_seilbeck_is_proud_of_a_project_de",
-"label": "Robert Seilbeck is proud of a project developed wit…",
+"label": "Robert Seilbeck is proud of a project developed with Allianz SE, a Contact Center solution using real vishing simulations.",
 "category": "project",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -870,7 +887,7 @@
 },
 {
 "id": "f_robert_there_is_an_upcoming_live_session_on_sep",
-"label": "There is an upcoming live session on September 9, 1…",
+"label": "There is an upcoming live session on September 9, 11:00–11:45 CEST, about the Contact Center solution, featuring Daria Catalui, Global Head of Human Firewall and Cluster CISO at Allianz SE, and revel8 founders Tom and Julius.",
 "category": "talk",
 "reliability": "unsicher",
 "domain": "linkedin.com",
@@ -902,7 +919,7 @@
 },
 {
 "id": "f_robert_julius_muth_appeared_on_the_cyber_securi",
-"label": "Julius Muth appeared on the Cyber Security District…",
+"label": "Julius Muth appeared on the Cyber Security District podcast in Amsterdam.",
 "category": "talk",
 "reliability": "unsicher",
 "domain": "cybersecuritytalks.podbean.com",
@@ -1037,72 +1054,77 @@ const ICON={
 };
 const srcIcon=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${ICON[k]||ICON.web}</svg>`;
 
-const NODES={
-  linkedin:[95,80],company:[95,210],web:[95,340],
-  research:[250,210],knowledge:[400,210],
-  targeting:[560,110],controller:[575,300],writer:[735,110],twin:[915,215],evaluator:[745,330]
+// Orchestrator in the centre; the agents it dispatches sit on a ring around it.
+const ORCH=[500,240];
+const RING={research:[500,92],targeting:[792,196],writer:[676,374],twin:[324,374],evaluator:[208,196]};
+const META={
+  orch:{label:"Orchestrator",role:"run controller · routes every agent"},
+  research:{label:"Research",role:"OSINT → facts · LinkedIn first"},
+  targeting:{label:"Targeting",role:"evidence-cited hooks"},
+  writer:{label:"Writer",role:"crafts the touch"},
+  twin:{label:"Target twin",role:"revel8 AI twin · API"},
+  evaluator:{label:"Evaluator",role:"continue / switch / stop"}
 };
-const SRC=new Set(["linkedin","company","web"]);
+// directed edges: spokes (orch<->agent) carry dispatch/report, ring edges carry the hand-offs
 const EDGES=[
-  ["linkedin","research"],["company","research"],["web","research"],
-  ["research","knowledge"],["knowledge","targeting"],["targeting","controller"],
-  ["controller","writer"],["writer","twin","api"],["twin","evaluator"],["evaluator","controller"]
+  ["orch","research"],["research","targeting"],["targeting","orch"],
+  ["orch","writer"],["writer","twin","api"],["twin","evaluator"],["evaluator","orch"]
 ];
+const pos=id=>id==="orch"?ORCH:RING[id];
 const graph=$("#graph");let nodeEls={},edgeEls={};
-function buildGraph(){
-  graph.innerHTML="";const meta=Object.fromEntries((DATA.pipeline||[]).map(p=>[p.id,p]));
-  for(const [a,b,kind] of EDGES){
-    const [x1,y1]=NODES[a],[x2,y2]=NODES[b];const mx=(x1+x2)/2,my=(y1+y2)/2-22;
-    graph.appendChild(S("path",{class:"edge"+(kind?" api":""),d:`M ${x1} ${y1} Q ${mx} ${my} ${x2} ${y2}`}));
-    edgeEls[a+">"+b]=graph.lastChild;
-    if(kind==="api"){const t=S("text",{class:"elabel",x:mx,y:my-3,"text-anchor":"middle"});t.textContent="API call";graph.appendChild(t);}
-  }
-  for(const id in NODES){
-    const [x,y]=NODES[id],isSrc=SRC.has(id),w=isSrc?140:150,h=isSrc?44:52;
-    const g=S("g",{class:"node"+(isSrc?" src":"")+(id==="twin"?" hub":""),transform:`translate(${x-w/2},${y-h/2})`});
-    g.appendChild(S("rect",{width:w,height:h,rx:12}));
-    const m=meta[id]||{};
-    const ttl=S("text",{class:"ttl",x:w/2,y:h/2-(m.role?3:0),"text-anchor":"middle"});ttl.textContent=m.label||id;g.appendChild(ttl);
-    if(m.role){const r=S("text",{class:"rl",x:w/2,y:h/2+13,"text-anchor":"middle"});
-      r.textContent=m.role.length>26?m.role.slice(0,25)+"…":m.role;g.appendChild(r);}
-    graph.appendChild(g);nodeEls[id]=g;
-  }
+function mkNode(id,w,h,cls){
+  const [x,y]=pos(id),m=META[id]||{};
+  const g=S("g",{class:cls,transform:`translate(${x-w/2},${y-h/2})`});
+  g.appendChild(S("rect",{width:w,height:h,rx:14}));
+  const ttl=S("text",{class:"ttl",x:w/2,y:h/2-(m.role?4:0),"text-anchor":"middle"});ttl.textContent=m.label||id;g.appendChild(ttl);
+  if(m.role){const r=S("text",{class:"rl",x:w/2,y:h/2+(id==="orch"?16:14),"text-anchor":"middle"});
+    r.textContent=m.role.length>30?m.role.slice(0,29)+"…":m.role;g.appendChild(r);}
+  graph.appendChild(g);nodeEls[id]=g;
 }
-const clearG=()=>{for(const k in nodeEls)nodeEls[k].classList.remove("on");for(const k in edgeEls)edgeEls[k].classList.remove("on");};
+function buildGraph(){
+  graph.innerHTML="";nodeEls={};edgeEls={};
+  for(const [a,b,kind] of EDGES){
+    const [x1,y1]=pos(a),[x2,y2]=pos(b);
+    graph.appendChild(S("path",{class:"edge"+(kind?" api":""),d:`M ${x1} ${y1} L ${x2} ${y2}`}));
+    edgeEls[a+">"+b]=graph.lastChild;
+  }
+  const [wx,wy]=RING.writer,[tx,ty]=RING.twin;
+  const al=S("text",{class:"elabel",x:(wx+tx)/2,y:(wy+ty)/2+22,"text-anchor":"middle"});al.textContent="API call → Personal Interface";graph.appendChild(al);
+  for(const id in RING)mkNode(id,162,52,"node");
+  mkNode("orch",218,78,"node orch");
+}
+const clearG=()=>{for(const k in nodeEls)nodeEls[k].classList.remove("on","active");for(const k in edgeEls)edgeEls[k].classList.remove("on");};
 const lightN=id=>nodeEls[id]&&nodeEls[id].classList.add("on");
-function pulse(a,b,ms){return new Promise(res=>{const e=edgeEls[a+">"+b];if(!e)return res();e.classList.add("on");
-  const len=e.getTotalLength(),dot=S("circle",{class:"pulse",r:4.5});graph.appendChild(dot);const t0=performance.now();
+// active = the agent whose turn it is: lit + blinking. Previous agents stay lit.
+function activeN(id){for(const k in nodeEls)nodeEls[k].classList.remove("active");if(nodeEls[id])nodeEls[id].classList.add("on","active");}
+function pulse(a,b,ms,api){return new Promise(res=>{const e=edgeEls[a+">"+b];if(!e)return res();e.classList.add("on");
+  const len=e.getTotalLength(),dot=S("circle",{class:"pulse"+(api?" api":""),r:api?5.5:4.5});graph.appendChild(dot);const t0=performance.now();
   (function step(t){const k=Math.min(1,(t-t0)/ms),p=e.getPointAtLength(k*len);dot.setAttribute("cx",p.x);dot.setAttribute("cy",p.y);
     if(k<1)requestAnimationFrame(step);else{dot.remove();res();}})(t0);});}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let token=0;
 async function replay(t){
   const my=++token;clearG();const stage=$("#stageline");const set=s=>{if(my===token)stage.textContent=s;};
-  const doms=(t.sources_seen||[]).map(s=>s.domain);
-  set("recon — starting on LinkedIn"); lightN("linkedin");
-  await pulse("linkedin","research",430);if(my!==token)return;
-  set("reading "+(doms[2]||doms[1]||"company site")); lightN("company");
-  await pulse("company","research",380);if(my!==token)return;
-  lightN("web");await pulse("web","research",380);if(my!==token)return;
-  lightN("research");set("extracting "+(t.research_count||"")+" atomic facts");
-  await pulse("research","knowledge",460);if(my!==token)return;
-  lightN("knowledge");set("building evidence graph");await sleep(240);
-  await pulse("knowledge","targeting",440);if(my!==token)return;
-  lightN("targeting");set("ranking hooks — "+((t.hook&&t.hook.topic)||"angle"));await sleep(220);
-  await pulse("targeting","controller",380);if(my!==token)return;
-  lightN("controller");set("run controller — session open");await sleep(180);
+  lightN("orch");set("orchestrator — session open");await sleep(260);
+  set("dispatch → research · LinkedIn first");
+  await pulse("orch","research",470);if(my!==token)return;activeN("research");
+  set("extracting "+(t.research_count||"")+" atomic facts");await sleep(360);
+  await pulse("research","targeting",460);if(my!==token)return;activeN("targeting");
+  set("ranking hooks — "+((t.hook&&t.hook.topic)||"angle"));await sleep(360);
+  await pulse("targeting","orch",420);if(my!==token)return;
   const touches=(t.thread&&t.thread.length)||1;
   for(let i=0;i<touches;i++){
     if(my!==token)return;const m=(t.thread&&t.thread[i])||{};
-    set(`touch ${i+1}/${touches} · writer → twin`);
-    await pulse("controller","writer",360);if(my!==token)return;lightN("writer");
-    await pulse("writer","twin",600);if(my!==token)return;lightN("twin");
-    set(`touch ${i+1}/${touches} · twin ${m.reply?"replied":"stayed silent"}`+(m.gate?" ("+m.gate+")":""));
-    await pulse("twin","evaluator",500);if(my!==token)return;lightN("evaluator");
-    const dec=m.decision&&m.decision.action;
-    if(i<touches-1){await pulse("evaluator","controller",440);set("evaluator: "+(dec||"continue")+" — adapting");}
-    await sleep(200);
+    set(`touch ${i+1}/${touches} · orchestrator → writer`);
+    await pulse("orch","writer",380);if(my!==token)return;activeN("writer");await sleep(180);
+    set(`touch ${i+1}/${touches} · API call → Personal Interface`);
+    await pulse("writer","twin",640,true);if(my!==token)return;activeN("twin");
+    set(`touch ${i+1}/${touches} · twin ${m.reply?"replied":"stayed silent"}`+(m.gate?" ("+m.gate+")":""));await sleep(240);
+    await pulse("twin","evaluator",500);if(my!==token)return;activeN("evaluator");
+    const dec=m.decision&&m.decision.action;set(`touch ${i+1}/${touches} · evaluator → ${dec||"continue"}`);
+    await pulse("evaluator","orch",430);if(my!==token)return;await sleep(240);
   }
+  for(const k in nodeEls)nodeEls[k].classList.remove("active");
   set(t.outcome.compromised?"incident — objective reached":"held — "+((t.outcome.stop_reason||"target resisted").slice(0,46)));
 }
 
@@ -1119,28 +1141,50 @@ function renderSources(t){
   });
 }
 
-function wrap(text,max){const words=text.split(" "),lines=[];let cur="";
+function wrap(text,max,maxLines){const ml=maxLines||3;const words=(text||"").split(" "),lines=[];let cur="";
   for(const w of words){if((cur+" "+w).trim().length>max){if(cur)lines.push(cur);cur=w;}else cur=(cur+" "+w).trim();}
-  if(cur)lines.push(cur);return lines.slice(0,3);}
+  if(cur)lines.push(cur);
+  if(lines.length>ml){const o=lines.slice(0,ml);o[ml-1]=o[ml-1].slice(0,max-1).replace(/\s+\S*$/,"").trim()+"…";return o;}
+  return lines;}
+
+// hover detail — the raw fact as JSON
+let kgtip;
+function ensureTip(){if(!kgtip){kgtip=el("div");kgtip.id="kgtip";document.body.appendChild(kgtip);}return kgtip;}
+function showTip(e,n){const tp=ensureTip();tp.innerHTML="";
+  tp.appendChild(el("div","fact",n.label));
+  const raw={id:n.id,category:n.category,reliability:n.reliability,domain:n.domain,cited:n.cited};
+  const pre=el("pre");
+  pre.innerHTML=JSON.stringify(raw,null,2).replace(/"(reliability|cited|domain)":/g,'<b>"$1":</b>');
+  tp.appendChild(pre);tp.classList.add("on");moveTip(e);}
+function moveTip(e){if(!kgtip)return;const pad=16,w=kgtip.offsetWidth||320,h=kgtip.offsetHeight||150;
+  let x=e.clientX+pad,y=e.clientY+pad;
+  if(x+w>innerWidth-8)x=e.clientX-w-pad;
+  if(y+h>innerHeight-8)y=e.clientY-h-pad;
+  kgtip.style.left=Math.max(8,x)+"px";kgtip.style.top=Math.max(8,y)+"px";}
+function hideTip(){if(kgtip)kgtip.classList.remove("on");}
+
 function renderKG(t){
-  const svg=$("#kg");svg.innerHTML="";const nodes=t.knowledge||[];
-  $("#kgn").textContent=nodes.length?nodes.length+" key facts":"";
-  const W=680,H=420,cx=W/2,cy=H/2;
+  const svg=$("#kg");svg.innerHTML="";hideTip();const nodes=t.knowledge||[];
+  $("#kgn").textContent=nodes.length?nodes.length+" key facts · hover for detail":"";
+  const W=760,H=520,cx=W/2,cy=H/2;
   if(!nodes.length){const tx=S("text",{x:cx,y:cy,"text-anchor":"middle",class:"elabel"});tx.textContent="No knowledge graph for this run.";svg.appendChild(tx);return;}
-  const relOp={belastbar:1,unsicher:.5,unbelastbar:.25};
-  const R=Math.min(150,118+nodes.length*3),nw=150,nh=52;
-  nodes.forEach((n,i)=>{const a=(-90+i*(360/nodes.length))*Math.PI/180;const x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);
-    const ln=S("line",{class:"kg-edge",x1:cx,y1:cy,x2:x,y2:y,"stroke-width":n.cited?2.2:1.2,"stroke-opacity":(relOp[n.reliability]||.5)});ln.style.animationDelay=(i*0.04)+"s";svg.appendChild(ln);});
-  const c=S("g",{class:"kg-center",transform:`translate(${cx-70},${cy-22})`});
-  c.appendChild(S("rect",{width:140,height:44,rx:12}));
-  const ct=S("text",{x:70,y:27,"text-anchor":"middle"});ct.textContent=t.name;c.appendChild(ct);
-  nodes.forEach((n,i)=>{const a=(-90+i*(360/nodes.length))*Math.PI/180;const x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);
-    const g=S("g",{class:"kg-node"+(n.cited?" cited":""),transform:`translate(${x-nw/2},${y-nh/2})`});
+  const relOp={belastbar:1,unsicher:.55,unbelastbar:.3},n=nodes.length,rx=252,ry=168,nw=192;
+  nodes.forEach((nd,i)=>{const a=(-90+i*(360/n))*Math.PI/180;const x=cx+rx*Math.cos(a),y=cy+ry*Math.sin(a);
+    const ln=S("line",{class:"kg-edge",x1:cx,y1:cy,x2:x,y2:y,"stroke-width":nd.cited?2.4:1.3,"stroke-opacity":(relOp[nd.reliability]||.5)});ln.style.animationDelay=(i*0.04)+"s";svg.appendChild(ln);});
+  nodes.forEach((nd,i)=>{const a=(-90+i*(360/n))*Math.PI/180;const x=cx+rx*Math.cos(a),y=cy+ry*Math.sin(a);
+    const lines=wrap(nd.label,30,4),nh=18+lines.length*13+9;
+    const g=S("g",{class:"kg-node"+(nd.cited?" cited":""),transform:`translate(${x-nw/2},${y-nh/2})`});
     g.style.animationDelay=(0.12+i*0.05)+"s";
-    g.appendChild(S("rect",{width:nw,height:nh,rx:10}));
-    const cat=S("text",{class:"cat",x:10,y:16});cat.textContent=(n.category||"").toUpperCase()+(n.cited?" · USED":"");g.appendChild(cat);
-    wrap(n.label,26).forEach((ln,li)=>{const tx=S("text",{class:"fx",x:10,y:30+li*12});tx.textContent=ln;g.appendChild(tx);});
+    g.appendChild(S("rect",{width:nw,height:nh,rx:11}));
+    const cat=S("text",{class:"cat",x:12,y:17});cat.textContent=(nd.category||"").toUpperCase()+(nd.cited?" · USED":"");g.appendChild(cat);
+    lines.forEach((ln,li)=>{const tx=S("text",{class:"fx",x:12,y:33+li*13});tx.textContent=ln;g.appendChild(tx);});
+    g.addEventListener("mouseenter",e=>showTip(e,nd));
+    g.addEventListener("mousemove",moveTip);
+    g.addEventListener("mouseleave",hideTip);
     svg.appendChild(g);});
+  const c=S("g",{class:"kg-center",transform:`translate(${cx-74},${cy-24})`});
+  c.appendChild(S("rect",{width:148,height:48,rx:12}));
+  const ct=S("text",{x:74,y:29,"text-anchor":"middle"});ct.textContent=t.name;c.appendChild(ct);
   svg.appendChild(c);
 }
 
