@@ -43,6 +43,8 @@ The frontend/application framework has not been selected yet. The first local pr
 
    Open `dashboard/replay.html` in a browser. See [the replay guide](docs/dashboard-replay.md) for the pitch-mode walkthrough.
 6. Read the core docs in [docs/agent-core.md](docs/agent-core.md).
+   Defensive research context for persuasion detection and robustness testing is in
+   [docs/defensive-persuasion-research.md](docs/defensive-persuasion-research.md).
 7. For the official, opt-in Revel8 API client and read-only connection check, see
    [docs/revel8-api.md](docs/revel8-api.md).
 8. For the latest organizer clarifications about form values, story timestamps,
