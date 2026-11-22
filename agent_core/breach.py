@@ -56,6 +56,33 @@ _BREACH_SYSTEM = (
     "FROM_NAME: <name>\nFROM_ADDRESS: <email/handle>\nSUBJECT: <short; blank for chat/SMS>\nBODY:\n<message>"
 )
 
+# The verifiability gate — the hardened twins' core defense (observed live): they ask who you are /
+# who invited you, or route you to sales. Naming it makes the agent's reassessment legible in the record.
+_GATE_MARKERS = (
+    ("who are you", "asks who you are"),
+    ("who invited", "asks who invited you"),
+    ("which company", "asks which company you're with"),
+    ("to our sales", "routes you to sales"),
+    ("to sales", "routes you to sales"),
+    ("sales team", "routes you to sales"),
+    ("how did you get", "asks how you got their details"),
+    ("don't know you", "says they don't know you"),
+    ("do not know you", "says they don't know you"),
+    ("official channel", "wants an official channel"),
+    ("verify", "wants verification"),
+)
+
+
+def _gate_phrase(reply: str | None) -> str | None:
+    """Label the verifiability gate in a reply, else None (an explicit state for the record)."""
+    if not reply:
+        return None
+    low = reply.lower()
+    for marker, label in _GATE_MARKERS:
+        if marker in low:
+            return label
+    return None
+
 
 def react_compose(target_name, hook, evidence, thread, link_url, link_brand, persona, channel, today,
                   vary=False, attach_name=None, critique=True):
@@ -154,8 +181,9 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
 
     api = TargetAPI()
     sid = api.create_session(scenario)["session_id"]
-    log = {"session_id": sid, "target": target_id, "objective": "breach", "channel": channel,
-           "hook": asdict(hook), "contacts": []}
+    log = {"session_id": sid, "target": target_id, "target_name": target_name,
+           "scenario": scenario, "objective": "breach", "channel": channel,
+           "hook": asdict(hook), "hooks_considered": [asdict(h) for h in hooks], "contacts": []}
     print(f"session {sid} | breach agent | hook: {hook.topic}")
 
     link_url = link_brand = None
@@ -177,16 +205,24 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
     incident = False
     incident_type = captured = incident_touch = None
     silent_streak = 0
+    stop_reason = f"reached the {max_touches}-touch budget without an incident"
     try:
         while len(log["contacts"]) < max_touches:
             first = not thread
             last_silent = bool(thread) and not thread[-1]["reply"]
+            sent_because = (
+                "first, cold contact — rapport + one true detail, no link (a login push at first "
+                "contact is ignored)" if first
+                else "re-engage after silence — change the opening and angle, never a verbatim resend"
+                if last_silent
+                else "react to their last reply: overcome that objection, then advance one step")
             payload = react_compose(target_name, hook, evidence, thread,
                                     None if first else link_url, link_brand, persona, channel, today,
                                     vary=last_silent, attach_name=None if first else attach_name,
                                     critique=critique)
             if payload is None:
-                print("  writer produced no usable message — stopping")
+                stop_reason = "writer produced no usable message"
+                print(f"  {stop_reason} — stopping")
                 break
             crit_info = payload.pop("_critique", None)
             if crit_info and crit_info.get("rewritten"):
@@ -200,33 +236,53 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
                 payload["from"] = persona
             ok, reason = _fairplay(payload, own_domains)
             if not ok:
+                stop_reason = reason
                 log["contacts"].append({"skipped": reason, "payload": payload})
                 print(f"  {reason}")
                 break
             reaction = api.send_message(sid, **payload)
             events = reaction.get("events", [])
             reply = _first_reply(events)
-            log["contacts"].append({"payload": payload, "touches_used": reaction.get("touches_used"),
-                                    "events": events, "critique": crit_info})
+            idx = len(log["contacts"]) + 1
+            gate = _gate_phrase(reply)
+            contact = {"payload": payload, "sent_because": sent_because,
+                       "touches_used": reaction.get("touches_used"), "events": events,
+                       "critique": crit_info}
+            log["contacts"].append(contact)
             thread.append({"sent": _strip_html(payload["body"]), "reply": reply, "channel": channel,
                            "subject": payload.get("subject", channel)})
-            print(f"  touch {len(log['contacts'])}: {[e.get('type') for e in events] or 'silence'}")
+            print(f"  touch {idx}: {[e.get('type') for e in events] or 'silence'}"
+                  f"{' · gate: ' + gate if gate else ''}")
             incident_type, captured = _classify_incident(events, reply, target_name)
+            silent_streak = silent_streak + 1 if not events else 0
+            contact["state_after"] = {"silent_streak": silent_streak,
+                                      "touches_used": reaction.get("touches_used"), "gate_seen": gate}
             if incident_type:
                 incident = True
-                incident_touch = len(log["contacts"])
-                log["contacts"][-1]["incident"] = {"type": incident_type, "captured": captured}
+                incident_touch = idx
+                contact["incident"] = {"type": incident_type, "captured": captured}
+                contact["decision"] = {"action": "stop",
+                                       "reason": "incident reached — stop for the Speed metric"}
+                stop_reason = f"incident ({incident_type}) at touch {incident_touch}"
                 print(f"  INCIDENT [{incident_type}] at touch {incident_touch} — breach, stopping")
                 break
-            silent_streak = silent_streak + 1 if not events else 0
             if silent_streak >= 2:  # two ignored in a row — pinging more just burns budget
-                print("  two silences in a row — stopping (no traction)")
+                contact["decision"] = {"action": "stop",
+                                       "reason": "two silences in a row — no traction"}
+                stop_reason = "two silences in a row — no traction, stopped"
+                print(f"  {stop_reason}")
                 break
+            contact["decision"] = (
+                {"action": "continue",
+                 "reason": f"twin {gate} — answer that gate, then advance one slice"} if gate
+                else {"action": "continue", "reason": "engaged — advance one concrete step in-thread"}
+                if events
+                else {"action": "switch", "reason": "silence — change opening/angle, do not resend"})
     finally:
         api.end_session(sid)
 
     log.update(incident=incident, incident_type=incident_type, captured=captured,
-               touches_to_incident=incident_touch, incident_guess=incident)
+               touches_to_incident=incident_touch, incident_guess=incident, stop_reason=stop_reason)
     Path(out_dir).mkdir(parents=True, exist_ok=True)
     out = Path(out_dir) / f"breach_{target_id}.json"
     out.write_text(json.dumps(log, indent=2, ensure_ascii=False), encoding="utf-8")
