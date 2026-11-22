@@ -36,6 +36,13 @@ touch was sent, the gate the target raised, and the continue/switch/stop call. T
 replay you are about to watch. Nothing here is target-specific — swap in the eval targets and it runs
 unchanged.
 
+**Proof it converts (self-test, organizer-permitted personas).** End-to-end against our own
+LLM-role-played targets across the awareness spectrum: a **credentials capture in 2 touches** on
+low- and medium-awareness personas, and a correct **hold** (0 incidents) on a hardened, highly
+security-aware one. The agent converts *and* is calibrated — it doesn't fire blindly. The three
+consenting founder twins are simply that hardened end of the spectrum, which is why the honest
+practice outcome is "held" — the incident lands on a susceptible eval target.
+
 ---
 
 ## Part 2 — One real thread, start to finish (~2:30)
