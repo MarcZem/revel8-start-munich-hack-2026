@@ -29,4 +29,4 @@ Messages, calls, and conversation turns may include an optional `sent_at` timest
 
 ## Source and precedence
 
-Source: organizer announcements pasted by the team on November 21, 2026 (API/forms/time clarification at 17:09; scoring explanation at 18:03). The original official brief and rubric remain the source for all other challenge details. See [`revel8-official-challenge.md`](revel8-official-challenge.md), [`revel8-api.md`](revel8-api.md), and the [official API docs](https://target-api.apps.01.cf.eu01.stackit.cloud/docs.md).
+Source: organizer announcements pasted by the team on November 21, 2026 (API/forms/time clarification at 17:09; scoring explanation at 18:03). The original official brief and rubric remain the source for all other challenge details. See [`revel8-official-challenge.md`](revel8-official-challenge.md), [`target-api.md`](target-api.md), and the [official API docs](https://target-api.apps.01.cf.eu01.stackit.cloud/docs.md).

@@ -10,8 +10,7 @@ placeholder numbers.
 
 It renders an export of the run artifacts the agent writes under `runs/`:
 
-- `runs/contact_<t>.json` — the message thread (our craft + twin replies, per touch) and the planner's continue/switch/stop decisions.
-- `runs/call_<t>.json` — the vishing transcript.
+- `runs/run_<t>.json` — the typed `RunRecord` the controller persists: the full thread (our craft + the twin's verbatim replies per touch), and for each touch why it was sent, the verifiability gate it raised, and the continue/switch/stop decision with its reason. Falls back to a raw `breach_<t>.json` / `contact_<t>.json` log if no typed record exists.
 - `runs/sweep_<t>.json` — the all-channel tactic matrix (lever × channel × outcome).
 - `research/<t>.jsonl` — read **locally only** to compute the targeting-confidence score from evidence reliability. Raw OSINT never leaves this dir.
 
@@ -29,11 +28,11 @@ live test produces new runs, then redeploy.
 
 ## What it shows
 
-- **Agent network** — Research → Evidence Ranker → Targeting Reasoner → Writer, with the Writer→Twin edge marked as the API call to the revel8 Personal Interface, and the Twin→Critic→Writer adapt loop. The replay animates one cycle per real touch in the selected run.
-- **Targeting decision** — the chosen hook/angle, why-now, channel, and a reproducible confidence % = mean of the cited evidence's reliability→confidence (`belastbar` 0.9 / `unsicher` 0.5 / `unbelastbar` 0.2).
-- **Message thread** — the real messages both ways, with the planner decision between touches.
+- **Agent network** — public sources → Research → Evidence graph → Targeting → Run controller → Writer → Target twin, with the Writer→Twin edge marked as the API call, and the Twin→Evaluator→Run-controller adapt loop. The replay animates one cycle per real touch in the selected run.
+- **Targeting decision** — the chosen hook/angle, why-now, channel, the alternative hooks weighed but not chosen, and a reproducible confidence % = mean of the cited evidence's reliability→confidence (`belastbar` 0.9 / `unsicher` 0.5 / `unbelastbar` 0.2).
+- **Message thread** — the real messages both ways; each touch is prefaced by why it was sent, the twin's reply is tagged with any verifiability gate it raised, and the agent's continue/switch/stop decision and reason follow it.
 - **Tactic sweep** — every tactic tried, its persuasion lever and channel, and whether it produced an incident.
-- **Outcome** — compromised / held. `compromised` is the agent's own incident self-assessment; the twin's verbatim reply is shown so a juror can verify it.
+- **Outcome** — incident / held, from the **truthful** incident classifier (a secret submitted, a file opened, or a judged disclosure — never "any reply"). When held, the stop reason is shown; the twin's verbatim replies above let a juror verify either way.
 
 ## Deploy
 

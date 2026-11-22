@@ -51,8 +51,8 @@ python -m unittest discover -s tests
 ```
 
 Research dossiers (`research/`) and run logs (`runs/`) are git-ignored local artifacts; the curated,
-privacy-safe view ships embedded in `dashboard/`. See [`docs/revel8-api.md`](docs/revel8-api.md) for
-the API client and [AGENTS.md](AGENTS.md) for the model endpoint.
+privacy-safe view ships embedded in `dashboard/`. See [`docs/target-api.md`](docs/target-api.md) for
+the API contract and [AGENTS.md](AGENTS.md) for the model endpoint.
 
 ## Safety & fair play
 

@@ -179,7 +179,7 @@ Dieser Abschnitt gilt nur, wenn der Case keine eigene Pitch-Vorgabe macht. Für 
 
 ## 9. Revel8-Challenge: Agentic Social Engineer
 
-> Diese case-spezifische Vorgabe ersetzt ältere Hypothesen in diesem Playbook. Maßgeblich sind [`docs/revel8-official-challenge.md`](revel8-official-challenge.md), die beiden Challenge-PDFs und die API-Dokumentation. Der aktuelle Architekturvorschlag steht in [`docs/codex-agent-architecture-proposal.md`](codex-agent-architecture-proposal.md).
+> Diese case-spezifische Vorgabe ersetzt ältere Hypothesen in diesem Playbook. Maßgeblich sind [`docs/revel8-official-challenge.md`](revel8-official-challenge.md), die beiden Challenge-PDFs und die API-Dokumentation. Die aktuelle Architektur steht in [`docs/architecture.md`](architecture.md).
 
 ### Was die Aufgabe verlangt
 
