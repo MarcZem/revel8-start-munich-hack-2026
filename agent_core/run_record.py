@@ -152,6 +152,32 @@ class RunRecord:
             landing_page=log.get("landing_page"),
         )
 
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> "RunRecord":
+        """Rebuild a RunRecord from its own ``to_dict`` output (what the controller persists)."""
+        def mk(t: dict) -> Touch:
+            dec = t.get("decision")
+            return Touch(
+                index=t.get("index", 0), channel=t.get("channel", ""),
+                objective=t.get("objective", ""), hook_topic=t.get("hook_topic", ""),
+                evidence_ids=tuple(t.get("evidence_ids", ())), sender=t.get("sender", {}),
+                subject=t.get("subject"), body=t.get("body", ""),
+                expected_observable=t.get("expected_observable", ""),
+                events=tuple(t.get("events", ())), reply=t.get("reply"),
+                incident=t.get("incident"), critique=t.get("critique"),
+                decision=Decision(action=dec.get("action", ""), reason=dec.get("reason", ""),
+                                  alternatives=tuple(dec.get("alternatives", ()))) if dec else None,
+                state_after=t.get("state_after", {}), sent_because=t.get("sent_because", ""))
+        return cls(
+            run_id=d.get("run_id", ""), session_id=d.get("session_id", ""),
+            scenario=d.get("scenario", "practice"), target_id=d.get("target_id", ""),
+            target_name=d.get("target_name", ""), objective=d.get("objective", "breach"),
+            chosen_hook=d.get("chosen_hook", {}), hooks_considered=tuple(d.get("hooks_considered", ())),
+            touches=tuple(mk(t) for t in d.get("touches", [])),
+            incident=bool(d.get("incident")), incident_type=d.get("incident_type"),
+            captured=d.get("captured"), touches_to_incident=d.get("touches_to_incident"),
+            stop_reason=d.get("stop_reason", ""), landing_page=d.get("landing_page"))
+
 
 @dataclass(frozen=True)
 class CampaignResult:

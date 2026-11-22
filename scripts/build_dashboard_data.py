@@ -182,14 +182,14 @@ def _targeting_score(hook: dict, rel_index: dict[str, str]) -> dict | None:
 
 
 def _record_for(tid: str) -> RunRecord | None:
-    """Prefer the typed run record; fall back to the raw breach/contact log, normalised."""
+    """Prefer the typed run record (from_dict); fall back to a raw breach/contact log (from_log)."""
     direct = _load(RUNS / f"run_{tid}.json")
     if direct:
-        return RunRecord.from_log(direct)
+        return RunRecord.from_dict(direct)  # run_*.json is already a serialized RunRecord
     for name in (f"breach_{tid}.json", f"contact_{tid}.json"):
         raw = _load(RUNS / name)
         if raw:
-            return RunRecord.from_log(raw)
+            return RunRecord.from_log(raw)  # raw loop logs carry "contacts"/"turns"
     return None
 
 
