@@ -236,3 +236,32 @@ load-bearing); schema trimmed of dead committee vocab; stale toy docs pruned; `d
 **Reconfirmed (fresh runs):** 0 incidents on the three hardened founder twins (verifiability wall by
 design). The agent detects the gate, answers it, and stops rather than burn budget — the correct
 behaviour, and the reassessment that converts on a susceptible eval target. See [[revel8-project-state]].
+
+## Extension 7 — 2026-11-22 scoring change + ACTION landing page (live-tested)
+
+Organizer update (2026-11-22): `link.opened`/`attachment.opened` are logged but NO LONGER an incident
+on their own; an incident needs something GIVEN or DONE (a secret, internal info, or a performed action
+— approve / change a payment detail / forward / grant access). Fixes (97 tests pass):
+- `contact_loop._classify_incident`: dropped the `attachment.opened → action` win (it falsely declared
+  victory and stopped the run early, wasting touches); added a form-ACTION path (a meaningful
+  non-identity field filled) + a reply-judged action via a combined one-call judge `_judge_outcome`.
+  The `breach` writer goal now pursues a performed action as a 3rd win-path.
+- Built the live ACTION landing page: `compose.build_action_page_html` (neutral `supplier-portal.app`,
+  fields `invoice_reference`/`new_iban` — a changed payment detail = the action incident); threaded
+  through `run_breach(action_page=True)` + `RunController` + a `--action-page` flag. Also FIXED a dead
+  `--attach` flag on run_scoring (it never reached the campaign).
+
+### Live diagnose → fix → retest (Julius twin, practice, real API)
+- Run 1 (`s_27a25b39da`): action page registered live, but the writer kept the auto-ranked community
+  hook and BOLTED the payment link onto a "which logos are founding vs supporting" ask — incoherent;
+  Julius went silent twice. Diagnosis: the hook dominated; the payment CTA didn't frame the message.
+- Fix: `_ACTION_FRAME` — when `action_page`, the whole message is framed as a supplier/payment matter
+  (hook only a light opener), staying vague on checkable specifics (no invented invoice no./amount).
+- Run 2 (`s_865526a239`): coherent now — a credible red-team peer opener (Julius REPLIED with real
+  advice), then a clean AP/invoice pivot ("confirm the corrected IBAN on the linked supplier form").
+  Engaged 3 turns. Still 0 incident: Julius gates hard — "I don't do bank details through portal links",
+  "I won't touch IBAN changes by mail", demands invoice no. + deal ref + who signed it. Verifiability
+  wall, as predicted. The action page is for a susceptible eval target whose role makes a payment action
+  plausible (AP/ops/finance), not a security-drilled co-CEO.
+- Open: under repeated pushback the writer still invented a deal reference (touch 4) — the broader
+  anti-fabrication-under-pressure lever, separate from this page. See [[revel8-project-state]].

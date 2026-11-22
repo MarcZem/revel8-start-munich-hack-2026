@@ -39,7 +39,8 @@ _WRITER_SYSTEM = (
 
 _OBJECTIVES = {
     "disclosure": "get the target to share a non-public internal detail",
-    "action": "get the target to take an action for you (open a file, approve, change something)",
+    "action": "get the target to perform an action for you (approve, change a detail such as a payment "
+              "detail, forward internal content, or grant access) — opening a file alone is not a win",
     "credentials": "get the target to click your link and sign in on the page you control",
 }
 
@@ -241,6 +242,33 @@ def build_signin_page_html(brand_label: str, heading: str) -> str:
         'border-radius:7px;font-weight:600;font-size:15px">Sign in</div>'
         '<div style="margin-top:18px;font-size:11px;color:#98a0ab;text-align:center">'
         'Protected sign-in · Do not share your credentials</div>'
+        "</div></div></body></html>"
+    )
+
+
+def build_action_page_html(brand_label: str, heading: str) -> str:
+    """Self-contained payment-confirmation page (inline styles, no scripts). Submitting the updated
+    bank detail here IS the ACTION incident (the target changes a payment detail for us) — there is
+    NO password field, so it is classified as an action, never as credentials."""
+    return (
+        '<!doctype html><html><body style="margin:0;background:#eef1f4;'
+        'font-family:-apple-system,Segoe UI,Arial,Helvetica,sans-serif">'
+        '<div style="max-width:440px;margin:56px auto;background:#fff;border-radius:12px;'
+        'box-shadow:0 2px 14px rgba(20,40,80,.12);overflow:hidden">'
+        '<div style="height:6px;background:#15855a"></div>'
+        '<div style="padding:30px 34px">'
+        f'<div style="font-weight:700;font-size:19px;color:#172033;margin-bottom:2px">{_esc(brand_label)}</div>'
+        f'<div style="color:#5a6472;font-size:14px;margin-bottom:24px">{_esc(heading)}</div>'
+        '<label style="font-size:13px;color:#39424f;font-weight:600">Invoice reference</label>'
+        '<input name="invoice_reference" type="text" placeholder="INV-2026-0000" style="width:100%;padding:11px;'
+        'margin:6px 0 16px;border:1px solid #cfd6dd;border-radius:7px;box-sizing:border-box;font-size:14px">'
+        '<label style="font-size:13px;color:#39424f;font-weight:600">Updated IBAN</label>'
+        '<input name="new_iban" type="text" placeholder="DE00 0000 0000 0000 0000 00" style="width:100%;padding:11px;'
+        'margin:6px 0 22px;border:1px solid #cfd6dd;border-radius:7px;box-sizing:border-box;font-size:14px">'
+        '<div style="background:#15855a;color:#fff;text-align:center;padding:12px;'
+        'border-radius:7px;font-weight:600;font-size:15px">Confirm &amp; release payment</div>'
+        '<div style="margin-top:18px;font-size:11px;color:#98a0ab;text-align:center">'
+        'Secure supplier portal · Verify the IBAN before confirming</div>'
         "</div></div></body></html>"
     )
 

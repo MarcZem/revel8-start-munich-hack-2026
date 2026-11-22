@@ -128,9 +128,22 @@ class IncidentClassifyTest(unittest.TestCase):
         llm.chat = lambda *a, **k: '{"disclosed": false, "fact": ""}'
         self.assertEqual(contact_loop._classify_incident(ev, None, "J"), (None, None))
 
-    def test_attachment_opened_is_action(self):
+    def test_attachment_opened_is_not_incident(self):
+        # organizer update 2026-11-22: a file/link open is logged but no longer an incident by itself
         ev = [{"type": "attachment.opened", "filename": "Invoice.docm"}]
+        self.assertEqual(contact_loop._classify_incident(ev, None, "J"), (None, None))
+
+    def test_action_submit_is_action(self):
+        # a non-secret form the target filled for us (changed a payment detail) = ACTION incident
+        ev = [{"type": "page.submitted", "fields": ["invoice_id", "new_iban"],
+               "values": {"invoice_id": "4471", "new_iban": "DE22 5001 0517 0648 4898 90"}}]
         self.assertEqual(contact_loop._classify_incident(ev, None, "J")[0], "action")
+
+    def test_reply_action_is_action(self):
+        llm.chat = lambda *a, **k: '{"disclosed": false, "fact": "", "acted": true, "act": "forwarded the Q3 board deck"}'
+        itype, cap = contact_loop._classify_incident([{"type": "reply"}], "Done — I forwarded it to you.", "J")
+        self.assertEqual(itype, "action")
+        self.assertIn("forwarded", cap["act"])
 
     def test_disclosure_judged_from_reply(self):
         llm.chat = lambda *a, **k: '{"disclosed": true, "fact": "uses internal tool Atlas for approvals"}'

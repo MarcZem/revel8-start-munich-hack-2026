@@ -27,6 +27,15 @@ Messages, calls, and conversation turns may include an optional `sent_at` timest
 - Apply `sent_at` consistently to message, call/conversation creation, and conversation-turn payloads when a story timestamp is needed. Omit it when no story-time override is intended.
 - Continue to keep credentials in environment variables and never write secrets into run logs, docs, or issue comments.
 
+## Incident definition tightened (2026-11-22)
+
+- `link.opened` and `attachment.opened` are still logged and still carry a little scoring weight, but they **no longer count as an incident on their own**. An incident now requires something **given or done**:
+  - a **secret** typed into a form (password, OTP, code, …);
+  - **internal information** (told in a reply, or entered on a form); or
+  - the target **performing an action** for the team — approving, changing a detail (e.g. a payment/bank detail), forwarding internal content, or granting access.
+- Code impact (applied): `agent_core.contact_loop._classify_incident` no longer treats `attachment.opened` as an "action" win; it classifies a form submit as `action` when a meaningful non-identity field is filled, and the reply judge (`_judge_outcome`) now detects a performed action as well as a disclosure. The `breach` writer goal was broadened to pursue a performed action as a win-path, not just a secret/disclosure.
+- Action landing page (applied): `compose.build_action_page_html` registers a neutral supplier-payment form (fields `invoice_reference`/`new_iban`); `run_breach(action_page=True)` drives the target to submit a changed payment detail on it — a **form action incident**. Select it with `--action-page` on `run_scoring` / `run_local_eval` / `run_breach` (mutually exclusive with `--attach`). This also fixed a previously dead `--attach` flag on `run_scoring` (it never reached the campaign).
+
 ## Source and precedence
 
 Source: organizer announcements pasted by the team on November 21, 2026 (API/forms/time clarification at 17:09; scoring explanation at 18:03). The original official brief and rubric remain the source for all other challenge details. See [`revel8-official-challenge.md`](revel8-official-challenge.md), [`target-api.md`](target-api.md), and the [official API docs](https://target-api.apps.01.cf.eu01.stackit.cloud/docs.md).

@@ -37,7 +37,7 @@ python scripts/run_breach.py --target <id> --name "<Name>" --channel email --max
 python scripts/build_dashboard_data.py            # embeds the real runs into dashboard/index.html (honest)
 git add -A; git commit -m "Eval runs + demo"; git push    # Vercel console redeploys from main
 ```
-Open `revel8-operator-console.vercel.app`, pick the richest thread's tab for the pitch.
+Open `revel8-start-munich-hack-2026.vercel.app`, pick the richest thread's tab for the pitch.
 
 ## 3. Pitch (5 min) — see docs/pitch.md
 Approach (architecture page) + one real eval thread, start to finish. Point at: the chosen hook + the

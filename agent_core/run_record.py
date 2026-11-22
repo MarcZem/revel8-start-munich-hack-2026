@@ -23,7 +23,7 @@ from typing import Any
 EXPECTED_OBSERVABLE = {
     "credentials": "link.opened then page.submitted with a secret",
     "disclosure": "a reply containing an internal, non-public fact",
-    "action": "attachment.opened (the file is opened)",
+    "action": "the target performs an action for us (approve, change a detail, forward, or grant access)",
     "breach": "a secret submitted or an internal fact disclosed",
 }
 

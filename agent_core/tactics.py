@@ -77,8 +77,9 @@ TACTICS: list[Tactic] = [
            "An internal-sounding Teams message referencing a shared project; 'the others already "
            "sent me theirs' — asks for their version of a specific internal detail."),
     Tactic("doc_review_action", "Authority", "shared_document", "action",
-           "Shares a document that needs them to open/review it (attachment.opened); a concrete, "
-           "time-bound reason tied to a real project."),
+           "Shares a document as pretext and gets them to ACT on it — approve it, confirm a change it "
+           "requests, or forward it on and say it's done; a concrete, time-bound reason tied to a real "
+           "project. (Opening the file alone is not an incident.)"),
     Tactic("calendar_action", "Authority", "calendar_invite", "action",
            "A calendar invite to a short briefing with a pre-read doc to open; specific agenda tied "
            "to a real public project."),

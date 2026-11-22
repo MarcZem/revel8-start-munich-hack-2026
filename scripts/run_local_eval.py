@@ -33,7 +33,11 @@ def main() -> int:
     p.add_argument("--persona", default=None, choices=list(PERSONAS))
     p.add_argument("--channel", default="email")
     p.add_argument("--max-touches", type=int, default=8)
-    p.add_argument("--attach", action="store_true", help="pursue the ACTION incident (open a file)")
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument("--attach", action="store_true",
+                      help="ACTION incident via a file pretext (get them to approve/forward, not just open)")
+    mode.add_argument("--action-page", action="store_true",
+                      help="ACTION incident via a payment-confirmation form (they submit a changed detail)")
     p.add_argument("--channels", default=None, help="comma-separated channels to cycle (multi-channel)")
     args = p.parse_args()
     load_env_file(str(ROOT / ".env.local"))
@@ -46,8 +50,8 @@ def main() -> int:
         channels = [c.strip() for c in args.channels.split(",")] if args.channels else None
         log = breach.run_breach(
             pid, name, scenario="local", channel=args.channel, max_touches=args.max_touches,
-            attach=args.attach, api=LocalPersonaAPI(pid), findings=synthetic_findings(pid),
-            own_domains=(), out_dir="runs", channels=channels,
+            attach=args.attach, action_page=args.action_page, api=LocalPersonaAPI(pid),
+            findings=synthetic_findings(pid), own_domains=(), out_dir="runs", channels=channels,
         )
         results.append((pid, log.get("incident"), log.get("incident_type"), log.get("touches_to_incident")))
         print(f"==> {name}: incident={log.get('incident')} type={log.get('incident_type')} "

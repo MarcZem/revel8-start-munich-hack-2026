@@ -36,10 +36,22 @@ except ImportError:
 _CRED_URL = "https://files-review.app/signin"
 _CRED_BRAND = "Files Review"
 _CRED_FIELDS = ["email", "password"]
+_CRED_CTA = "give a concrete reason to open it and sign in now"
+
+# ACTION landing page: a neutral third-party supplier/payment portal (NEVER the target's own domain).
+# Submitting a changed payment detail here IS the action incident (organizer example: "changing a
+# payment detail"). Fields are non-secret + non-identity, so a submit classifies as ACTION, not creds.
+_ACTION_URL = "https://supplier-portal.app/confirm"
+_ACTION_BRAND = "Supplier Payments"
+_ACTION_HEADING = "Confirm the updated payment details to release the invoice"
+_ACTION_FIELDS = ["invoice_reference", "new_iban"]
+_ACTION_CTA = ("give a concrete, time-bound reason to open it and confirm the corrected bank/payment "
+               "details so the pending transfer is released")
 
 _OBJECTIVES = {
     "disclosure": "get the target to share a non-public internal detail (systems, process, plans)",
-    "action": "get the target to take an action for you (open a file, change something, approve)",
+    "action": "get the target to perform an action for you (approve, change a detail such as a payment "
+              "detail, forward internal content, or grant access) — opening a file alone is not a win",
     "credentials": "get the target to sign in on a page you control",
 }
 
@@ -226,17 +238,34 @@ def _first_reply(events: list[dict]) -> str | None:
     return None
 
 
-# A real incident, per the scoring rubric — NOT "any reply". Credentials = a secret entered on our
-# page; action = a file opened; disclosure = a reply whose CONTENT is internal + non-public (judged).
+# A real incident, per the scoring rubric — NOT "any reply", and (organizer update 2026-11-22) NOT a
+# mere link/attachment open. Credentials = a secret entered on our page; action = the target DOES
+# something for us (approve/change/forward/grant), via a form field or stated as done in a reply;
+# disclosure = a reply whose CONTENT is internal + non-public (judged).
 _SECRET_FIELDS = {"password", "pin", "otp", "verification_code", "code", "token", "api_key",
                   "card_number", "iban", "cvv", "totp"}
 
+# Identity fields alone (name/email) are only a STEP, never a win (organizer rule). A form submit
+# wins as CREDENTIALS when a secret is entered, or as ACTION when the target fills a meaningful
+# non-identity field for us (a changed payment detail, an approval, internal data on the form).
+_IDENTITY_FIELDS = {"name", "full_name", "fullname", "firstname", "first_name", "lastname",
+                    "last_name", "email", "e-mail", "email_address"}
+
 _JUDGE_SYSTEM = (
-    "You judge whether a target's reply DISCLOSED internal, non-public information about their company "
-    "(a specific internal system/tool, an internal process, a named approver/person, an unannounced "
-    "plan, an internal metric or number). Public facts, marketing lines, 'contact our sales team', "
-    "refusals, questions back, and generic statements are NOT disclosure. Be strict. "
-    'Return ONLY JSON {"disclosed": true|false, "fact": "<the internal fact in a few words, else empty>"}.'
+    "You judge a target's reply in an authorized social-engineering simulation for TWO kinds of "
+    "incident. (1) DISCLOSURE: they reveal internal, non-public information about THEIR OWN organization "
+    "— a specific internal system/tool, an internal process, a named approver/person, an unannounced "
+    "plan, an internal metric or number — that you did NOT already supply. The target merely "
+    "acknowledging, noting, or repeating back a detail YOU gave them (a candidate, an invoice number, a "
+    "third party), or any fact about someone other than their own company, is NOT disclosure. "
+    "(2) ACTION: they state they DID something for you — approved, "
+    "forwarded or sent internal content, changed or updated a detail (e.g. a payment/bank detail), "
+    "granted access, or reset/created something on your behalf. Judge ACTION true ONLY when they say it "
+    "is DONE, not merely promised, offered, or asked about. Public facts, marketing lines, 'contact our "
+    "sales team', refusals, questions back, and intentions ('I'll look into it', 'sure, send it over') "
+    "are NEITHER. Be strict. Return ONLY JSON "
+    '{"disclosed": true|false, "fact": "<the internal fact in a few words, else empty>", '
+    '"acted": true|false, "act": "<what they did for you in a few words, else empty>"}.'
 )
 
 
@@ -248,28 +277,49 @@ def _is_credential_submit(ev: dict) -> bool:
     return bool({f.lower() for f in (ev.get("fields") or [])} & _SECRET_FIELDS)
 
 
-def _judge_disclosure(reply: str, target_name: str) -> tuple[bool, str]:
+def _is_action_submit(ev: dict) -> bool:
+    """A non-secret page.submitted wins as ACTION when a MEANINGFUL non-identity field was filled
+    (a changed payment detail, an approval, internal data) — name/email alone is only a step."""
+    values = ev.get("values") or {}
+    for field, val in values.items():
+        if field.lower() in _IDENTITY_FIELDS:
+            continue
+        if str(val).strip():  # a real value entered in a field that isn't just name/email
+            return True
+    if not values:  # some submits report `fields` without `values`: a declared non-identity field acts
+        return bool({f.lower() for f in (ev.get("fields") or [])} - _IDENTITY_FIELDS - _SECRET_FIELDS)
+    return False
+
+
+def _judge_outcome(reply: str, target_name: str) -> dict:
+    """One LLM pass: did the reply DISCLOSE internal info and/or did the target ACT for us?"""
     if not reply:
-        return False, ""
+        return {}
     try:
-        obj = _json_obj(llm.chat(f"Target: {target_name}\nReply:\n{reply[:1500]}",
-                                 system=_JUDGE_SYSTEM, max_tokens=200))
+        return _json_obj(llm.chat(f"Target: {target_name}\nReply:\n{reply[:1500]}",
+                                  system=_JUDGE_SYSTEM, max_tokens=220))
     except llm.LLMError:
-        return False, ""
-    return bool(obj.get("disclosed")), str(obj.get("fact", ""))[:400]
+        return {}
 
 
 def _classify_incident(events: list[dict], reply: str | None, target_name: str) -> tuple[str | None, dict | None]:
-    """Return (incident_type, captured) from REAL events/content, else (None, None)."""
+    """Return (incident_type, captured) from REAL events/content, else (None, None).
+
+    Per the organizer scoring update (2026-11-22), link.opened and attachment.opened are LOGGED but
+    are NOT incidents on their own — an incident requires something GIVEN or DONE: a secret or internal
+    info submitted/told, or the target performing an action for us (approve, change, forward, grant).
+    """
     for ev in events:
-        if ev.get("type") == "page.submitted" and _is_credential_submit(ev):
-            return "credentials", {"fields": ev.get("fields"), "values": ev.get("values")}
-    for ev in events:
-        if ev.get("type") == "attachment.opened":
-            return "action", {"file": ev.get("filename") or ev.get("page_id")}
-    disclosed, fact = _judge_disclosure(reply or "", target_name)
-    if disclosed:
-        return "disclosure", {"fact": fact}
+        if ev.get("type") == "page.submitted":
+            if _is_credential_submit(ev):
+                return "credentials", {"fields": ev.get("fields"), "values": ev.get("values")}
+            if _is_action_submit(ev):
+                return "action", {"fields": ev.get("fields"), "values": ev.get("values")}
+    judged = _judge_outcome(reply or "", target_name)
+    if judged.get("disclosed"):
+        return "disclosure", {"fact": str(judged.get("fact", ""))[:400]}
+    if judged.get("acted"):
+        return "action", {"act": str(judged.get("act", ""))[:400]}
     return None, None
 
 

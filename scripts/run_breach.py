@@ -27,9 +27,15 @@ def main() -> int:
     p.add_argument("--target", required=True)
     p.add_argument("--name", required=True)
     p.add_argument("--channel", default="email")
+    p.add_argument("--scenario", default="practice", choices=["practice", "eval"],
+                   help="practice (30 touches) or eval (10, SCORED — one session per target)")
     p.add_argument("--max-touches", type=int, default=8)
     p.add_argument("--findings", default=None)
-    p.add_argument("--attach", action="store_true", help="pursue ACTION incident (get them to open a file)")
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument("--attach", action="store_true",
+                      help="ACTION incident via a file pretext (get them to approve/forward, not just open)")
+    mode.add_argument("--action-page", action="store_true",
+                      help="ACTION incident via a payment-confirmation form (they submit a changed detail)")
     p.add_argument("--anchor-topic", default=None, help="force an external-anchored pretext (public talk/paper/event)")
     p.add_argument("--anchor-angle", default=None, help="one-line pretext for the anchor")
     p.add_argument("--anchor-why", default=None, help="why-now for the anchor")
@@ -48,9 +54,9 @@ def main() -> int:
         anchor = {"topic": args.anchor_topic, "angle": args.anchor_angle or args.anchor_topic,
                   "why_now": args.anchor_why or "", "match": args.anchor_match}
     channels = [c.strip() for c in args.channels.split(",")] if args.channels else None
-    log = breach.run_breach(args.target, args.name, channel=args.channel,
+    log = breach.run_breach(args.target, args.name, channel=args.channel, scenario=args.scenario,
                             max_touches=args.max_touches, findings_path=findings, attach=args.attach,
-                            anchor=anchor, channels=channels)
+                            action_page=args.action_page, anchor=anchor, channels=channels)
     if log.get("error"):
         print("error:", log["error"])
         return 1

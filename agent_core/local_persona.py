@@ -119,8 +119,8 @@ class LocalPersonaAPI:
             f"{' · subject: ' + msg['subject'] if msg.get('subject') else ''}:\n{body}\n"
         )
         if page is not None:
-            prompt += (f"\nThe message links to a sign-in page at {link} titled "
-                       f"{page.get('title', '')!r} asking for fields {page.get('fields')}.")
+            prompt += (f"\nThe message links to a page at {link} titled "
+                       f"{page.get('title', '')!r} asking you to fill fields {page.get('fields')}.")
         if attach:
             prompt += f"\nAn attached file is included: {attach!r}."
         prompt += "\n\nReact now as this person. Output ONLY the JSON."
@@ -139,7 +139,7 @@ class LocalPersonaAPI:
             fields = page.get("fields") or ["email", "password"]
             values = {}
             for f in fields:
-                values[f] = "(entered, not shown)" if f.lower() in _SECRET else f"{self.persona_id}@example.com"
+                values[f] = "(entered, not shown)" if f.lower() in _SECRET else _sample_value(f, self.persona_id)
             if not obj.get("entered_password"):
                 values = {f: v for f, v in values.items() if v != "(entered, not shown)"}
             events.append({"type": "page.submitted", "page_id": "p_x", "fields": list(values), "values": values})
@@ -156,6 +156,20 @@ class LocalPersonaAPI:
 
 _SECRET = {"password", "pin", "otp", "verification_code", "code", "token", "api_key",
            "card_number", "iban", "cvv", "totp"}
+
+
+def _sample_value(field: str, pid: str) -> str:
+    """A realistic value for a non-secret field, so a local page.submitted reads believably."""
+    f = field.lower()
+    samples = {"new_iban": "DE89 3704 0044 0532 0130 00", "invoice_reference": "INV-2026-4471",
+               "invoice_id": "4471", "amount": "48,500.00", "approved": "yes", "decision": "approved"}
+    if f in samples:
+        return samples[f]
+    if "email" in f:
+        return f"{pid}@example.com"
+    if "name" in f:
+        return pid.capitalize()
+    return "confirmed"
 
 
 def _strip(text: str) -> str:

@@ -8,7 +8,7 @@ generalize to new targets, not to memorize the three practice founders.
 - **Architecture (the one-pager):** [`docs/architecture.md`](docs/architecture.md)
 - **5-minute pitch script:** [`docs/pitch.md`](docs/pitch.md)
 - **Case brief & rubric:** [`docs/revel8-official-challenge.md`](docs/revel8-official-challenge.md)
-- **Live jury console:** [revel8-operator-console.vercel.app](https://revel8-operator-console.vercel.app) — self-contained, honest replay of the real runs (also `dashboard/index.html` locally)
+- **Live jury console:** [revel8-start-munich-hack-2026.vercel.app](https://revel8-start-munich-hack-2026.vercel.app) — self-contained, honest replay of the real runs (also `dashboard/index.html` locally)
 
 ## How it is built
 

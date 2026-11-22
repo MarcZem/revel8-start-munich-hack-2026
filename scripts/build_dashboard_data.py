@@ -35,8 +35,8 @@ INDEX = ROOT / "dashboard" / "index.html"
 DATA_JSON = ROOT / "dashboard" / "data.json"
 
 RELIABILITY_CONFIDENCE = {"belastbar": 0.9, "unsicher": 0.5, "unbelastbar": 0.2}
-TARGETS = ("julius", "tom", "robert")
-NAMES = {"julius": "Julius Muth", "tom": "Tom Müller", "robert": "Robert Seilbeck"}
+TARGETS = ("titus", "jonas", "patrick")
+NAMES = {"titus": "Titus von Pachelbel-Gehag", "jonas": "Jonas Haas", "patrick": "Patrick Hermann"}
 
 # The agent pipeline, in order — nodes + edges for the force-graph. Mirrors docs/architecture.md:
 # public sources -> research -> evidence graph -> targeting -> run controller -> writer -> twin,
@@ -199,14 +199,17 @@ def _targeting_score(hook: dict, rel_index: dict[str, str]) -> dict | None:
 
 
 def _record_for(tid: str) -> RunRecord | None:
-    """Prefer the typed run record (from_dict); fall back to a raw breach/contact log (from_log)."""
+    """Show the deep reactive breach agent's own run (breach_*.json = the strongest attempt per target)
+    when present; fall back to the typed run record, then a contact log."""
+    raw = _load(RUNS / f"breach_{tid}.json")
+    if raw:
+        return RunRecord.from_log(raw)  # raw reactive-loop log carries "contacts"
     direct = _load(RUNS / f"run_{tid}.json")
     if direct:
         return RunRecord.from_dict(direct)  # run_*.json is already a serialized RunRecord
-    for name in (f"breach_{tid}.json", f"contact_{tid}.json"):
-        raw = _load(RUNS / name)
-        if raw:
-            return RunRecord.from_log(raw)  # raw loop logs carry "contacts"/"turns"
+    contact = _load(RUNS / f"contact_{tid}.json")
+    if contact:
+        return RunRecord.from_log(contact)
     return None
 
 
@@ -281,7 +284,7 @@ def build() -> dict:
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "model": "DeepSeek-V4-Flash · AMD Token Factory",
         "pipeline": PIPELINE,
-        "scenario": "revel8 practice — consenting AI twins (authorized simulation)",
+        "scenario": "revel8 eval — scored runs, hidden targets (authorized simulation)",
         "summary": {"targets_total": len(targets), "compromised": len(compromised),
                     "compromised_ids": compromised},
         "targets": targets,

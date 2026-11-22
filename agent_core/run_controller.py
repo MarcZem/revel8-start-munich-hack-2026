@@ -32,22 +32,28 @@ TOUCH_CAP = {"eval": 10, "practice": 30}
 
 class RunController:
     def __init__(self, scenario: str = "practice", channel: str = "email", out_dir: str = "runs",
-                 channels: list[str] | None = None) -> None:
+                 channels: list[str] | None = None, attach: bool = False,
+                 action_page: bool = False) -> None:
         self.scenario = scenario
         self.channel = channel
         self.channels = channels  # cycle these across touches (multi-channel) if given
         self.out_dir = out_dir
         self.touch_cap = TOUCH_CAP.get(scenario, 10)
+        self.attach = attach            # pursue the ACTION incident via a file pretext
+        self.action_page = action_page  # pursue the ACTION incident via a payment-confirmation form
 
     def run_session(self, target_id: str, target_name: str, *, objective: str = "breach",
                     max_touches: int | None = None, findings_path: str | None = None,
-                    attach: bool = False) -> RunRecord:
+                    attach: bool | None = None, action_page: bool | None = None) -> RunRecord:
         """One target, one session. The reactive loop stops early on an incident or on two
-        silences (no traction); `max_touches` is the hard cap (defaults to the scenario cap)."""
+        silences (no traction); `max_touches` is the hard cap (defaults to the scenario cap).
+        attach/action_page default to the controller's settings unless overridden here."""
         cap = max_touches or self.touch_cap
         log = breach.run_breach(
             target_id, target_name, scenario=self.scenario, channel=self.channel,
-            max_touches=cap, findings_path=findings_path, out_dir=self.out_dir, attach=attach,
+            max_touches=cap, findings_path=findings_path, out_dir=self.out_dir,
+            attach=self.attach if attach is None else attach,
+            action_page=self.action_page if action_page is None else action_page,
             channels=self.channels,
         )
         if log.get("error"):
