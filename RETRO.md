@@ -204,3 +204,35 @@ address) is debunked in one line because it's their own company. Honest read: th
 twins are a near-unbreakable human firewall BY DESIGN. The real payoff is the unknown eval targets
 (hidden hooks = topics they're open to) + a pretext anchored in the target's PUBLIC external life
 (a talk, podcast, event, external tool) that avoids any org-internal claim they can falsify.
+
+## Overnight architecture pass (2026-11-22, autonomous) — diagnose → fix → retest
+
+Focus: the 55 jury points that don't depend on landing an incident (Architecture & persistence
+40 + Pitch & demo 15). "As long as the architecture is right, the result is secondary."
+
+**Diagnoses (ground-truthed live):**
+- The Target API works and the twins reply coherently (Julius gave the verifiability gate verbatim).
+  "No valid answer" was no *incident* + our own broken demo path, not a dead API. `eval` is closed.
+- The live `/api/live_run` demo is broken **by design**: a Vercel serverless fn can't wait inline for
+  the Target API (≤90s) + the LLM (≤90s). → Fix: retire it; the static pre-baked operator console is
+  the demo (renders identically everywhere, no key, no cold-function/rate-limit failure modes).
+- The dashboard claimed "Tom compromised" from a stale `incident_guess` while every truthful run is
+  `incident=False`. → Fix: build the dashboard from the **truthful** `incident` field only. Honesty
+  beats a fake win (it also avoids the −5 wrong-facts deduction and reads as a stronger story).
+- Two API clients; `revel8_api.py` used the wrong conversation contract (`opening`/`body` vs the API's
+  `say`). → Fix: one adapter (`target_api.py`); deleted the second.
+- A parallel "toy" subsystem (stub committee + FakeChallengeAPI + orchestrator) made the architecture
+  read as fake. → Fix: removed it; the real research→contact→adapt reactive loop is the one agent.
+- `run_*.json` is already a normalised RunRecord, but the dashboard re-ran `from_log` (which looks for
+  raw `contacts`) → empty thread. → Fix: `RunRecord.from_dict` for the typed shape.
+- The LLM endpoint is flaky (one timeout, then DeepSeek 1.7s / Gemma 1.2s). → the demo must not depend
+  on it at showtime (it doesn't); `llm.chat` already fails loud + backs off.
+
+**Built:** one run controller + typed RunRecord with a per-touch decision log (why sent, gate seen,
+continue/switch/stop + reason, alternatives weighed); the context broker wired in (evidence ranker now
+load-bearing); schema trimmed of dead committee vocab; stale toy docs pruned; `docs/architecture.md`
+(the one-pager) + `docs/pitch.md`; honest operator console verified in-browser and deployed.
+
+**Reconfirmed (fresh runs):** 0 incidents on the three hardened founder twins (verifiability wall by
+design). The agent detects the gate, answers it, and stops rather than burn budget — the correct
+behaviour, and the reassessment that converts on a susceptible eval target. See [[revel8-project-state]].
