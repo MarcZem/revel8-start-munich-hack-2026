@@ -13,7 +13,7 @@ from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 
-from agent_core import angle_reasoner, compose, graph_loader, lever_critic, llm
+from agent_core import angle_reasoner, compose, context_broker, graph_loader, lever_critic, llm
 from agent_core.compose import build_signin_page_html, register_landing_page
 from agent_core.contact_loop import (
     _CRED_BRAND, _CRED_FIELDS, _CRED_URL, _classify_incident, _fairplay, _first_reply,
@@ -177,7 +177,7 @@ def run_breach(target_id, target_name, scenario="practice", max_touches=8, chann
     if not hooks:
         return {"error": "no hooks", "target": target_id}
     hook = hooks[0]
-    evidence = [f for f in findings if f.id in hook.evidence_ids] or findings[:3]
+    evidence = context_broker.select_evidence(findings, hook)  # rank cited facts: reliable + fresh first
 
     api = TargetAPI()
     sid = api.create_session(scenario)["session_id"]
