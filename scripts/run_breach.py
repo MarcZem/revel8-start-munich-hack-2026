@@ -30,6 +30,10 @@ def main() -> int:
     p.add_argument("--max-touches", type=int, default=8)
     p.add_argument("--findings", default=None)
     p.add_argument("--attach", action="store_true", help="pursue ACTION incident (get them to open a file)")
+    p.add_argument("--anchor-topic", default=None, help="force an external-anchored pretext (public talk/paper/event)")
+    p.add_argument("--anchor-angle", default=None, help="one-line pretext for the anchor")
+    p.add_argument("--anchor-why", default=None, help="why-now for the anchor")
+    p.add_argument("--anchor-match", default="", help="comma-separated terms to cite matching real facts")
     args = p.parse_args()
 
     load_env_file(str(ROOT / ".env.local"))
@@ -38,8 +42,13 @@ def main() -> int:
         guess = ROOT / "research" / f"{args.target}.jsonl"
         findings = str(guess) if guess.exists() else None
 
+    anchor = None
+    if args.anchor_topic:
+        anchor = {"topic": args.anchor_topic, "angle": args.anchor_angle or args.anchor_topic,
+                  "why_now": args.anchor_why or "", "match": args.anchor_match}
     log = breach.run_breach(args.target, args.name, channel=args.channel,
-                            max_touches=args.max_touches, findings_path=findings, attach=args.attach)
+                            max_touches=args.max_touches, findings_path=findings, attach=args.attach,
+                            anchor=anchor)
     if log.get("error"):
         print("error:", log["error"])
         return 1

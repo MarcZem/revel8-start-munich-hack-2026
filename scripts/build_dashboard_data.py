@@ -159,12 +159,29 @@ def _knowledge(records: list[dict], hook: dict, max_nodes: int = 6) -> list[dict
     for rid in chosen[:max_nodes]:
         r = by_id[rid]
         fact = (r.get("fact") or "").strip()
-        nodes.append({"id": rid, "label": fact if len(fact) <= 52 else fact[:51] + "…",
+        nodes.append({"id": rid, "label": fact,
                       "category": r.get("category", "other"),
                       "reliability": r.get("reliability", "unsicher"),
                       "domain": _domain((r.get("sources") or [{}])[0].get("url", "")),
                       "cited": rid in cited})
     return nodes
+
+
+def _all_facts(records: list[dict], hook: dict, limit: int = 140) -> list[dict]:
+    """Every extracted fact (all categories) for the full knowledge-graph view — cited first."""
+    cited = set(hook.get("evidence_ids") or [])
+    ordered = sorted(
+        (r for r in records if (r.get("fact") or "").strip()),
+        key=lambda r: (r.get("id") not in cited, r.get("reliability") != "belastbar",
+                       r.get("category", "zzz"), len(r.get("fact", ""))))
+    out = []
+    for r in ordered[:limit]:
+        out.append({"id": r.get("id"), "label": (r.get("fact") or "").strip(),
+                    "category": r.get("category", "other"),
+                    "reliability": r.get("reliability", "unsicher"),
+                    "domain": _domain((r.get("sources") or [{}])[0].get("url", "")),
+                    "cited": r.get("id") in cited})
+    return out
 
 
 def _targeting_score(hook: dict, rel_index: dict[str, str]) -> dict | None:
@@ -246,6 +263,7 @@ def build() -> dict:
             "score": _targeting_score(hook, rel_index),
             "sources_seen": _sources(records),
             "knowledge": _knowledge(records, hook),
+            "facts": _all_facts(records, hook),
             "research_count": len(records),
             "thread": thread,
             "sweep": (sweep or {}).get("results", []),
