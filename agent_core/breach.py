@@ -61,6 +61,27 @@ _BREACH_SYSTEM = (
     "FROM_NAME: <name>\nFROM_ADDRESS: <email/handle>\nSUBJECT: <short; blank for chat/SMS>\nBODY:\n<message>"
 )
 
+# Persuasion playbook — grounded in Cialdini + phishing-conversion research (arXiv 2412.18488 /
+# 2412.18485; KnowBe4 / Kaspersky lure data). Deploy a principle DELIBERATELY, matched to the moment,
+# always plausible (the lever critic rewrites anything that reads as blatant persuasion).
+_PERSUASION_PLAYBOOK = (
+    "PERSUASION PLAYBOOK — pick the ONE lever that fits this moment and make it plausible:\n"
+    "- LIKING/SIMILARITY: open as a genuine peer from their world (same field, event, tool) with one "
+    "specific true detail about THEM. This earns the first reply.\n"
+    "- COMMITMENT/CONSISTENCY (salami-slice): win a small, easy yes first, then escalate ONE slice at a "
+    "time toward the sensitive ask — people stay consistent with what they already said. This is what "
+    "lands disclosures.\n"
+    "- SCARCITY/URGENCY: a real, SPECIFIC time window ('the agenda prints Friday', 'the review closes "
+    "tonight') out-converts everything else — but only if it's plausible, never fake panic.\n"
+    "- AUTHORITY: a credible, PLACEABLE role/context (an event organiser, a journal, a partner's ops) — "
+    "never a claim about THEIR own org or colleagues that they can debunk in one line.\n"
+    "- SOCIAL PROOF: 'two of your co-panellists already confirmed' / 'the other partners sent theirs' — "
+    "lowers the bar, strongest on work-chat channels.\n"
+    "- RECIPROCITY: give something real first (a correction, a useful link, an intro) before you ask.\n"
+    "Build plausibility ACROSS touches before the ask; never dump the sensitive ask cold. Take any path "
+    "they offer (a call, a doc, their comms team) and work the objective inside it.\n"
+)
+
 # The verifiability gate — the hardened twins' core defense (observed live): they ask who you are /
 # who invited you, or route you to sales. Naming it makes the agent's reassessment legible in the record.
 _GATE_MARKERS = (
@@ -103,6 +124,7 @@ def react_compose(target_name, hook, evidence, thread, link_url, link_brand, per
         f"True facts you may cite:\n{facts}"
     )
     prompt += compose.channel_hint(channel)
+    prompt += "\n\n" + _PERSUASION_PLAYBOOK
     if persona:
         prompt += f"\nYour FIXED identity: {persona['name']} <{persona['address']}>. Use it consistently."
     if link_url:
