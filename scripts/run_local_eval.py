@@ -34,6 +34,7 @@ def main() -> int:
     p.add_argument("--channel", default="email")
     p.add_argument("--max-touches", type=int, default=8)
     p.add_argument("--attach", action="store_true", help="pursue the ACTION incident (open a file)")
+    p.add_argument("--channels", default=None, help="comma-separated channels to cycle (multi-channel)")
     args = p.parse_args()
     load_env_file(str(ROOT / ".env.local"))
 
@@ -42,10 +43,11 @@ def main() -> int:
     for pid in ids:
         name = PERSONAS[pid]["name"]
         print(f"\n######### LOCAL PERSONA: {name} (awareness={PERSONAS[pid]['awareness']}) #########")
+        channels = [c.strip() for c in args.channels.split(",")] if args.channels else None
         log = breach.run_breach(
             pid, name, scenario="local", channel=args.channel, max_touches=args.max_touches,
             attach=args.attach, api=LocalPersonaAPI(pid), findings=synthetic_findings(pid),
-            own_domains=(), out_dir="runs",
+            own_domains=(), out_dir="runs", channels=channels,
         )
         results.append((pid, log.get("incident"), log.get("incident_type"), log.get("touches_to_incident")))
         print(f"==> {name}: incident={log.get('incident')} type={log.get('incident_type')} "
