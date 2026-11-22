@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Context for coding agents working in this repo. Start with `README.md`, `docs/revel8-official-challenge.md` (authoritative case brief and rubric), `docs/codex-agent-architecture-proposal.md` (current leading architecture), `docs/challenge-context.md` (audio-derived supplementary context) and `docs/playbook.md` (hackathon playbook, German).
+Context for coding agents working in this repo. Start with `README.md`, `docs/revel8-official-challenge.md` (authoritative case brief and rubric), `docs/architecture.md` (the system architecture), `docs/challenge-context.md` (audio-derived supplementary context) and `docs/playbook.md` (hackathon playbook, German).
 
 ## Parallel Codex workflow
 
@@ -47,12 +47,12 @@ The AMD Developer Cloud GPU (Radeon Pro W7900D, 48 GB) burns credits while it ex
 
 ## Goal prompt
 
-For long autonomous runs, use `docs/codex-goal-prototype-prompt.md` as the shared `/goal` prompt. It is written so another teammate can run it with a separate Codex subscription and local context.
+For long autonomous runs, record the goal and plan in `GOAL.md` at the repo root.
 
 Before starting a `/goal` run:
 
 - Read the assigned GitHub Issue.
-- Read `docs/codex-goal-prototype-prompt.md`.
+- Read `GOAL.md` and `docs/architecture.md`.
 - Read the files listed in the prompt.
 - Comment on the issue that the goal run has started.
 

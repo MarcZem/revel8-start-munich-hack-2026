@@ -62,6 +62,14 @@ class HookReasonerTest(unittest.TestCase):
         llm.chat = lambda *a, **k: "[]"
         self.assertEqual(angle_reasoner.rank_hooks([]), [])
 
+    def test_fallback_hook_when_reasoner_returns_nothing(self):
+        # reasoner yields no usable hooks but findings exist → synthesise a fallback
+        llm.chat = lambda *a, **k: "[]"
+        findings = [_finding("f1", "project", "Co-founded TMA"), _finding("f2", "role", "CFO")]
+        hooks = angle_reasoner.rank_hooks(findings)
+        self.assertEqual(len(hooks), 1)
+        self.assertTrue(hooks[0].evidence_ids)  # cites real findings
+
 
 class GithubResolveTest(unittest.TestCase):
     def test_extracts_usernames(self):

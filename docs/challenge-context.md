@@ -2,7 +2,7 @@
 
 > Historical context from the 20:30 Voice Memos recording titled “Technische Universität München”. The source recording is in German. The appendix is a machine-generated English translation using Faster Whisper (`small`, German → English); it has not been checked against the audio line by line. The official case and scoring PDFs transcribed in [`revel8-official-challenge.md`](revel8-official-challenge.md) take precedence over this transcript. Its final portion contains low-confidence fragments and timestamps beyond the recording duration.
 
-For later organizer clarifications about scoring touches, form submissions, and `sent_at`, use the dated [November 21 update](revel8-updates-2026-11-21.md) and the current [API guide](revel8-api.md); those details were not in the original recording.
+For later organizer clarifications about scoring touches, form submissions, and `sent_at`, use the dated [November 21 update](revel8-updates-2026-11-21.md) and the current [API guide](target-api.md); those details were not in the original recording.
 
 ## Executive summary
 

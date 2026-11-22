@@ -1,14 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "api/live_run.py": {
-      "maxDuration": 120
-    }
-  },
   "rewrites": [
     {
       "source": "/",
-      "destination": "/dashboard/live.html"
+      "destination": "/dashboard/index.html"
     }
   ],
   "headers": [

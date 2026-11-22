@@ -74,4 +74,12 @@ def rank_hooks(findings: list[ResearchFinding], max_hooks: int = 5) -> list[Hook
                 suggested_angle=str(obj.get("suggested_angle", "")).strip(),
             )
         )
+    if not hooks:
+        # Reasoner flaked (empty/unparseable, or cited ids that didn't match): never leave the
+        # contact loop with nothing. Synthesise one hook from the top usable findings.
+        usable = [f for f in findings if f.reliability != "unbelastbar"][:2]
+        if usable:
+            hooks = [Hook(topic=usable[0].fact[:70], why_now="from public research",
+                          evidence_ids=tuple(f.id for f in usable), suggested_channel="email",
+                          suggested_angle=usable[0].fact)]
     return hooks[:max_hooks]

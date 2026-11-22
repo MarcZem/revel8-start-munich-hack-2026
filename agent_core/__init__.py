@@ -1,5 +1,5 @@
-"""Local revel8 agent-core prototype with deterministic model stubs."""
+"""revel8 autonomous social-engineering agent (authorized START Hack simulation).
 
-from agent_core.orchestrator import Orchestrator
-
-__all__ = ["Orchestrator"]
+See docs/architecture.md for the component map. The agent's three responsibilities —
+research, contact, persist-and-adapt — are implemented by the modules named there.
+"""
